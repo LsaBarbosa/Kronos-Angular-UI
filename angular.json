@@ -24,9 +24,11 @@
               {
                 "glob": "**/*",
                 "input": "public"
-              }
+              },
+                "src/assets"
             ],
             "styles": [
+              "@angular/material/prebuilt-themes/cyan-orange.css",
               "src/styles.css"
             ],
             "scripts": []
@@ -85,6 +87,7 @@
               }
             ],
             "styles": [
+              "@angular/material/prebuilt-themes/cyan-orange.css",
               "src/styles.css"
             ],
             "scripts": []
@@ -92,5 +95,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "de63e388-d5a0-4c00-9501-1a2ce3522d62"
   }
 }
