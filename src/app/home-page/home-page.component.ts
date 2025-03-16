@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ApiService} from '../services/api.service';
 import {CurrencyPipe, NgIf} from '@angular/common';
 import {HttpHeaders} from '@angular/common/http';
+import {ButtonComponent} from '../button/button.component';
 
 interface Company{
 nameCompany:string;
@@ -20,7 +21,8 @@ interface Employee{
   selector: 'app-home-page',
   imports: [
     CurrencyPipe,
-    NgIf
+    NgIf,
+    ButtonComponent
   ],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.css'
