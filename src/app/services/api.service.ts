@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
 
 @Injectable({
@@ -15,10 +15,11 @@ export class ApiService {
   /**
    * Realiza uma requisição GET para a URL fornecida.
    * @param url - O endpoint da API a ser chamado.
+   * @param header - Objeto com os headers (por exemplo, contendo o token)
    * @returns Um Observable com a resposta da requisição.
    */
-  getData(url: string): Observable<any> {
-    return this.http.get<any>(this.baseUrl+url);
+  getData(url: string, header: { headers: HttpHeaders }): Observable<any> {
+    return this.http.get<any>(this.baseUrl + url, header);
   }
 
   /**

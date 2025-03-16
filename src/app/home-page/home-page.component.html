@@ -1,0 +1,17 @@
+<body class="container">
+<div *ngIf="employee; else loading">
+  <div class="employee-card">
+  <h2>{{ employee.name }} {{ employee.surname }}</h2>
+    <h3>{{ employee.company.nameCompany }}</h3>
+    <p>{{ employee.position }}</p>
+    <p>{{ employee.salary | currency:'BRL':'symbol':'1.2-2' }}</p>
+    <p>{{ employee.email }}</p>
+  </div>
+</div>
+<ng-template #loading>
+  <p>Carregando dados...</p>
+</ng-template>
+<div *ngIf="errorMessage">
+  <p>{{ errorMessage }}</p>
+</div>
+</body>

@@ -57,7 +57,7 @@ export class LoginComponent extends BaseAuthFormComponent implements OnInit {
             // Armazena o token no localStorage para uso posterior
             localStorage.setItem('token', response.token);
             // Redireciona o usuário para o componente "/dashboard"
-            this.router.navigate(['']);
+            this.router.navigate(['/home']);
           }
         })
     } else {

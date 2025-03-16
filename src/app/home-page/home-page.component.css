@@ -1,0 +1,35 @@
+.container{
+  background-color: rgba(10, 17, 20, 0.62);
+  width: 25.30rem; /* Largura em rem */
+  height: 13rem;
+}
+
+/* Título principal */
+.employee-card h2 {
+  margin-top: 0;    /* Remove margem superior padrão */
+  padding-top: 1rem;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  text-align: center; /* Centraliza apenas o título, se preferir */
+  color: var(--white);
+}
+.employee-card h3 {
+  margin-top: 0;    /* Remove margem superior padrão */
+  margin-bottom: 2rem;
+  font-size: 1rem;
+  text-align: center; /* Centraliza apenas o título, se preferir */
+  color: var(--white);
+}
+
+/* Espaçamento entre linhas */
+.employee-card p {
+  text-align: center;
+  margin: 0.5rem 0;
+  line-height: 1.4;
+  color: var(--white);
+}
+
+/* Destaque para rótulos, se desejar */
+.employee-card p strong {
+  color: #ddd;
+}
