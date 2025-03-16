@@ -1,32 +1,7 @@
-.form-wrapper {
-  position: relative; /* Necessário para posicionar o pseudo-elemento */
-  width: 25.30rem; /* Largura em rem */
-  height: auto;
-  margin: 1.5rem auto 0;
-  padding: 0.3rem 0; /* Espaçamento interno */
-  border-radius: 1.5625rem; /* 25px convertido em rem */
-  z-index: 0; /* Define o stacking context */
-  overflow: hidden; /* Garante que o pseudo-elemento não ultrapasse as bordas */
-}
-
-.form-wrapper::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: url("/bg-login.jpg");
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center center;
-  filter: blur(0.2px);
-  z-index: -1;
-}
 
 form {
   position: relative;
-  background-color: rgba(20, 10, 20, 0.7);
+  background-color: rgba(10, 17, 20, 0.62);
   border-radius: 1.5625rem;
   padding: 2.3rem;
   box-shadow: 0 0 0.625rem rgba(0, 0, 0, 0.1);

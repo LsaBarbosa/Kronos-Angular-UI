@@ -1,7 +1,7 @@
 :root {
   /* Cores */
   --black: #000000;
-  --white: #e9fdfa;
+  --white: #d5efec;
   --gray: rgba(107, 102, 102, 0.77);
   --dark-blue: #4b32bb;
   --green: #5ecb32;
@@ -31,7 +31,6 @@ time, mark, audio, video {
   margin: 0;
   padding: 0;
   border: 0;
-  font-size: 100%;
   font: inherit;
   vertical-align: baseline;
 }
