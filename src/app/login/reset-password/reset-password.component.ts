@@ -4,13 +4,15 @@ import {Router} from '@angular/router';
 import {ApiService} from '../../services/api.service';
 import {NgIf} from '@angular/common';
 import {BaseAuthFormComponent} from '../common/BaseAuthFormComponent';
+import {AuthFormComponent} from '../../auth-form/auth-form.component';
 
 @Component({
   selector: 'app-reset-password',
   imports: [
     FormsModule,
     NgIf,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    AuthFormComponent
   ],
   templateUrl: './reset-password.component.html',
   styleUrl: './reset-password.component.css'

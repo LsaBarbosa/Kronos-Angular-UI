@@ -1,0 +1,13 @@
+<div class="form-wrapper">
+  <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+    <h1 class="titulo">{{ title }}</h1>
+    <div class="container">
+      <!-- Área de campos: os componentes filhos injetam os inputs -->
+      <ng-content select="[form-fields]"></ng-content>
+    </div>
+    <div class="button-container">
+      <!-- Área dos botões e links: os componentes filhos injetam os controles -->
+      <ng-content select="[form-buttons]"></ng-content>
+    </div>
+  </form>
+</div>

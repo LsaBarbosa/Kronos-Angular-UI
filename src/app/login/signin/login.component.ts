@@ -4,12 +4,14 @@ import {NgIf} from '@angular/common';
 import {ApiService} from '../../services/api.service';
 import {Router} from '@angular/router';
 import {BaseAuthFormComponent} from '../common/BaseAuthFormComponent';
+import {AuthFormComponent} from '../../auth-form/auth-form.component';
 
 @Component({
   selector: 'app-login',
   imports: [
     ReactiveFormsModule,
-    NgIf
+    NgIf,
+    AuthFormComponent
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'

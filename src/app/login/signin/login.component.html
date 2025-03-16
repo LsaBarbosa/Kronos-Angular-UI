@@ -1,7 +1,5 @@
-<div class="form-wrapper">
-<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-  <h1 class="titulo">Kronos Tech Solution</h1>
-  <div class="container">
+<app-auth-form [title]="'Kronos Tech Solution'" [formGroup]="loginForm" (submitEvent)="onSubmit()">
+  <div form-fields>
     <div>
       <label for="cpf">CPF:</label>
       <div class="cpf-container">
@@ -14,11 +12,7 @@
     <div>
       <label for="password">Senha:</label>
       <div class="senha-container">
-        <input
-          id="password"
-          [type]="showPassword ? 'text' : 'password'"
-          formControlName="password"
-          placeholder="Digite sua senha">
+        <input id="password" [type]="showPassword ? 'text' : 'password'" formControlName="password" placeholder="Digite sua senha">
         <button type="button" class="toggle-btn" (click)="toggleShowPassword()">
           {{ showPassword ? 'Ocultar' : 'Mostrar' }}
         </button>
@@ -28,9 +22,10 @@
       </small>
     </div>
   </div>
-  <div class="button-container">
+  <div form-buttons>
+    <div class="btn-container">
     <button type="submit" [disabled]="loginForm.invalid">Entrar</button>
     <a class="link" (click)="goToResetPassword()">Recuperar senha</a>
+    </div>
   </div>
-</form>
-</div>
+</app-auth-form>

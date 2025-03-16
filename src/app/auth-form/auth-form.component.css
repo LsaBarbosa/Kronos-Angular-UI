@@ -8,6 +8,7 @@
   z-index: 0; /* Define o stacking context */
   overflow: hidden; /* Garante que o pseudo-elemento não ultrapasse as bordas */
 }
+
 .form-wrapper::before {
   content: "";
   position: absolute;
@@ -15,28 +16,28 @@
   left: 0;
   width: 100%;
   height: 100%;
-  /* Use o mesmo caminho da imagem ou ajuste conforme a sua estrutura de arquivos */
   background-image: url("/bg-login.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center center;
-  filter: blur(0.2px);                 /* Aplica o blur */
-  z-index: -1;                       /* Coloca o pseudo-elemento atrás do conteúdo */
-}
-form {
-  position: relative;                /* Para que o form fique acima do pseudo-elemento */
-  background-color: rgba(20, 10, 20, 0.7); /* Fundo semitransparente para ver o blur */
-  border-radius: 1.5625rem;           /* Bordas arredondadas */
-  padding: 2.3rem;                   /* Espaçamento interno */
-  box-shadow: 0 0 0.625rem rgba(0, 0, 0, 0.1);
-  z-index: 1;                        /* Garante que o form fique acima do pseudo-elemento */
+  filter: blur(0.2px);
+  z-index: -1;
 }
 
-/* Grupos de campos */
-form div {
-  margin: 0.7rem; /* Espaço entre os blocos de campos */
+form {
+  position: relative;
+  background-color: rgba(20, 10, 20, 0.7);
+  border-radius: 1.5625rem;
+  padding: 2.3rem;
+  box-shadow: 0 0 0.625rem rgba(0, 0, 0, 0.1);
+  z-index: 1;
 }
-.titulo{
+
+form div {
+  margin: 0.7rem;
+}
+
+.titulo {
   text-align: center;
   font-family: var(--text-font), serif;
   font-style: italic;
@@ -44,62 +45,56 @@ form div {
   margin: 0 0 1.5rem;
   color: var(--white);
 }
-/* Labels */
+
+/* Estilos para labels */
 label {
-  display: flex; /* Mantém flex apenas se você quer centralizar o texto do label */
+  display: flex;
   justify-content: center;
   margin-bottom: 0.5rem;
-  margin-top: 1rem;
   font-weight: bold;
   color: var(--white);
 }
 
-/* Inputs (texto e senha) */
+/* Estilos para inputs */
 input[type="text"],
+input[type="email"],
 input[type="password"] {
   width: 100%;
-  padding: 0.5rem; /* 8px convertido para 0.5rem */
+  padding: 0.5rem;
   box-sizing: border-box;
-  border: 0.0625rem solid var(--white); /* 1px convertido para 0.0625rem */
-  border-radius: 2.5rem; /* 40px convertido para 2.5rem */
-  margin: 0 auto; /* Centraliza horizontalmente (opcional) */
+  border: 0.0625rem solid var(--white);
+  border-radius: 2.5rem;
+  margin: 0 auto;
   font-size: 0.8rem;
   text-align: center;
 }
 
-/* Placeholder menor (ajuste conforme desejado) */
-input::placeholder,
-.senha-container input::placeholder {
+input::placeholder {
   font-size: 0.7rem;
   text-align: center;
-
 }
 
-/*
-  Containers CPF e SENHA:
-  - Troque de "justify-content: center" para "flex-direction: column"
-    para empilhar input e small (erro) verticalmente.
-  - "align-items: center" centraliza o conteúdo horizontalmente.
-  - position: relative; é útil se você posicionar algo de forma absoluta (ex: botão toggle).
-*/
+/* Containers dos inputs */
 .cpf-container,
+.email-container,
 .senha-container {
   position: relative;
   display: flex;
-  flex-direction: column; /* Empilha o input e o small na vertical */
-  align-items: center; /* Centraliza o conteúdo horizontalmente */
+  flex-direction: column;
+  align-items: center;
 }
 
-/* Ajuste o input na senha-container para acomodar o botão toggle */
+/* Ajuste para inputs em email-container e senha-container */
+.email-container input,
 .senha-container input {
   width: 100%;
 }
 
-/* Botão de toggle (exibir/ocultar senha) */
+/* Botão para toggle de senha */
 .toggle-btn {
   font-size: 0.6rem;
   position: absolute;
-  right: 0.5rem; /* 5px convertido para 0.3125rem */
+  right: 0.5rem;
   top: 50%;
   transform: translateY(-50%);
   background: none;
@@ -108,31 +103,31 @@ input::placeholder,
   padding: 0;
 }
 
-/* Caso use ícones no botão */
 .toggle-btn svg {
   display: block;
 }
 
-/* Mensagens de erro: agora vão aparecer abaixo do input,
-   pois o container está em flex-direction: column */
+/* Estilo para mensagens de erro */
 small {
   display: block;
-  margin-top: 0.6rem; /* Espaço entre o input e a mensagem de erro */
+  margin-top: 0.6rem;
   color: var(--error);
   text-align: center;
   font-size: 0.7rem;
 }
 
-.btn-container{
+/* Caso o conteúdo projetado venha dentro de um container extra, forçamos a exibição em coluna */
+.button-container > [form-buttons] {
   display: flex;
   flex-direction: column;
-  text-align: center;
+  width: 100%;
   align-items: center;
-  padding: 0.5rem;
 }
+
+
 /* Botão de submit */
 button[type="submit"] {
-  width: 60%;
+  width: 40%;
   border-radius: 2.5rem;
   padding: 0.125rem; /* 2px convertido para 0.125rem */
   background-color: var(--dark-blue);

@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ButtonFormComponent } from './button-form.component';
+import { ButtonFormComponent } from './auth-form.component';
 
 describe('ButtonFormComponent', () => {
   let component: ButtonFormComponent;
