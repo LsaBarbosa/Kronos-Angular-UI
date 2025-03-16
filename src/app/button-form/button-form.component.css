@@ -1,0 +1,49 @@
+
+.button-container {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+  padding: 0.5rem;
+}
+
+/* Botão de submit */
+button[type="submit"] {
+  width: 40%;
+  border-radius: 2.5rem;
+  padding: 0.125rem; /* 2px convertido para 0.125rem */
+  background-color: var(--dark-blue);
+  border: none;
+  color: var(--white);
+  font-size: 1rem; /* 16px convertido para 1rem */
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover:not(:disabled) {
+  background-color: #4828db;
+}
+
+button[type="submit"]:disabled {
+  background-color: var(--white);
+  color: var(--gray);
+  cursor: not-allowed;
+}
+
+/* Estiliza o link "Recuperar senha" */
+.link {
+  font-size: 0.7rem; /* Tamanho da fonte do link */
+  color: var(--gray); /* Cor do texto (ajuste conforme o fundo) */
+  text-decoration: none; /* Remove sublinhado padrão */
+  padding: 0.7rem 0; /* Espaçamento interno para melhorar a área de clique */
+  border-radius: 0.25rem; /* Bordas levemente arredondadas */
+  background-color: transparent; /* Por padrão, transparente */
+  transition: all 0.3s ease; /* Transição suave para hover */
+  cursor: pointer;
+}
+
+/* Efeito hover no link */
+.link:hover {
+  color: var(--green); /* Muda a cor do texto ao passar o mouse */
+  text-decoration: underline; /* Sublinha o texto ou escolha outro efeito */
+}
