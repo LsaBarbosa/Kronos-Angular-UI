@@ -1,0 +1,168 @@
+.form-wrapper {
+  position: relative; /* Necessário para posicionar o pseudo-elemento */
+  width: 25.30rem; /* Largura em rem */
+  height: auto;
+  margin: 1.5rem auto 0;
+  padding: 0.3rem 0; /* Espaçamento interno */
+  border-radius: 1.5625rem; /* 25px convertido em rem */
+  z-index: 0; /* Define o stacking context */
+  overflow: hidden; /* Garante que o pseudo-elemento não ultrapasse as bordas */
+}
+
+.form-wrapper::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("/bg-login.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+  filter: blur(0.2px);
+  z-index: -1;
+}
+
+form {
+  position: relative;
+  background-color: rgba(20, 10, 20, 0.7);
+  border-radius: 1.5625rem;
+  padding: 2.3rem;
+  box-shadow: 0 0 0.625rem rgba(0, 0, 0, 0.1);
+  z-index: 1;
+}
+
+form div {
+  margin: 0.7rem;
+}
+
+.titulo {
+  text-align: center;
+  font-family: var(--text-font), serif;
+  font-style: italic;
+  font-size: 1.5rem;
+  margin: 0 0 1.5rem;
+  color: var(--white);
+}
+
+/* Estilos para labels */
+label {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+  color: var(--white);
+}
+
+/* Estilos para inputs */
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  width: 100%;
+  padding: 0.5rem;
+  box-sizing: border-box;
+  border: 0.0625rem solid var(--white);
+  border-radius: 2.5rem;
+  margin: 0 auto;
+  font-size: 0.8rem;
+  text-align: center;
+}
+
+input::placeholder {
+  font-size: 0.7rem;
+  text-align: center;
+}
+
+/* Containers dos inputs */
+.cpf-container,
+.email-container,
+.senha-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Ajuste para inputs em email-container e senha-container */
+.email-container input,
+.senha-container input {
+  width: 100%;
+}
+
+/* Botão para toggle de senha */
+.toggle-btn {
+  font-size: 0.6rem;
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.toggle-btn svg {
+  display: block;
+}
+
+/* Estilo para mensagens de erro */
+small {
+  display: block;
+  margin-top: 0.6rem;
+  color: var(--error);
+  text-align: center;
+  font-size: 0.7rem;
+}
+
+/* Caso o conteúdo projetado venha dentro de um container extra, forçamos a exibição em coluna */
+.button-container > [form-buttons] {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+}
+
+
+/* Botão de submit */
+button[type="submit"] {
+  width: 40%;
+  border-radius: 2.5rem;
+  padding: 0.125rem; /* 2px convertido para 0.125rem */
+  background-color: var(--dark-blue);
+  border: none;
+  color: var(--white);
+  font-size: 1rem; /* 16px convertido para 1rem */
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover:not(:disabled) {
+  background-color: #4828db;
+}
+
+button[type="submit"]:disabled {
+  background-color: var(--white);
+  color: var(--gray);
+  cursor: not-allowed;
+}
+
+/* Estiliza o link "Recuperar senha" */
+.link {
+  font-size: 0.7rem; /* Tamanho da fonte do link */
+  color: var(--gray); /* Cor do texto (ajuste conforme o fundo) */
+  text-decoration: none; /* Remove sublinhado padrão */
+  padding: 0.7rem 0; /* Espaçamento interno para melhorar a área de clique */
+  border-radius: 0.25rem; /* Bordas levemente arredondadas */
+  background-color: transparent; /* Por padrão, transparente */
+  transition: all 0.3s ease; /* Transição suave para hover */
+  cursor: pointer;
+
+}
+
+/* Efeito hover no link */
+.link:hover {
+  color: var(--green); /* Muda a cor do texto ao passar o mouse */
+  text-decoration: underline; /* Sublinha o texto ou escolha outro efeito */
+}
