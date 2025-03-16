@@ -18,7 +18,7 @@ export class ApiService {
    * @returns Um Observable com a resposta da requisição.
    */
   getData(url: string): Observable<any> {
-    return this.http.get<any>(url);
+    return this.http.get<any>(this.baseUrl+url);
   }
 
   /**
@@ -28,7 +28,7 @@ export class ApiService {
    * @returns Um Observable com a resposta da requisição.
    */
   postData(url: string, payload: any): Observable<any> {
-    return this.http.post<any>(url, payload);
+    return this.http.post<any>(this.baseUrl+url, payload);
   }
 
   /**
@@ -38,7 +38,7 @@ export class ApiService {
    * @returns Um Observable com a resposta da requisição.
    */
   updateData(url: string, payload: any): Observable<any> {
-    return this.http.put<any>(url, payload);
+    return this.http.put<any>(this.baseUrl+url, payload);
   }
 
   /**
@@ -47,6 +47,6 @@ export class ApiService {
    * @returns Um Observable com a resposta da requisição.
    */
   deleteData(url: string): Observable<any> {
-    return this.http.delete<any>(url);
+    return this.http.delete<any>(this.baseUrl+url);
   }
 }
