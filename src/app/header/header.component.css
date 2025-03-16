@@ -1,0 +1,39 @@
+.header {
+  position: relative; /* Necessário para o posicionamento do pseudo-elemento */
+  background-color: rgba(0, 0, 0, 0.53); /* Fundo semitransparente */
+  padding: 1rem 0;
+  color: #fff;
+  overflow: hidden; /* Esconde eventuais excessos do pseudo-elemento */
+}
+
+/* Pseudo-elemento para aplicar o efeito de blur */
+.header::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+  filter: blur(0.1px);
+  z-index: -1; /* Coloca o pseudo-elemento atrás do conteúdo do header */
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.logo a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+}
