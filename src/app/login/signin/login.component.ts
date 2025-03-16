@@ -4,7 +4,7 @@ import {NgIf} from '@angular/common';
 import {ApiService} from '../../services/api.service';
 import {Router} from '@angular/router';
 import {BaseAuthFormComponent} from '../common/BaseAuthFormComponent';
-import {AuthFormComponent} from '../../auth-form/auth-form.component';
+import {AuthFormComponent} from '../common/auth-form/auth-form.component';
 
 @Component({
   selector: 'app-login',

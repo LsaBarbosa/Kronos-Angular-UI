@@ -2,7 +2,7 @@
   position: relative; /* Necessário para posicionar o pseudo-elemento */
   width: 25.30rem; /* Largura em rem */
   height: auto;
-  margin: 5rem auto 0;
+  margin: 1.5rem auto 0;
   padding: 0.3rem 0; /* Espaçamento interno */
   border-radius: 1.5625rem; /* 25px convertido em rem */
   z-index: 0; /* Define o stacking context */
