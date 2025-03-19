@@ -7,6 +7,7 @@ import {BaseAuthFormComponent} from '../../common/BaseAuthFormComponent';
 import {AuthFormComponent} from '../../common/auth-form/auth-form.component';
 import {ErrorMessageComponent} from '../../common/error-message/error-message.component';
 import {HttpResponse} from '@angular/common/http';
+import {ButtonSubmitComponent} from "../../common/button/button-submit/button-submit.component";
 
 @Component({
   selector: 'app-reset-password',
@@ -15,7 +16,8 @@ import {HttpResponse} from '@angular/common/http';
     NgIf,
     ReactiveFormsModule,
     AuthFormComponent,
-    ErrorMessageComponent
+    ErrorMessageComponent,
+    ButtonSubmitComponent
   ],
   templateUrl: './reset-password.component.html',
   styleUrl: './reset-password.component.css'
@@ -47,19 +49,22 @@ export class ResetPasswordComponent extends BaseAuthFormComponent implements OnI
   onSubmit(){
     if (this.resetPassword.valid) {
       const payload =  this.resetPassword.value;
-      this.service.postData('/password/reset',payload)
+      this.service.postData('/employee/password/reset',payload)
         .subscribe({
           next: (response: HttpResponse<any>) => {
             const status = response.status;
             // Mapeamento de status de sucesso
             if (status === 200 || status === 201) {
-              this.alertMessage = 'Check-in realizado com sucesso!';
+              this.alertMessage = 'Password enviado para E-mail com sucesso!';
               this.alertType = 'success';
             } else {
               this.alertMessage = `Operação realizada com status ${status}.`;
               this.alertType = 'success';
             }
             this.router.navigate(['/login']);
+              setTimeout(() => {
+                this.alertMessage = '';
+              }, 3000);
           },
           error: (error) => {
             // Mapeamento de status de erro
@@ -74,6 +79,9 @@ export class ResetPasswordComponent extends BaseAuthFormComponent implements OnI
                 this.alertMessage = `Erro ${error.status}: Ocorreu um problema.`;
             }
             this.alertType = 'error';
+            setTimeout(() => {
+              this.alertMessage = '';
+            }, 3000);
           }
         });
     }

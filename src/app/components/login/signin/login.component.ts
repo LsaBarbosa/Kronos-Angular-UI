@@ -7,6 +7,7 @@ import {BaseAuthFormComponent} from '../../common/BaseAuthFormComponent';
 import {AuthFormComponent} from '../../common/auth-form/auth-form.component';
 import {ErrorMessageComponent} from '../../common/error-message/error-message.component';
 import {FieldLabelPipe} from '../../../pipe/field-label.pipe';
+import {ButtonSubmitComponent} from "../../common/button/button-submit/button-submit.component";
 
 @Component({
   selector: 'app-login',
@@ -15,7 +16,8 @@ import {FieldLabelPipe} from '../../../pipe/field-label.pipe';
     NgIf,
     AuthFormComponent,
     ErrorMessageComponent,
-    FieldLabelPipe
+    FieldLabelPipe,
+    ButtonSubmitComponent
 
   ],
   templateUrl: './login.component.html',

@@ -12,7 +12,12 @@ export abstract class BaseAuthFormComponent {
   private fieldLabels: { [key: string]: string } = {
     password: 'Senha',
     cpf: 'CPF',
-    email: 'E-mail'
+    email: 'E-mail',
+    confirmEmail: 'Confirmação de E-mail',
+    confirmPassword: 'Confirmação de Senha',
+    oldPassword: 'Senha antiga',
+    newPassword: 'Nova Senha'
+    ,
   };
 
   /**

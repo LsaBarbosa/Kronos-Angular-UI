@@ -1,3 +1,84 @@
+/* Labels */
+label {
+  display: flex; /* Mantém flex apenas se você quer centralizar o texto do label */
+  justify-content: center;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+  color: var(--white);
+}
+
+/* Inputs (texto e senha) */
+input[type="text"],
+input[type="email"] {
+  width: 100%;
+  height: 2rem;
+  max-width: 400px; /* Evita que o input fique muito largo em telas grandes */
+  padding: 0.75rem;
+  box-sizing: border-box;
+  border: 0.0625rem solid var(--white); /* 1px convertido para 0.0625rem */
+  border-radius: 2.5rem; /* 40px convertido para 2.5rem */
+  margin: 0 auto; /* Centraliza horizontalmente (opcional) */
+  font-size: 0.8rem;
+  text-align: center;
+}
+
+/* Placeholder menor (ajuste conforme desejado) */
+input::placeholder,
+.email-container input::placeholder {
+  font-size: 0.7rem;
+  text-align: center;
+
+}
+
+/*
+  Containers CPF e SENHA:
+  - Troque de "justify-content: center" para "flex-direction: column"
+    para empilhar input e small (erro) verticalmente.
+  - "align-items: center" centraliza o conteúdo horizontalmente.
+  - position: relative; é útil se você posicionar algo de forma absoluta (ex: botão toggle).
+*/
+.cpf-container,
+.email-container {
+  position: relative;
+  display: flex;
+  flex-direction: column; /* Empilha o input e o small na vertical */
+  align-items: center; /* Centraliza o conteúdo horizontalmente */
+}
+
+/* Ajuste o input na senha-container para acomodar o botão toggle */
+.email-container input {
+  width: 100%;
+}
+
+/* Botão de toggle (exibir/ocultar senha) */
+.toggle-btn {
+  font-size: 0.6rem;
+  position: absolute;
+  right: 0.5rem; /* 5px convertido para 0.3125rem */
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+/* Caso use ícones no botão */
+.toggle-btn svg {
+  display: block;
+}
+
+/* Mensagens de erro: agora vão aparecer abaixo do input,
+   pois o container está em flex-direction: column */
+small {
+  display: block;
+  margin-top: 0.6rem; /* Espaço entre o input e a mensagem de erro */
+  color: var(--error);
+  text-align: center;
+  font-size: 0.7rem;
+}
+
 .btn{
   display: flex;
   flex-direction: row;

@@ -1,13 +1,4 @@
 
-form {
-  position: relative;
-  background-color: rgba(10, 17, 20, 0.62);
-  border-radius: 1.5625rem;
-  padding: 2.3rem;
-  box-shadow: 0 0 0.625rem rgba(0, 0, 0, 0.1);
-  z-index: 1;
-}
-
 form div {
   margin: 0.7rem;
 }
@@ -18,6 +9,7 @@ form div {
   font-style: italic;
   font-size: 1.5rem;
   margin: 0 0 1.5rem;
+  padding-top: 1rem;
   color: var(--white);
 }
 
