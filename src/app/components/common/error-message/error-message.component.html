@@ -1,0 +1,15 @@
+<!--
+     Container fixo que posiciona o alerta no topo central da tela.
+     Ele não afeta o fluxo dos demais elementos da página.
+   -->
+<div class="alert-container">
+  <!--
+    Renderiza o alerta somente se existir uma mensagem.
+    A diretiva [ngClass] aplica a classe de sucesso ou erro conforme o tipo.
+  -->
+  <div *ngIf="message"
+       [ngClass]="{'alert-success': type === 'success', 'alert-error': type === 'error'}"
+       class="alert">
+    {{ message }}
+  </div>
+</div>

@@ -8,18 +8,30 @@ import {Observable} from 'rxjs';
 export class ApiService {
   private baseUrl: string = 'https://ponto-eletronico-kotlin.onrender.com';
 
+  // Método privado para criar os headers com o token salvo no localStorage.
+  private getHeaders(): { headers: HttpHeaders } {
+    const token = localStorage.getItem('token');
+    return {headers: new HttpHeaders({'Authorization': `Bearer ${token}`})}
+  };
+
   // Injeta o HttpClient no construtor para que possamos usá-lo nos métodos do serviço
   constructor(private http: HttpClient) {
   }
 
-  /**
-   * Realiza uma requisição GET para a URL fornecida.
-   * @param url - O endpoint da API a ser chamado.
-   * @param header - Objeto com os headers (por exemplo, contendo o token)
-   * @returns Um Observable com a resposta da requisição.
-   */
-  getData(url: string, header: { headers: HttpHeaders }): Observable<any> {
-    return this.http.get<any>(this.baseUrl + url, header);
+  getData(url: string, options: any = {}): Observable<any> {
+    return this.http.get<any>(this.baseUrl + url, { ...this.getHeaders(), ...options });
+  }
+
+  postData(url: string, payload: any, options: any = {}): Observable<any> {
+    return this.http.post<any>(this.baseUrl + url, payload, { ...this.getHeaders(), ...options });
+  }
+
+  updateData(url: string, payload: any, options: any = {}): Observable<any> {
+    return this.http.put<any>(this.baseUrl + url, payload, { ...this.getHeaders(), ...options });
+  }
+
+  deleteData(url: string, options: any = {}): Observable<any> {
+    return this.http.delete<any>(this.baseUrl + url, { ...this.getHeaders(), ...options });
   }
 
   /**
@@ -28,26 +40,10 @@ export class ApiService {
    * @param payload - Os dados a serem enviados no corpo da requisição.
    * @returns Um Observable com a resposta da requisição.
    */
-  postData(url: string, payload: any): Observable<any> {
-    return this.http.post<any>(this.baseUrl+url, payload);
-  }
-
-  /**
-   * Realiza uma requisição PUT para a URL fornecida, atualizando os dados.
-   * @param url - O endpoint da API a ser chamado.
-   * @param payload - Os dados atualizados a serem enviados.
-   * @returns Um Observable com a resposta da requisição.
-   */
-  updateData(url: string, payload: any): Observable<any> {
-    return this.http.put<any>(this.baseUrl+url, payload);
-  }
-
-  /**
-   * Realiza uma requisição DELETE para a URL fornecida.
-   * @param url - O endpoint da API a ser chamado.
-   * @returns Um Observable com a resposta da requisição.
-   */
-  deleteData(url: string): Observable<any> {
-    return this.http.delete<any>(this.baseUrl+url);
+  // login(url: string, payload: any): Observable<any> {
+  //   return this.http.post<any>(this.baseUrl + url, payload);
+  // }
+  login(url: string, payload: any, options: any = {}): Observable<any> {
+    return this.http.post<any>(this.baseUrl + url, payload, {...options });
   }
 }
