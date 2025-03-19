@@ -1,15 +1,15 @@
 import { Routes } from '@angular/router';
-import {ResetPasswordComponent} from './login/reset-password/reset-password.component';
-import {LoginComponent} from './login/signin/login.component';
-import {HomePageComponent} from './home-page/home/home-page.component';
-import {TimeRecordsComponent} from './employee/time-records/time-records.component';
-import {EmployeeComponent} from './employee/employee/employee.component';
-import {UpdateDataComponent} from './employee/update-data/update-data/update-data.component';
-import {UpdateEmailComponent} from './employee/update-data/update-email/update-email.component';
-import {UpdatePasswordComponent} from './employee/update-data/update-password/update-password.component';
-import {ManagerComponent} from './manager/management/manager.component';
-import {CreateEmployeeComponent} from './manager/create-employee/create-employee.component';
-import {FindEmployeeComponent} from './manager/find-employee/find-employee.component';
+import {ResetPasswordComponent} from './components/login/reset-password/reset-password.component';
+import {LoginComponent} from './components/login/signin/login.component';
+import {HomePageComponent} from './components/home-page/home/home-page.component';
+import {TimeRecordsComponent} from './components/employee/time-records/time-records.component';
+import {EmployeeComponent} from './components/employee/employee/employee.component';
+import {UpdateDataComponent} from './components/employee/update-data/update-data/update-data.component';
+import {UpdateEmailComponent} from './components/employee/update-data/update-email/update-email.component';
+import {UpdatePasswordComponent} from './components/employee/update-data/update-password/update-password.component';
+import {ManagerComponent} from './components/manager/management/manager.component';
+import {CreateEmployeeComponent} from './components/manager/create-employee/create-employee.component';
+import {FindEmployeeComponent} from './components/manager/find-employee/find-employee.component';
 
 export const routes: Routes = [
   { path: '', component: LoginComponent },

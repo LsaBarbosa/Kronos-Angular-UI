@@ -1,0 +1,38 @@
+/*
+  Container fixo para o alerta, posicionado no topo central da viewport.
+  Isso garante que ele fique sobre os elementos sem criar espaço extra.
+*/
+.alert-container {
+
+  position: fixed;      /* Fixa o container em relação à janela de visualização */
+  bottom: 20px;            /* 20 pixels do topo */
+  left: 50%;            /* Centraliza horizontalmente */
+  transform: translateX(-50%); /* Ajusta a posição para o centro exato */
+  z-index: 1000;        /* Garante que o alerta fique acima dos demais elementos */
+}
+
+/*
+  Estilos básicos do alerta.
+  Removemos a margem inferior para evitar espaço extra, já que o container é fixo.
+*/
+.alert {
+  padding: 1rem;        /* Espaçamento interno */
+  border-radius: 20px;   /* Bordas arredondadas */
+  font-size: 0.8rem;    /* Tamanho da fonte */
+  text-align: center;   /* Centraliza o texto */
+  font-style: italic;   /* Texto em itálico */
+}
+
+/* Estilo para alerta de sucesso */
+.alert-success {
+  background-color: #d4edda; /* Fundo verde claro */
+  color: #155724;            /* Texto verde escuro */
+  border: 1px solid #c3e6cb; /* Borda verde */
+}
+
+/* Estilo para alerta de erro */
+.alert-error {
+  background-color: #f8d7da; /* Fundo vermelho claro */
+  color: #a11a27;            /* Texto vermelho escuro */
+  border: 1px solid #f5c6cb; /* Borda vermelha */
+}
