@@ -3,7 +3,7 @@
   --black: #000000;
   --white: #d5efec;
   --gray: rgba(107, 102, 102, 0.77);
-  --dark-blue: #4b32bb;
+  --dark-blue: #3e299a;
   --green: #5ecb32;
   --purple: #3a03a8;
   --error: #ff0000;
@@ -90,3 +90,4 @@ html {
   background-position: center center;
   background-attachment: fixed;
 }
+

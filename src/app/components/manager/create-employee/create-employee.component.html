@@ -1,0 +1,90 @@
+<app-auth-form [title]="'Registar novo Colaborador'" [formGroup]="createForm" (submitEvent)="onSubmit()">
+  <div form-fields>
+    <div>
+      <label for="name">Nome:</label>
+      <div class="name-container">
+        <input id="name" type="text" formControlName="name" placeholder="Digite seu Nome">
+        <small *ngIf="createForm.get('name')?.touched && createForm.get('name')?.invalid">
+          {{ getErrorMessage('name') }}
+        </small>
+      </div>
+    </div>
+    <div>
+      <label for="surname">Sobrenome:</label>
+      <div class="surname-container">
+        <input id="surname" type="text" formControlName="surname" placeholder="Digite seu Sobrenome">
+        <small *ngIf="createForm.get('surname')?.touched && createForm.get('surname')?.invalid">
+          {{ getErrorMessage('surname') }}
+        </small>
+      </div>
+    </div>
+    <div>
+      <label for="position">Cargo:</label>
+      <div class="position-container">
+        <input id="position" type="text" formControlName="position" placeholder="Digite seu Cargo">
+        <small *ngIf="createForm.get('position')?.touched && createForm.get('position')?.invalid">
+          {{ getErrorMessage('position') }}
+        </small>
+      </div>
+    </div>
+    <div>
+      <label for="email">E-mail:</label>
+      <div class="email-container">
+        <input id="email" type="email" formControlName="email" placeholder="Digite seu email">
+      </div>
+      <small *ngIf="createForm.get('email')?.touched && createForm.get('email')?.invalid">
+        {{ getErrorMessage('email') }}
+      </small>
+    </div>
+    <div>
+      <label for="salary">Salário:</label>
+      <div class="salary-container">
+        <input id="salary" type="number" formControlName="salary" placeholder="Digite seu Salário">
+        <small *ngIf="createForm.get('salary')?.touched && createForm.get('salary')?.invalid">
+          {{ getErrorMessage('salary') }}
+        </small>
+      </div>
+    </div>
+    <div>
+      <label for="role">Privilégio:</label>
+      <div class="role-container">
+        <input id="role" type="text" formControlName="role" placeholder="Digite seu Privilégio">
+        <small *ngIf="createForm.get('role')?.touched && createForm.get('role')?.invalid">
+          {{ getErrorMessage('role') }}
+        </small>
+      </div>
+    </div>
+    <div>
+      <label for="cpf">CPF:</label>
+      <div class="cpf-container">
+        <input id="cpf" type="text" formControlName="cpf" placeholder="Digite seu CPF">
+        <small *ngIf="createForm.get('cpf')?.touched && createForm.get('cpf')?.invalid">
+          {{ getErrorMessage('cpf') }}
+        </small>
+      </div>
+    </div>
+    <div>
+      <label for="password">Senha:</label>
+      <div class="senha-container">
+        <input id="password" type="password" [type]="showPassword ? 'text' : 'password'" formControlName="password" placeholder="Digite sua senha">
+        <button type="button" class="toggle-btn" (click)="toggleShowPassword()">
+          {{ showPassword ? 'Ocultar' : 'Mostrar' }}
+        </button>
+      </div>
+      <small *ngIf="createForm.get('password')?.touched && createForm.get('password')?.invalid">
+        {{ getErrorMessage('password') }}
+      </small>
+    </div>
+  </div>
+  <div form-buttons>
+    <div class="btn-container">
+      <button  type="submit" [disabled]="createForm.invalid">Registrar</button>
+      </div>
+      <div class="btn">
+        <app-button label="Home" [url]="'/home'"></app-button>
+        <app-button label="Voltar" [url]="'/administracao'"></app-button>
+        <app-button label="Sair" [isLogoutButton]="true"></app-button>
+    </div>
+  </div>
+</app-auth-form>
+

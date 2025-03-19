@@ -1,0 +1,9 @@
+<!-- Componente de alerta para exibir a mensagem -->
+<app-error-message [message]="alertMessage" [type]="alertType"></app-error-message>
+<section>
+  <div class="button">
+    <button mat-button (click)="checkin()">Registrar Entrada</button>
+    <button mat-button (click)="checkout()">Registrar Saída</button>
+  </div>
+</section>
+
