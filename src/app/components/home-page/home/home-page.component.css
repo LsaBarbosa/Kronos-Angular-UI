@@ -11,7 +11,7 @@
   margin-bottom: 1rem;
   font-size: 1.5rem;
   text-align: center; /* Centraliza apenas o título, se preferir */
-  color: var(--white);
+  color: var(--white-green);
 }
 
 .employee-card h3 {
@@ -19,7 +19,7 @@
   margin-bottom: 2rem;
   font-size: 1rem;
   text-align: center; /* Centraliza apenas o título, se preferir */
-  color: var(--white);
+  color: var(--white-green);
 }
 
 /* Espaçamento entre linhas */
@@ -27,7 +27,7 @@
   text-align: center;
   margin: 0.5rem 0;
   line-height: 1.4;
-  color: var(--white);
+  color: var(--white-green);
 }
 
 /* Destaque para rótulos, se desejar */

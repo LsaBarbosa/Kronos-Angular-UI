@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ButtonComponent} from '../../common/button/button.component';
+import {ButtonComponent} from '../../common/button/button-menu/button.component';
 import {AuthFormComponent} from '../../common/auth-form/auth-form.component';
 import {NgIf} from '@angular/common';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';

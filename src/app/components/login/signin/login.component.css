@@ -13,7 +13,8 @@ label {
 input[type="text"],
 input[type="password"] {
   width: 100%;
-  max-width: 350px; /* Evita que o input fique muito largo em telas grandes */
+  height: 2rem;
+  max-width: 400px; /* Evita que o input fique muito largo em telas grandes */
   padding: 0.75rem;
   box-sizing: border-box;
   border: 0.0625rem solid var(--white); /* 1px convertido para 0.0625rem */
@@ -55,7 +56,7 @@ input::placeholder,
 .toggle-btn {
   font-size: 0.56rem;
   position: absolute;
-  right: 3.3rem; /* 5px convertido para 0.3125rem */
+  right: 4.7rem; /* 5px convertido para 0.3125rem */
   top: 50%;
   transform: translateY(-50%);
   background: none;
@@ -79,34 +80,12 @@ small {
   font-size: 0.7rem;
 }
 
-.btn-container{
+.btn{
   display: flex;
   flex-direction: column;
   text-align: center;
   align-items: center;
   padding: 0.5rem;
-}
-/* Botão de submit */
-button[type="submit"] {
-  width: 60%;
-  border-radius: 2.5rem;
-  padding: 0.125rem; /* 2px convertido para 0.125rem */
-  background-color: var(--dark-blue);
-  border: none;
-  color: var(--white);
-  font-size: 1rem; /* 16px convertido para 1rem */
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-button[type="submit"]:hover:not(:disabled) {
-  background-color: #502cf3;
-}
-
-button[type="submit"]:disabled {
-  background-color: var(--white);
-  color: var(--gray);
-  cursor: not-allowed;
 }
 
 /* Estiliza o link "Recuperar senha" */
@@ -126,43 +105,4 @@ button[type="submit"]:disabled {
 .link:hover {
   color: var(--green); /* Muda a cor do texto ao passar o mouse */
   text-decoration: underline; /* Sublinha o texto ou escolha outro efeito */
-}
-
-@media (max-width: 768px) {
-  input[type="text"],
-  input[type="password"] {
-    max-width: 100%;
-    font-size: 0.9rem;
-  }
-
-  button[type="submit"] {
-    width: 90%;
-    font-size: 1rem;
-  }
-
-  .toggle-btn {
-    right: 0.75rem;
-  }
-}
-
-@media (max-width: 480px) {
-  label {
-    font-size: 0.9rem;
-  }
-
-  input[type="text"],
-  input[type="password"] {
-    padding: 0.65rem;
-    font-size: 0.85rem;
-  }
-
-  .toggle-btn {
-    font-size: 0.7rem;
-    right: 0.5rem;
-  }
-
-  button[type="submit"] {
-    width: 100%;
-    font-size: 0.9rem;
-  }
 }

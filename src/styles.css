@@ -2,7 +2,9 @@
   /* Cores */
   --black: #000000;
   --white: #d5efec;
-  --gray: rgba(145, 166, 120, 0.77);
+  --white-green: #dcf1d0;
+  --gray: rgba(131, 133, 129, 0.77);
+  --gray-green: rgba(145, 166, 120, 0.77);
   --dark-blue: #4b32bb;
   --green: #5ecb32;
   --purple: #3a03a8;
@@ -83,10 +85,11 @@ input::placeholder{
   font-style: italic;
 }
 html {
-  font-size: 25px; /* Experimente valores como 22px ou 24px */
+  font-size: 20px; /* Experimente valores como 22px ou 24px */
   background-image: url('/bg-login.jpg');
   background-repeat: no-repeat;
   background-size: cover;
-  background-position: center center;
+  background-position: bottom;
   background-attachment: fixed;
 }
+

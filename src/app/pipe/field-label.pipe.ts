@@ -7,7 +7,7 @@ export class FieldLabelPipe implements PipeTransform {
   private labels: { [key: string]: string } = {
     password: 'Senha',
     cpf: 'CPF',
-    email: 'E-mail'
+    email: 'E-mail',
   };
 
   transform(value: string): string {

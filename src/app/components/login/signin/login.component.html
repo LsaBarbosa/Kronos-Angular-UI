@@ -23,9 +23,8 @@
     </div>
   </div>
   <div form-buttons>
-    <div class="btn-container">
-
-      <button type="submit" [disabled]="loginForm.invalid">Entrar</button>
+      <app-button-submit label="Entrar" type="submit" [disabled]="formGroup.invalid"></app-button-submit>
+    <div class="btn">
       <a class="link" (click)="goToResetPassword()">Recuperar senha</a>
     </div>
   </div>

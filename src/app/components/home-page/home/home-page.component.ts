@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ApiService} from '../../../services/api.service';
 import {CurrencyPipe, NgIf} from '@angular/common';
 import {HttpHeaders} from '@angular/common/http';
-import {ButtonComponent} from '../../common/button/button.component';
+import {ButtonComponent} from '../../common/button/button-menu/button.component';
 import {CheckinCheckoutComponent} from '../checkin-checkout/checkin-checkout.component';
 
 interface Company{
