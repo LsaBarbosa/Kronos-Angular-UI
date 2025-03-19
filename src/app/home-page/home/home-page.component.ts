@@ -1,8 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {ApiService} from '../services/api.service';
+import {ApiService} from '../../services/api.service';
 import {CurrencyPipe, NgIf} from '@angular/common';
 import {HttpHeaders} from '@angular/common/http';
-import {ButtonComponent} from '../button/button.component';
+import {ButtonComponent} from '../../button/button.component';
+import {CheckinCheckoutComponent} from '../checkin-checkout/checkin-checkout.component';
 
 interface Company{
 nameCompany:string;
@@ -22,7 +23,8 @@ interface Employee{
   imports: [
     CurrencyPipe,
     NgIf,
-    ButtonComponent
+    ButtonComponent,
+    CheckinCheckoutComponent
   ],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.css'
