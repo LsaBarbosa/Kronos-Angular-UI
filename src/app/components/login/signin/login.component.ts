@@ -6,6 +6,7 @@ import {Router} from '@angular/router';
 import {BaseAuthFormComponent} from '../../common/BaseAuthFormComponent';
 import {AuthFormComponent} from '../../common/auth-form/auth-form.component';
 import {ErrorMessageComponent} from '../../common/error-message/error-message.component';
+import {FieldLabelPipe} from '../../../pipe/field-label.pipe';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +14,8 @@ import {ErrorMessageComponent} from '../../common/error-message/error-message.co
     ReactiveFormsModule,
     NgIf,
     AuthFormComponent,
-    ErrorMessageComponent
+    ErrorMessageComponent,
+    FieldLabelPipe
 
   ],
   templateUrl: './login.component.html',
@@ -80,11 +82,10 @@ export class LoginComponent extends BaseAuthFormComponent implements OnInit {
           // Em caso de erro, utiliza a estrutura solicitada
           error: (error) => {
             // Verifica se o payload de erro possui uma mensagem e a utiliza; senão, utiliza uma mensagem padrão
-            const errorMsg = error.error && error.error.error
+            // Atualiza a mensagem de alerta para exibição e define o tipo como 'error'
+            this.alertMessage = error.error && error.error.error
               ? error.error.error
               : `Erro ${error.status}: Ocorreu um problema.`;
-            // Atualiza a mensagem de alerta para exibição e define o tipo como 'error'
-            this.alertMessage = errorMsg;
             this.alertType = 'error';
             // Limpa a mensagem após 4 segundos para que o alerta desapareça
             setTimeout(() => {

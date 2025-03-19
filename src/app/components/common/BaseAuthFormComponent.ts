@@ -8,6 +8,13 @@ export abstract class BaseAuthFormComponent {
   // A propriedade formGroup deve ser definida nos componentes filhos
   formGroup!: FormGroup;
 
+  // 🔹 Mapeamento de nomes amigáveis para os campos
+  private fieldLabels: { [key: string]: string } = {
+    password: 'Senha',
+    cpf: 'CPF',
+    email: 'E-mail'
+  };
+
   /**
    * Retorna a mensagem de erro adequada para um controle de formulário.
    * @param controlName - Nome do controle (ex.: 'cpf', 'password', 'email').
@@ -18,13 +25,17 @@ export abstract class BaseAuthFormComponent {
     if (!control || !control.touched || control.valid) {
       return '';
     }
+
+    // 🔹 Obtém o rótulo amigável do campo (se existir, senão mantém o nome original)
+    const fieldLabel = this.fieldLabels[controlName] || controlName.toUpperCase();
+
     if (control.hasError('required')) {
-      return `${controlName.toUpperCase()} é obrigatório.`;
+      return `${fieldLabel} é obrigatório.`;
     }
     if (controlName === 'cpf' && control.hasError('pattern')) {
-      return 'CPF inválido. Informe 11 dígitos';
+      return `${fieldLabel} inválido. Informe 11 dígitos.`;
     }
-    // O componente filho pode sobrescrever este método para tratar outros casos
+
     return '';
   }
 }

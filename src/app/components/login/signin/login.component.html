@@ -12,21 +12,21 @@
     <div>
       <label for="password">Senha:</label>
       <div class="senha-container">
-        <input id="password" [type]="showPassword ? 'text' : 'password'" formControlName="password" placeholder="Digite sua senha">
+        <input id="password" [type]="showPassword ? 'text' : 'password'" formControlName="password"
+               placeholder="Digite sua senha">
         <button type="button" class="toggle-btn" (click)="toggleShowPassword()">
           {{ showPassword ? 'Ocultar' : 'Mostrar' }}
         </button>
       </div>
       <small *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid">
-        {{ getErrorMessage('password') }}
-      </small>
+        {{ getErrorMessage('password') | fieldLabel }} </small>
     </div>
   </div>
   <div form-buttons>
     <div class="btn-container">
 
-    <button  type="submit" [disabled]="loginForm.invalid">Entrar</button>
-    <a class="link" (click)="goToResetPassword()">Recuperar senha</a>
+      <button type="submit" [disabled]="loginForm.invalid">Entrar</button>
+      <a class="link" (click)="goToResetPassword()">Recuperar senha</a>
     </div>
   </div>
 </app-auth-form>
