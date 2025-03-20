@@ -15,7 +15,7 @@ input[type="password"] {
   width: 100%;
   height: 2rem;
   max-width: 400px; /* Evita que o input fique muito largo em telas grandes */
-  padding: 0.75rem;
+  padding: 0.5rem;
   box-sizing: border-box;
   border: 0.0625rem solid var(--white); /* 1px convertido para 0.0625rem */
   border-radius: 2.5rem; /* 40px convertido para 2.5rem */

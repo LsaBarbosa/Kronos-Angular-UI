@@ -79,21 +79,21 @@ export class UpdatePasswordComponent extends BaseAuthFormComponent implements On
               this.alertMessage = `Operação realizada com status ${status}.`;
               this.alertType = 'success';
             }
+            setTimeout(() => {
+              this.alertMessage = '';
+            }, 4000);
             this.router.navigate(['/home']);
           },
           error: (error) => {
-            // Mapeamento de status de erro
-            switch (error.status) {
-              case 400:
-                this.alertMessage = 'Password e Confirmação de Password não são iguais';
-                break;
-              case 500:
-                this.alertMessage = 'Erro 500: Erro interno no servidor.';
-                break;
-              default:
-                this.alertMessage = `Erro ${error.status}: Ocorreu um problema.`;
-            }
+            const errorMsg = error.error && error.error.error
+              ? error.error.error
+              : `Erro ${error.status}: Ocorreu um problema.`;
+            this.alertMessage = errorMsg;
             this.alertType = 'error';
+            // Limpa a mensagem após 4 segundos
+            setTimeout(() => {
+              this.alertMessage = '';
+            }, 4000);
           }
         });
     }

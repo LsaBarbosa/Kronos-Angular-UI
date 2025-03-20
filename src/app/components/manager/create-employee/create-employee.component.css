@@ -13,8 +13,11 @@ label {
 input[type="text"],
 input[type="password"],
 input[type="email"],
-input[type="number"] {
+input[type="number"],
+select {
   width: 100%;
+  max-width: 400px;
+  height: 2rem;
   padding: 0.5rem; /* 8px convertido para 0.5rem */
   box-sizing: border-box;
   border: 0.0625rem solid var(--white); /* 1px convertido para 0.0625rem */
@@ -31,6 +34,9 @@ input::placeholder,
   text-align: center;
 
 }
+.salary {
+  text-align: center;
+}
 
 /*
   Containers CPF e SENHA:
@@ -39,11 +45,12 @@ input::placeholder,
   - "align-items: center" centraliza o conteúdo horizontalmente.
   - position: relative; é útil se você posicionar algo de forma absoluta (ex: botão toggle).
 */
-.cpf-container,
-.number-container,
+.name-container,
 .surname-container,
+.cpf-container,
 .position-container,
 .salary-container,
+.number-container,
 .role-container,
 .email-container,
 .senha-container {
@@ -51,7 +58,12 @@ input::placeholder,
   display: flex;
   flex-direction: column; /* Empilha o input e o small na vertical */
   align-items: center; /* Centraliza o conteúdo horizontalmente */
+  text-align: center;
 }
+input#salary {
+  text-align: center !important;
+}
+
 
 /* Ajuste o input na senha-container para acomodar o botão toggle */
 .senha-container input {
@@ -62,7 +74,7 @@ input::placeholder,
 .toggle-btn {
   font-size: 0.6rem;
   position: absolute;
-  right: 0.5rem; /* 5px convertido para 0.3125rem */
+  right: 2.7rem; /* 5px convertido para 0.3125rem */
   top: 50%;
   transform: translateY(-50%);
   background: none;
@@ -140,3 +152,4 @@ button[type="submit"]:disabled {
   flex-direction: row;
   justify-content: center;
 }
+

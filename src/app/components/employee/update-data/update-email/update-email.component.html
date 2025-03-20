@@ -15,7 +15,7 @@
         <input id="confirmEmail" type="email" formControlName="confirmEmail" placeholder="confirme seu email">
       </div>
       <small *ngIf="updateEmail.get('confirmEmail')?.touched && updateEmail.get('confirmEmail')?.invalid">
-        {{ getErrorMessage('confirmEmail') }}
+        {{ getErrorMessage('confirmEmail')| fieldLabel}}
       </small>
     </div>
   </div>
