@@ -11,10 +11,10 @@
 <ng-template #loading class="loading">
   <p class="loading-text">Carregando dados...</p>
 </ng-template>
-<!--<div *ngIf="errorMessage">-->
-<!--  -->
-<!--  <p>{{ errorMessage }}</p>-->
-<!--</div>-->
+<div class="erro" *ngIf="errorMessage">
+
+  <p class="erro-text">{{ errorMessage }}</p>
+</div>
 <div class="btn-checkin">
   <app-checkin-checkout/>
 </div>

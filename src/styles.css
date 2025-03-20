@@ -1,12 +1,12 @@
 :root {
   /* Cores */
-  --black: #000000;
+  --black: rgba(0, 0, 0, 0.33);
   --white: #d5efec;
-  --white-green: #dcf1d0;
+  --white-green: #d7e1d5;
   --gray: rgba(131, 133, 129, 0.77);
   --gray-green: rgba(145, 166, 120, 0.77);
   --dark-blue: #4b32bb;
-  --green: #5ecb32;
+  --green: #71d06d;
   --purple: #3a03a8;
   --error: #ff0000;
 

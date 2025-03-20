@@ -1,0 +1,126 @@
+.container {
+  padding: 0.7rem;
+  margin-bottom: 1rem ;
+}
+
+
+.loading,
+.erro {
+  display: flex;
+  justify-content: center;
+  padding-top: 2rem;
+  text-align: center;
+}
+
+.loading-text {
+  color: var(--green);
+  padding-top: 2rem;
+  text-align: center;
+}
+
+.erro-text {
+  color: #ec2929;
+  padding-top: 2rem;
+  text-align: center;
+}
+
+h2 {
+  text-align: center;
+  color: var(--white);
+  font-size: 1.5rem;
+  padding-bottom: 1rem;
+}
+
+.filters {
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
+
+.filters label {
+  font-weight: bold;
+  color: var(--white);
+}
+
+.filters input {
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  width: 6rem;
+  height: 0.8rem;
+  font-size: 0.7rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+table, th, td {
+  border: 1px solid #ccc;
+
+}
+
+th {
+  font-weight: bold;
+
+}
+
+th, td {
+  padding: 0.5rem;
+  text-align: center;
+  color: var(--white-green);
+  line-height: 1.2rem;
+}
+.clickable-id {
+  cursor: pointer;
+
+}
+
+.box-bnt{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.pagination {
+  text-align: center;
+  color: var(--white);
+  padding-top: 1rem;
+}
+.pagination-text{
+  font-size: 0.95rem;
+}
+
+.btn-pagination-next,
+.btn-pagination-prev {
+  text-align: center;
+  font-size: 1rem;
+  border-radius: 10rem;
+  background-color: var(--black);
+  color: var(--green);
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.btn-pagination-prev {
+  margin-right: 0.5rem;
+}
+
+.btn-pagination-next {
+  margin-left: 0.5rem;
+}
+
+.btn-pagination-prev:disabled {
+  background-color: var(--gray);
+  font-style: oblique;
+  cursor: not-allowed;
+}
+.btn {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}

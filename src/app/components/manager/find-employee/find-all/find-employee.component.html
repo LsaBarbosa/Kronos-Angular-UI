@@ -1,0 +1,75 @@
+<div class="container">
+  <!-- Exibe a mensagem de carregamento -->
+  <ng-container *ngIf="loading">
+    <p class="loading-text">Carregando dados...</p>
+  </ng-container>
+
+  <!-- Exibe a mensagem de erro -->
+  <div *ngIf="errorMessage">
+    <p>{{ errorMessage }}</p>
+  </div>
+
+
+  <!-- Exibe a lista de funcionários quando os dados estiverem disponíveis -->
+  <div *ngIf="!loading && !errorMessage">
+    <h2>Colaboradores Nova Aliança</h2>
+    <!-- Filtros -->
+    <div class="filters">
+      <label for="filterName">Nome:</label>
+      <input
+        id="filterName"
+        type="text"
+        [(ngModel)]="filterName"
+        (input)="filterEmployees()"
+        placeholder="Filtrar por nome"
+      >
+
+      <label for="filterPosition">Cargo:</label>
+      <input
+        id="filterPosition"
+        type="text"
+        [(ngModel)]="filterPosition"
+        (input)="filterEmployees()"
+        placeholder="Filtrar por cargo"
+      >
+    </div>
+    <table>
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nome</th>
+        <th>Cargo</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let employee of displayedEmployees">
+        <td (click)="copyId(employee.id)" class="clickable-id" title="copiar">
+          {{ employee.id }}
+        </td>
+        <td>{{ employee.name }} {{ employee.surname }}</td>
+        <td>{{ employee.position }}</td>
+      </tr>
+      </tbody>
+    </table>
+    <div class="box-bnt">
+      <div class="pagination">
+        <button class="btn-pagination-prev" (click)="previousPage()" [disabled]="currentPage === 0">
+          <
+        </button>
+        <span class="pagination-text"> {{ currentPage + 1 }} de {{ totalPages }}</span>
+        <button class="btn-pagination-next" (click)="nextPage()" [disabled]="currentPage + 1 >= totalPages">
+          >
+        </button>
+      </div>
+      <div class="btn">
+        <app-button class="btn-text" label="Detalhes Colaborador" [url]="'/detalhes-colaborador'"></app-button>
+      </div>
+    </div>
+  </div>
+
+<div class="btn">
+  <app-button label="Home" [url]="'/home'"></app-button>
+  <app-button label="Voltar" [url]="'/administracao'"></app-button>
+  <app-button label="Sair" [isLogoutButton]="true"></app-button>
+</div>
+</div>

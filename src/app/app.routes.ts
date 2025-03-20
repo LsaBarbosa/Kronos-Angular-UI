@@ -9,7 +9,11 @@ import {UpdateEmailComponent} from './components/employee/update-data/update-ema
 import {UpdatePasswordComponent} from './components/employee/update-data/update-password/update-password.component';
 import {ManagerComponent} from './components/manager/management/manager.component';
 import {CreateEmployeeComponent} from './components/manager/create-employee/create-employee.component';
-import {FindEmployeeComponent} from './components/manager/find-employee/find-employee.component';
+import {FindEmployeeComponent} from './components/manager/find-employee/find-all/find-employee.component';
+import {DetailsEmployeeComponent} from './components/manager/find-employee/details-employee/details-employee.component';
+import {
+  FindEmployeeByIdComponent
+} from './components/manager/find-employee/find-employee-by-id/find-employee-by-id.component';
 
 export const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -24,5 +28,7 @@ export const routes: Routes = [
   { path: 'administracao', component: ManagerComponent },
   { path: 'buscar-colaborador', component: FindEmployeeComponent },
   { path: 'registrar-colaborador', component: CreateEmployeeComponent },
+  { path: 'detalhes-colaborador', component: DetailsEmployeeComponent },
+  { path: 'dados-colaborador', component: FindEmployeeByIdComponent },
 
 ];

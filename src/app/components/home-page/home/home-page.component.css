@@ -32,17 +32,24 @@
 
 /* Destaque para rótulos, se desejar */
 .employee-card p strong {
-  color: #ddd;
+  color: var(--white-green);
 }
 
-.loading {
+.loading,
+.erro{
   display: flex;
   justify-content: center;
+
 }
 
-.loading-text {
+.loading-text{
   padding-top: 5rem;
   text-align: center;
+  color: var(--green);
+}.erro-text{
+  color: #ec2929;
+   padding-top: 5rem;
+   text-align: center;
 }
 .btn{
   display: flex;
