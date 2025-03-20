@@ -9,6 +9,7 @@ import {ApiService} from "../../../../services/api.service";
 import {BaseAuthFormComponent} from "../../../common/BaseAuthFormComponent";
 import {HttpResponse} from "@angular/common/http";
 import {ButtonSubmitComponent} from "../../../common/button/button-submit/button-submit.component";
+import {FieldLabelPipe} from '../../../../pipe/field-label.pipe';
 
 @Component({
     selector: 'app-update-email',
@@ -18,7 +19,8 @@ import {ButtonSubmitComponent} from "../../../common/button/button-submit/button
     ErrorMessageComponent,
     NgIf,
     ReactiveFormsModule,
-    ButtonSubmitComponent
+    ButtonSubmitComponent,
+    FieldLabelPipe
   ],
     templateUrl: './update-email.component.html',
     styleUrl: './update-email.component.css'
@@ -41,11 +43,18 @@ export class UpdateEmailComponent extends BaseAuthFormComponent implements OnIni
         this.updateEmail = this.formBuilder.group({
             email: ['', [Validators.required, Validators.email]],
             confirmEmail: ['', [Validators.required, Validators.email]],
-        });
+        }, { validators: this.emailMatchValidator });
         this.formGroup = this.updateEmail;
     }
 
-    onSubmit() {
+  emailMatchValidator(form: FormGroup) {
+    const email = form.get('email')?.value;
+    const confirmEmail = form.get('confirmEmail')?.value;
+    return email === confirmEmail ? null : { emailMismatch: true };
+  }
+
+
+  onSubmit() {
         if (this.updateEmail.valid) {
             const payload = this.updateEmail.value;
             this.service.postData('/employee/email/update', payload)

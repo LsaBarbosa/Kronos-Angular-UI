@@ -16,8 +16,13 @@ export abstract class BaseAuthFormComponent {
     confirmEmail: 'Confirmação de E-mail',
     confirmPassword: 'Confirmação de Senha',
     oldPassword: 'Senha antiga',
-    newPassword: 'Nova Senha'
-    ,
+    newPassword: 'Nova Senha',
+    passwords: 'Senha do administrador',
+    name: 'Nome',
+    surname: 'Sobrenome',
+    position: 'Cargo',
+    Salary: 'Salário',
+    role: 'Privilégio no sistema',
   };
 
   /**

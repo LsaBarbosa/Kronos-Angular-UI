@@ -67,21 +67,15 @@ export class ResetPasswordComponent extends BaseAuthFormComponent implements OnI
               }, 3000);
           },
           error: (error) => {
-            // Mapeamento de status de erro
-            switch (error.status) {
-              case 401:
-                this.alertMessage = 'Cpf ou E-mail inválidos';
-                break;
-              case 500:
-                this.alertMessage = 'Erro 500: Erro interno no servidor.';
-                break;
-              default:
-                this.alertMessage = `Erro ${error.status}: Ocorreu um problema.`;
-            }
+            const errorMsg = error.error && error.error.error
+              ? error.error.error
+              : `Erro ${error.status}: Ocorreu um problema.`;
+            this.alertMessage = errorMsg;
             this.alertType = 'error';
+            // Limpa a mensagem após 4 segundos
             setTimeout(() => {
               this.alertMessage = '';
-            }, 3000);
+            }, 4000);
           }
         });
     }
