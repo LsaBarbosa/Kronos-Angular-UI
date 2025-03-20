@@ -69,7 +69,8 @@ export class UpdateEmailComponent extends BaseAuthFormComponent implements OnIni
                             this.alertMessage = `Operação realizada com status ${status}.`;
                             this.alertType = 'success';
                         }
-                        this.router.navigate(['/home']);
+                      setTimeout(() => { this.alertMessage = ''; }, 4000);
+                      this.router.navigate(['/home']);
                     },
                     error: (error) => {
                         // Mapeamento de status de erro
@@ -83,7 +84,8 @@ export class UpdateEmailComponent extends BaseAuthFormComponent implements OnIni
                             default:
                                 this.alertMessage = `Erro ${error.status}: Ocorreu um problema.`;
                         }
-                        this.alertType = 'error';
+                      setTimeout(() => { this.alertMessage = ''; }, 4000);
+                      this.alertType = 'error';
                     }
                 });
         }

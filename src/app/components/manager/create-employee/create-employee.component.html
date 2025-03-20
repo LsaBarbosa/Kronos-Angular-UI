@@ -81,7 +81,7 @@
       </div>
     </div>
     <div>
-      <label for="password">Senha:</label>
+      <label for="password">Senha Provisória:</label>
       <div class="senha-container">
         <input id="password" type="password" [type]="showPassword ? 'text' : 'password'" formControlName="password"
                placeholder="Digite sua senha">
@@ -93,7 +93,7 @@
         {{ getErrorMessage('password') | fieldLabel }} </small>
     </div>
     <div>
-      <label for="passwords">Senha:</label>
+      <label for="passwords">Senha do Administrador:</label>
       <div class="senha-container">
         <input id="passwords" type="password" [type]="showPasswords ? 'text' : 'password'" formControlName="passwords"
                placeholder="Senha do Adminsitrador">
