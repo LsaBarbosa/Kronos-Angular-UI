@@ -1,5 +1,5 @@
-import {Component} from '@angular/core';
-import {ButtonComponent} from '../../../common/button/button-menu/button.component';
+import { Component } from '@angular/core';
+import {ButtonComponent} from "../../../common/button/button-menu/button.component";
 
 @Component({
   selector: 'app-details-employee',

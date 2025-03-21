@@ -1,0 +1,109 @@
+/* employee-adm.component.css */
+.employee-adm-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.employee-adm-container h2 {
+  text-align: center;
+  color: var(--white);
+  font-size: 1.5rem;
+  padding-bottom: 1rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  font-weight: bold;
+  color: var(--white);
+  padding-bottom: 0.5rem;
+  padding-left: 1rem;
+}
+
+.form-group input {
+  padding: 8px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 40px;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+input#editSalary {
+  text-align: center !important;
+}
+.form-group button {
+  width: 40%;
+  border-radius: 2.5rem;
+  padding: 0.125rem; /* 2px convertido para 0.125rem */
+  background-color: var(--dark-blue);
+  border: none;
+  color: var(--white);
+  font-size: 1rem; /* 16px convertido para 1rem */
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+}
+
+.btn-search{
+  text-align: center;
+  align-self: center;
+  align-items: center;
+  color: var(--white-green);
+}
+
+.form-group .btn-update{
+  align-self: center;
+  align-items: center;
+  align-content: center;
+  margin-top: 1rem;
+}
+.form-group button:hover {
+  background-color: #6f46ea;
+}
+
+.btn-edit{
+  display: flex;
+  justify-content: space-around;
+
+}
+.success-text,
+.loading-text {
+  color: var(--green);
+  font-size: 1.1rem;
+  text-align: center;
+  font-style: italic;
+  margin: 1rem 0;
+}
+
+.error-text {
+  color: #dc3545;
+  font-size: 1.1rem;
+  text-align: center;
+  margin: 20px 0;
+}
+
+.employee-adm-container p {
+  font-size: 1rem;
+  margin-bottom: 8px;
+  color: var(--white-green);
+  line-height: 1.5rem;
+  text-align: center;
+}
+
+.btn{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+strong{
+  font-weight: bold;
+
+  color: var(--white);
+}
