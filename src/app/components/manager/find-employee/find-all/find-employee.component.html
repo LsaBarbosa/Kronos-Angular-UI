@@ -54,11 +54,11 @@
     <div class="box-bnt">
       <div class="pagination">
         <button class="btn-pagination-prev" (click)="previousPage()" [disabled]="currentPage === 0">
-          <
+          Anterior
         </button>
         <span class="pagination-text"> {{ currentPage + 1 }} de {{ totalPages }}</span>
         <button class="btn-pagination-next" (click)="nextPage()" [disabled]="currentPage + 1 >= totalPages">
-          >
+          Próximo
         </button>
       </div>
       <div class="btn">
