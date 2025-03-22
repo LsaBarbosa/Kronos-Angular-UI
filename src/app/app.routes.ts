@@ -15,6 +15,7 @@ import {
   FindEmployeeByIdComponent
 } from './components/manager/find-employee/find-employee-by-id/find-employee-by-id.component';
 import {DetailsEmployeeComponent} from './components/manager/find-employee/details-employee/details-employee.component';
+import {TimeRecordsByAdmComponent} from './components/manager/time-records/time-records-by-adm.component';
 
 export const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -27,6 +28,7 @@ export const routes: Routes = [
   { path: 'alterar-email', component: UpdateEmailComponent },
   { path: 'alterar-senha', component: UpdatePasswordComponent },
   { path: 'administracao', component: ManagerComponent },
+  { path: 'historico-horas', component: TimeRecordsByAdmComponent },
   { path: 'buscar-colaborador', component: FindEmployeeComponent },
   { path: 'registrar-colaborador', component: CreateEmployeeComponent },
   { path: 'detalhes-colaborador', component: DetailsEmployeeComponent },

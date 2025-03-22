@@ -16,7 +16,7 @@
 }
 
 .time-report-container h2 {
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   color: var(--white-green);
   font-weight: bold;
 }
@@ -44,6 +44,7 @@
 /* Formulário e input */
 .form-group {
   margin: 0;
+  padding-top: 1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -57,9 +58,11 @@
 }
 
 .form-group input {
+  border-radius: 40px;
   padding: 0.1rem;
   font-size: 0.9rem;
-  width: 4.7rem;
+  width: 90%;
+  text-align: center;
 }
 
 

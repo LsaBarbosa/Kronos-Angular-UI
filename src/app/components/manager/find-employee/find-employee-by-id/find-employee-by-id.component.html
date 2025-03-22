@@ -37,7 +37,7 @@
     <p><strong>CPF:</strong> {{ employee.cpf }}</p>
     <p><strong>Role:</strong> {{ employee.role }}</p>
     <p><strong>Email:</strong> {{ employee.email }}</p>
-    <p><strong>Empresa:</strong> {{ employee.company?.nameCompany }}</p>
+    <p><strong>Empresa:</strong> {{ employee.company.nameCompany! }}</p>
     <div class="form-group">
     <button class="btn-update" (click)="enableEdit()">Editar</button>
     </div>
@@ -102,7 +102,7 @@
 
   <div class="btn">
     <app-button label="home" [url]="'/home'"></app-button>
-    <app-button label="Voltar" [url]="'/buscar-colaborador'"></app-button>
+    <app-button label="Voltar" [url]="'/detalhes-colaborador'"></app-button>
     <app-button label="Sair" [isLogoutButton]="true"></app-button>
   </div>
 </div>
