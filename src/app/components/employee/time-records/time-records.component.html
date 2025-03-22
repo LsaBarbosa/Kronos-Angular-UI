@@ -1,8 +1,62 @@
+<div class="time-report-container">
+  <mat-calendar
+    [dateClass]="dateClass"
+    (selectedChange)="dateSelected($event)">
+  </mat-calendar>
+
+  <div class="selected-dates" *ngIf="selectedDates.length">
+    <ul>
+      <li *ngFor="let date of selectedDates">
+        {{ date | date:'dd-MM' }}
+      </li>
+    </ul>
+  </div>
+
+  <div class="form-group">
+    <label for="referenceMinutes">Minutos de Referência:</label>
+    <input class="time" type="time" id="referenceMinutes" [(ngModel)]="referenceMinutes" />
+  </div>
+
+  <div class="button">
+    <button mat-button (click)="searchReport()">Buscar Relatório</button>
+  </div>
+
+  <ng-container *ngIf="loading">
+    <p class="loading-text">Carregando relatório...</p>
+  </ng-container>
+  <div *ngIf="errorMessage" class="error-text">
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="paginatedData.length > 0">
+    <h3>Resultados do Relatório</h3>
+    <table>
+      <thead>
+      <tr>
+        <th>Início</th>
+        <th>Término</th>
+        <th>Jornada</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let item of paginatedData">
+        <td> {{ item.startWorkTime }}<br>{{ item.startWorkDate | date:'dd / MM / yy' }} </td>
+        <td>{{ item.endWorkTime }}<br> {{ item.endWorkDate | date:'dd / MM / yy' }}</td>
+        <td>{{ item.timeWorked }}</td>
+      </tr>
+      </tbody>
+    </table>
+    <div class="box-bnt">
+    <div class="pagination">
+      <button class="btn-pagination-prev" (click)="prevPage()" [disabled]="currentPage === 0">Anterior</button>
+      <span  class="pagination-text" > {{ currentPage + 1 }} / {{ totalPages }}</span>
+      <button class="btn-pagination-next" (click)="nextPage()" [disabled]="(currentPage + 1) * pageSize >= reportData?.content!.length">Próximo</button>
+    </div>
+  </div>
+  </div>
+</div>
 <div class="btn">
   <app-button label="Home" [url]="'/home'"></app-button>
   <app-button label="Voltar" [url]="'/colaborador'"></app-button>
-  <app-button
-    label="Sair"
-    [isLogoutButton]="true"
-  ></app-button>
+  <app-button label="Sair" [isLogoutButton]="true"></app-button>
 </div>

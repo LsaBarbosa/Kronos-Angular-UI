@@ -6,6 +6,10 @@ import {AppComponent} from './app.component';
 import {LoginComponent} from './components/login/signin/login.component';
 import {HTTP_INTERCEPTORS} from '@angular/common/http';
 import {AuthInterceptor} from './auth.interceptor';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
+
 
 @NgModule({
   declarations: [],
@@ -14,6 +18,9 @@ import {AuthInterceptor} from './auth.interceptor';
     ReactiveFormsModule, // Necessário para utilizar formulários reativos
     AppComponent,
     LoginComponent,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    NgxMaterialTimepickerModule
   ],
 
   providers: [

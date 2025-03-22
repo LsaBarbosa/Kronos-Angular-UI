@@ -1,1 +1,109 @@
-<p>find-employee-by-id works!</p>
+<div class="employee-adm-container">
+  <h2>Detalhes do Colaborador</h2>
+
+  <!-- Formulário para informar o ID -->
+  <div class="form-group">
+    <label for="employeeId">ID do Funcionário:</label>
+    <input
+      type="text"
+      id="employeeId"
+      [(ngModel)]="id"
+      placeholder="Informe o ID"
+    />
+    <button class="btn-search" (click)="searchEmployee()">Buscar</button>
+  </div>
+
+  <!-- Exibe a mensagem de carregamento enquanto a requisição estiver em andamento -->
+  <ng-container *ngIf="loading">
+    <p class="loading-text">Carregando dados...</p>
+  </ng-container>
+
+  <!-- Exibe a mensagem de erro se houver algum problema na requisição -->
+  <div *ngIf="errorMessage">
+    <p class="error-text">{{ errorMessage }}</p>
+  </div>
+
+  <!-- Exibe os dados do funcionário quando a busca foi bem-sucedida e não está no modo de edição -->
+  <div *ngIf="employee && !loading && !errorMessage && !isEditing">
+    <h3>Dados do Funcionário</h3>
+    <p><strong>ID:</strong> {{ employee.id }}</p>
+    <p><strong>Nome:</strong> {{ employee.name }}</p>
+    <p><strong>Sobrenome:</strong> {{ employee.surname }}</p>
+    <p>
+      <strong>Salário:</strong>
+      {{ employee.salary | currency:'BRL':'symbol' }}
+    </p>
+    <p><strong>Posição:</strong> {{ employee.position }}</p>
+    <p><strong>CPF:</strong> {{ employee.cpf }}</p>
+    <p><strong>Role:</strong> {{ employee.role }}</p>
+    <p><strong>Email:</strong> {{ employee.email }}</p>
+    <p><strong>Empresa:</strong> {{ employee.company?.nameCompany }}</p>
+    <div class="form-group">
+    <button class="btn-update" (click)="enableEdit()">Editar</button>
+    </div>
+  </div>
+
+  <!-- Formulário de edição dos dados -->
+  <div *ngIf="isEditing && editedEmployee">
+    <h3>Editar Funcionário</h3>
+    <div class="form-group">
+      <label for="editName">Nome:</label>
+      <input type="text" id="editName" [(ngModel)]="editedEmployee.name"/>
+    </div>
+    <div class="form-group">
+      <label for="editSurname">Sobrenome:</label>
+      <input type="text" id="editSurname" [(ngModel)]="editedEmployee.surname"/>
+    </div>
+    <div class="form-group">
+      <label for="editSalary">Salário:</label>
+      <input type="text"     currencyMask [options]="{
+        prefix: 'R$ ',
+        thousands: '.',
+        decimal: ',',
+        allowNegative: false,
+        precision: 2,
+        align: 'right'
+      }" id="editSalary" [(ngModel)]="editedEmployee.salary"/>
+    </div>
+    <div class="form-group">
+      <label for="editPosition">Posição:</label>
+      <input type="text" id="editPosition" [(ngModel)]="editedEmployee.position"/>
+    </div>
+    <div class="form-group">
+      <label for="editRole">Role:</label>
+      <input type="text" id="editRole" [(ngModel)]="editedEmployee.role"/>
+    </div>
+    <div class="form-group">
+      <label for="editEmail">Email:</label>
+      <input type="email" id="editEmail" [(ngModel)]="editedEmployee.email"/>
+    </div>
+
+    <!-- Botões para atualizar ou cancelar a edição -->
+    <div class="form-group">
+      <div class="btn-edit">
+      <button class="btn-save" (click)="updateEmployee()" [disabled]="updateLoading">
+        Salvar
+      </button>
+      <button (click)="cancelEdit()">Cancelar</button>
+      </div>
+    </div>
+
+    <!-- Mensagem de carregamento para atualização -->
+    <ng-container *ngIf="updateLoading">
+      <p class="loading-text">Atualizando dados...</p>
+    </ng-container>
+  </div>
+
+  <!-- Mensagem de sucesso após atualização -->
+  <div *ngIf="updateMessage">
+    <p class="success-text">{{ updateMessage }}</p>
+  </div>
+
+
+  <div class="btn">
+    <app-button label="home" [url]="'/home'"></app-button>
+    <app-button label="Voltar" [url]="'/buscar-colaborador'"></app-button>
+    <app-button label="Sair" [isLogoutButton]="true"></app-button>
+  </div>
+</div>
+

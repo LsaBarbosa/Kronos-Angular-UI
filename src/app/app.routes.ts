@@ -10,10 +10,11 @@ import {UpdatePasswordComponent} from './components/employee/update-data/update-
 import {ManagerComponent} from './components/manager/management/manager.component';
 import {CreateEmployeeComponent} from './components/manager/create-employee/create-employee.component';
 import {FindEmployeeComponent} from './components/manager/find-employee/find-all/find-employee.component';
-import {DetailsEmployeeComponent} from './components/manager/find-employee/details-employee/details-employee.component';
+
 import {
   FindEmployeeByIdComponent
 } from './components/manager/find-employee/find-employee-by-id/find-employee-by-id.component';
+import {DetailsEmployeeComponent} from './components/manager/find-employee/details-employee/details-employee.component';
 
 export const routes: Routes = [
   { path: '', component: LoginComponent },
