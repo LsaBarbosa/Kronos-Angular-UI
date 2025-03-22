@@ -45,8 +45,8 @@
       </thead>
       <tbody>
       <tr *ngFor="let item of paginatedData">
-        <td>{{ item.startWorkDate | date:'dd-MM-yy' }} {{ item.startWorkTime }}</td>
-        <td>{{ item.endWorkDate | date:'dd-MM-yy' }} {{ item.endWorkTime }}</td>
+        <td> {{ item.startWorkTime }}<br>{{ item.startWorkDate | date:'dd / MM / yy' }} </td>
+        <td>{{ item.endWorkTime }}<br> {{ item.endWorkDate | date:'dd / MM / yy' }}</td>
         <td>{{ item.timeWorked }}</td>
       </tr>
       </tbody>
@@ -55,7 +55,7 @@
     <div class="pagination">
       <button class="btn-pagination-prev" (click)="prevPage()" [disabled]="currentPage === 0">Anterior</button>
       <span class="pagination-text"> {{ currentPage + 1 }} / {{ totalPages }}</span>
-      <button class="btn-pagination-next"(click)="nextPage()" [disabled]="(currentPage + 1) * pageSize >= reportData?.content?.length!">Próximo</button>
+      <button class="btn-pagination-next" (click)="nextPage()" [disabled]="(currentPage + 1) * pageSize >= reportData?.content?.length!">Próximo</button>
     </div>
   </div>
 </div>

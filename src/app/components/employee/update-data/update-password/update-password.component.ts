@@ -67,7 +67,7 @@ export class UpdatePasswordComponent extends BaseAuthFormComponent implements On
   onSubmit() {
     if (this.updatePassword.valid) {
       const payload = this.updatePassword.value;
-      this.service.postData('/employee/password/update', payload)
+      this.service.updateData('/employee/password/update', payload)
         .subscribe({
           next: (response: HttpResponse<any>) => {
             const status = response.status;
