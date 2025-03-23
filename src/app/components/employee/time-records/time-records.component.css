@@ -158,3 +158,13 @@ tr{
   flex-direction: row;
   justify-content: center;
 }
+
+.positive-balance {
+  color: green;
+  font-weight: bold;
+}
+
+.negative-balance {
+  color: red;
+  font-weight: bold;
+}

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../../services/api.service';
-import { DatePipe, NgForOf, NgIf } from '@angular/common';
+import {DatePipe, NgClass, NgForOf, NgIf} from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatCalendar } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
@@ -38,7 +38,8 @@ interface ReportResponse {
     MatNativeDateModule,
     MatCalendar,
     MatButton,
-    ButtonComponent
+    ButtonComponent,
+    NgClass
   ],
   templateUrl: './time-records.component.html',
   styleUrls: ['./time-records.component.css']
@@ -50,6 +51,8 @@ export class TimeRecordsComponent implements OnInit {
   loading: boolean = false;
   reportData: ReportResponse | null = null;
   paginatedData: ReportContent[] = [];
+  referenceTime: string = '00:00'; // Formato HH:mm
+  balance: string | null = null; // Para armazenar o saldo retornado
 
   // Configuração da paginação
   currentPage: number = 0;
@@ -156,6 +159,73 @@ export class TimeRecordsComponent implements OnInit {
         this.loading = false;
       }
     });
+  }
+
+  fetchBalance(): void {
+    if (this.selectedDates.length === 0) {
+      this.errorMessage = 'Selecione pelo menos uma data.';
+      return;
+    }
+
+    const sortedDates = this.selectedDates.slice().sort((a, b) => a.getTime() - b.getTime());
+    const startDate = sortedDates[0];
+    const endDate = sortedDates[sortedDates.length - 1];
+
+    const formatDate = (date: Date): string => {
+      const day = ('0' + date.getDate()).slice(-2);
+      const month = ('0' + (date.getMonth() + 1)).slice(-2);
+      const year = date.getFullYear();
+      return `${day}-${month}-${year}`;
+    };
+
+    const startDateStr = formatDate(startDate);
+    const endDateStr = formatDate(endDate);
+
+    // Converte o time HH:mm para minutos
+    const referenceMinutes = this.convertTimeToMinutes(this.referenceTime);
+
+    this.loading = true;
+    this.errorMessage = '';
+    this.balance = null; // Reseta o saldo antes da requisição
+
+    const endpoint = `/time/search/balance?startDate=${startDateStr}&endDate=${endDateStr}&referenceMinutes=${referenceMinutes}`;
+
+    this.apiService.getData(endpoint).subscribe({
+      next: (data) => {
+        this.balance = data.balance; // Armazena o saldo retornado pela API
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error(err);
+        this.errorMessage = 'Erro ao carregar o saldo.';
+        this.loading = false;
+      }
+    });
+  }
+
+  /**
+   * Converte o tempo no formato HH:mm para minutos
+   */
+  convertTimeToMinutes(time: string): number {
+    if (!time) return 0; // Se não houver valor, retorna 0
+
+    const [hours, minutes] = time.split(':').map(num => parseInt(num, 10));
+    return (hours * 60) + minutes;
+  }
+
+  /**
+   * Define se o saldo é positivo ou negativo para colorir corretamente
+   */
+  isPositiveBalance(): boolean {
+    if (!this.balance) return false;
+
+    // Extrai as horas e minutos do saldo retornado (ex: "157:43")
+    const [hours, minutes] = this.balance.split(':').map(num => parseInt(num, 10));
+
+    // Converte para minutos totais
+    const totalMinutes = (hours * 60) + minutes;
+
+    return totalMinutes >= 0; // Se for positivo, retorna true
   }
 
   /**
