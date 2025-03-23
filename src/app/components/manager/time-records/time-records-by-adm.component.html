@@ -1,35 +1,36 @@
 <div class="time-report-container">
-  <h2>Relatório de Horas</h2>
+    <h2>Relatório de Horas</h2>
 
-  <!-- Campos para ID do Funcionário e Senha -->
-  <div class="form-group">
-    <label for="employeeIdTarget">ID do Funcionário:</label>
-    <input type="text" id="employeeIdTarget" [(ngModel)]="employeeIdTarget" />
-  </div>
+    <!-- Campos para ID do Funcionário e Senha -->
+    <div class="form-group">
+        <label for="employeeIdTarget">ID do Funcionário:</label>
+        <input type="text" id="employeeIdTarget" [(ngModel)]="employeeIdTarget"/>
+    </div>
 
-  <div class="form-group">
-    <label for="passwords">Senha:</label>
-    <input type="password" id="passwords" [(ngModel)]="passwords" />
-  </div>
+    <div class="form-group">
+        <label for="passwords">Senha:</label>
+        <input type="password" id="passwords" [(ngModel)]="passwords"/>
+    </div>
 
-  <mat-calendar [dateClass]="dateClass" (selectedChange)="dateSelected($event)"></mat-calendar>
+    <mat-calendar [dateClass]="dateClass" (selectedChange)="dateSelected($event)"></mat-calendar>
 
-  <div class="selected-dates" *ngIf="selectedDates.length">
-    <ul>
-      <li *ngFor="let date of selectedDates">
-        {{ date | date:'dd-MM' }}
-      </li>
-    </ul>
-  </div>
+    <div class="selected-dates" *ngIf="selectedDates.length">
+        <ul>
+            <li *ngFor="let date of selectedDates">
+                {{ date | date:'dd-MM' }}
+            </li>
+        </ul>
+    </div>
+
 
     <!-- Campo para Reference Minutes no formato HH:mm -->
     <div class="balance">
         <label class="balance-time" for="referenceTime">Jornada diária:</label>
-        <input class="time" type="time" id="referenceTime" [(ngModel)]="referenceTime" />
+        <input class="time" type="time" id="referenceTime" [(ngModel)]="referenceTime"/>
     </div>
 
     <div class="button">
-        <button mat-button (click)="fetchBalance()">Buscar Saldo</button>
+        <button mat-button (click)="generateCompleteReport()">Gerar Relatório</button>
     </div>
 
     <!-- Exibição do saldo -->
@@ -40,50 +41,44 @@
         </p>
     </div>
 
-
-    <div class="button">
-    <button mat-button (click)="searchReport()">Buscar Relatório</button>
-  </div>
-
-  <ng-container *ngIf="loading">
-    <p class="loading-text">Carregando relatório...</p>
-  </ng-container>
-  <div *ngIf="errorMessage" class="error-text">
-    {{ errorMessage }}
-  </div>
-
-    <div *ngIf="reportData !== null" class="balance-result">
-        <h3>Relatório de Horas - {{ employeeName }} {{ employeeSurname }}</h3>
+    <ng-container *ngIf="loading">
+        <p class="loading-text">Carregando relatório...</p>
+    </ng-container>
+    <div *ngIf="errorMessage" class="error-text">
+        {{ errorMessage }}
     </div>
 
-  <div *ngIf="paginatedData.length > 0">
-    <table>
-      <thead>
-      <tr>
-        <th>Início</th>
-        <th>Término</th>
-        <th>Tempo Trabalhado</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr *ngFor="let item of paginatedData">
-        <td> {{ item.startWorkTime }}<br>{{ item.startWorkDate | date:'dd / MM / yy' }} </td>
-        <td>{{ item.endWorkTime }}<br> {{ item.endWorkDate | date:'dd / MM / yy' }}</td>
-        <td>{{ item.timeWorked }}</td>
-      </tr>
-      </tbody>
-    </table>
 
-    <div class="pagination">
-      <button class="btn-pagination-prev" (click)="prevPage()" [disabled]="currentPage === 0">Anterior</button>
-      <span class="pagination-text"> {{ currentPage + 1 }} / {{ totalPages }}</span>
-      <button class="btn-pagination-next"(click)="nextPage()" [disabled]="(currentPage + 1) * pageSize >= reportData?.content?.length!">Próximo</button>
+    <div *ngIf="paginatedData.length > 0">
+        <table>
+            <thead>
+            <tr>
+                <th>Início</th>
+                <th>Término</th>
+                <th>Tempo Trabalhado</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let item of paginatedData">
+                <td> {{ item.startWorkTime }}<br>{{ item.startWorkDate | date:'dd / MM / yy' }}</td>
+                <td>{{ item.endWorkTime }}<br> {{ item.endWorkDate | date:'dd / MM / yy' }}</td>
+                <td>{{ item.timeWorked }}</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="pagination">
+            <button class="btn-pagination-prev" (click)="prevPage()" [disabled]="currentPage === 0">Anterior</button>
+            <span class="pagination-text"> {{ currentPage + 1 }} / {{ totalPages }}</span>
+            <button class="btn-pagination-next" (click)="nextPage()"
+                    [disabled]="(currentPage + 1) * pageSize >= reportData?.content?.length!">Próximo
+            </button>
+        </div>
     </div>
-  </div>
 </div>
 
 <div class="btn">
-  <app-button label="Home" [url]="'/home'"></app-button>
-  <app-button label="Voltar" [url]="'/detalhes-colaborador'"></app-button>
-  <app-button label="Sair" [isLogoutButton]="true"></app-button>
+    <app-button label="Home" [url]="'/home'"></app-button>
+    <app-button label="Voltar" [url]="'/detalhes-colaborador'"></app-button>
+    <app-button label="Sair" [isLogoutButton]="true"></app-button>
 </div>

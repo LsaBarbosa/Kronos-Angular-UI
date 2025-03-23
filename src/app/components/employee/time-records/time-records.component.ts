@@ -49,12 +49,11 @@ interface ReportResponse {
 })
 export class TimeRecordsComponent implements OnInit {
   selectedDates: Date[] = [];
-  referenceMinutes: string = '08:00';
   errorMessage: string = '';
   loading: boolean = false;
   reportData: ReportResponse | null = null;
   paginatedData: ReportContent[] = [];
-  referenceTime: string = '00:00'; // Formato HH:mm
+  referenceTime: string = '07:30'; // Formato HH:mm
   balance: string | null = null; // Para armazenar o saldo retornado
 
   employeeName: string = '';
@@ -127,88 +126,6 @@ export class TimeRecordsComponent implements OnInit {
   /**
    * Chama o endpoint /time/search/report e atualiza os dados paginados
    */
-  searchReport(): void {
-    if (this.selectedDates.length === 0) {
-      this.errorMessage = 'Selecione pelo menos uma data.';
-      return;
-    }
-
-    const sortedDates = this.selectedDates.slice().sort((a, b) => a.getTime() - b.getTime());
-    const startDate = sortedDates[0];
-    const endDate = sortedDates[sortedDates.length - 1];
-
-    const formatDate = (date: Date): string => {
-      const day = ('0' + date.getDate()).slice(-2);
-      const month = ('0' + (date.getMonth() + 1)).slice(-2);
-      const year = date.getFullYear();
-      return `${day}-${month}-${year}`;
-    };
-
-    const startDateStr = formatDate(startDate);
-    const endDateStr = formatDate(endDate);
-
-    this.loading = true;
-    this.errorMessage = '';
-    this.reportData = null;
-
-    const endpoint = `/time/search/report?startDate=${startDateStr}&endDate=${endDateStr}&referenceMinutes=${this.referenceMinutes}`;
-
-    this.apiService.getData(endpoint).subscribe({
-      next: (data: ReportResponse) => {
-        this.reportData = data;
-        this.currentPage = 0; // Reinicia a paginação ao buscar novos dados
-        this.updatePaginatedData(); // Atualiza os dados da primeira página
-        this.loading = false;
-      },
-      error: (err) => {
-        console.error(err);
-        this.errorMessage = 'Erro ao carregar os dados.';
-        this.loading = false;
-      }
-    });
-  }
-
-  fetchBalance(): void {
-    if (this.selectedDates.length === 0) {
-      this.errorMessage = 'Selecione pelo menos uma data.';
-      return;
-    }
-
-    const sortedDates = this.selectedDates.slice().sort((a, b) => a.getTime() - b.getTime());
-    const startDate = sortedDates[0];
-    const endDate = sortedDates[sortedDates.length - 1];
-
-    const formatDate = (date: Date): string => {
-      const day = ('0' + date.getDate()).slice(-2);
-      const month = ('0' + (date.getMonth() + 1)).slice(-2);
-      const year = date.getFullYear();
-      return `${day}-${month}-${year}`;
-    };
-
-    const startDateStr = formatDate(startDate);
-    const endDateStr = formatDate(endDate);
-
-    // Converte o time HH:mm para minutos
-    const referenceMinutes = this.convertTimeToMinutes(this.referenceTime);
-
-    this.loading = true;
-    this.errorMessage = '';
-    this.balance = null; // Reseta o saldo antes da requisição
-
-    const endpoint = `/time/search/balance?startDate=${startDateStr}&endDate=${endDateStr}&referenceMinutes=${referenceMinutes}`;
-
-    this.apiService.getData(endpoint).subscribe({
-      next: (data) => {
-        this.balance = data.balance; // Armazena o saldo retornado pela API
-        this.loading = false;
-      },
-      error: (err) => {
-        console.error(err);
-        this.errorMessage = 'Erro ao carregar o saldo.';
-        this.loading = false;
-      }
-    });
-  }
 
   /**
    * Converte o tempo no formato HH:mm para minutos
@@ -338,10 +255,10 @@ export class TimeRecordsComponent implements OnInit {
     // 🔹 Saldo de Horas
     if (this.balance !== null) {
       doc.text(`Saldo de Horas`, 10, doc.internal.pageSize.height - 40);
-      doc.text(`Horas acumuladas: ${this.balance}`, 10, doc.internal.pageSize.height - 30);
+      doc.text(`Horas Totais: ${this.balance}`, 10, doc.internal.pageSize.height - 30);
     }
 
-    doc.save(`relatorio-completo.pdf`);
+    doc.save(`relatorio_${this.employeeName}_${this.employeeSurname}.pdf`);
   }
   /**
    * Define se o saldo é positivo ou negativo para colorir corretamente
