@@ -32,7 +32,7 @@ export class CreateEmployeeComponent extends BaseAuthFormComponent implements On
   alertMessage: string = '';
   alertType: 'success' | 'error' = 'success';
 
-  showPassword: boolean = false;
+  showPasswordsManager: boolean = false;
   showPasswords: boolean = false;
 
   constructor(private formBuilder: FormBuilder,
@@ -51,11 +51,11 @@ export class CreateEmployeeComponent extends BaseAuthFormComponent implements On
         Validators.required,
         Validators.pattern('^[0-9]{11}$')
       ]],
-      password: ['', [
+      passwords: ['', [
         Validators.required,
         Validators.minLength(8),
       ]],
-      passwords: ['', [
+      passwordsManager: ['', [
         Validators.required,
         Validators.minLength(8),
       ]],
@@ -76,7 +76,7 @@ export class CreateEmployeeComponent extends BaseAuthFormComponent implements On
   }
 
   toggleShowPassword(): void {
-    this.showPassword = !this.showPassword;
+    this.showPasswordsManager = !this.showPasswordsManager;
   }
 
   toggleShowPasswords(): void {
@@ -86,7 +86,7 @@ export class CreateEmployeeComponent extends BaseAuthFormComponent implements On
   onSubmit() {
     if (this.createForm.valid) {
       const payload = this.createForm.value;
-      this.service.postData('/employee/create', payload)
+      this.service.postData('/employee/adm/register', payload)
         .subscribe({
           next: (response: HttpResponse<any>) => {
             const status = response.status;
