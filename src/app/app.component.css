@@ -6,7 +6,6 @@
   padding: 0.3rem 0;
   border-radius: 1.5625rem;
   overflow: hidden;
-  background-color: black; /* Fundo preto */
 
   z-index: 0;
   /* Força o navegador a usar aceleração de GPU */
@@ -47,8 +46,8 @@ div {
 
 @media (max-width: 768px) {
   .app-container {
-    width: 90vw; /* Ajuste para ocupar quase toda a tela */
-    margin: 1rem auto;
+    width: 95vw; /* Ajuste para ocupar quase toda a tela */
+    margin: 3rem auto;
     padding: 1rem 0; /* Reduz o padding para economizar espaço */
     border-radius: 1.2rem; /* Bordas um pouco menores */
   }
@@ -67,7 +66,7 @@ div {
 /* 📱 Responsividade para Smartphones Pequenos (até 480px) */
 @media (max-width: 480px) {
   .app-container {
-    width: 85vw;
+    width: 90vw;
     padding: 0.8rem;
     border-radius: 1rem;
   }
