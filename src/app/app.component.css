@@ -7,6 +7,7 @@
   border-radius: 1.5625rem;
   overflow: hidden;
   background-color: black; /* Fundo preto */
+
   z-index: 0;
   /* Força o navegador a usar aceleração de GPU */
   transform: translateZ(0);

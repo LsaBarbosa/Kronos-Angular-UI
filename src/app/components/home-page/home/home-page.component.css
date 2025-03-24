@@ -1,5 +1,5 @@
 .container {
-  background-color: rgba(10, 17, 20, 0.62);
+
   width: 25.30rem; /* Largura em rem */
   height: 21rem;
 }
@@ -36,26 +36,163 @@
 }
 
 .loading,
-.erro{
+.erro {
   display: flex;
   justify-content: center;
 
 }
 
-.loading-text{
+.loading-text {
   padding-top: 5rem;
   text-align: center;
   color: var(--green);
-}.erro-text{
-  color: #ec2929;
-   padding-top: 5rem;
-   text-align: center;
 }
-.btn{
+
+.erro-text {
+  color: #ec2929;
+  padding-top: 5rem;
+  text-align: center;
+}
+
+.btn {
   display: flex;
   flex-direction: row;
   justify-content: center;
 }
-.btn-menu{
+
+.btn-menu {
   flex-direction: row;
+}
+
+  /* 🔹 Container Principal */
+.container {
+  background-color: rgba(10, 17, 20, 0.62);
+  width: 25.30rem; /* Largura fixa em telas maiores */
+  max-width: 90vw; /* Evita que o container fique muito grande em telas pequenas */
+  height: auto; /* Ajusta automaticamente conforme o conteúdo */
+  padding: 1.5rem;
+  margin: 1rem auto;
+  border-radius: 0.8rem;
+}
+
+/* 🔹 Título principal */
+.employee-card h2 {
+  margin-top: 0;
+  padding-top: 1rem;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  text-align: center;
+  color: var(--white-green);
+}
+
+/* 🔹 Subtítulo */
+.employee-card h3 {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  font-size: 1rem;
+  text-align: center;
+  color: var(--white-green);
+}
+
+/* 🔹 Parágrafos */
+.employee-card p {
+  text-align: center;
+  margin: 0.5rem 0;
+  line-height: 1.4;
+  color: var(--white-green);
+}
+
+/* 🔹 Destaque para rótulos */
+.employee-card p strong {
+  color: var(--white-green);
+}
+
+/* 🔹 Mensagem de Carregamento e Erro */
+.loading,
+.erro {
+  display: flex;
+  justify-content: center;
+}
+
+.loading-text {
+  padding-top: 5rem;
+  text-align: center;
+  color: var(--green);
+}
+
+.erro-text {
+  color: #ec2929;
+  padding-top: 5rem;
+  text-align: center;
+}
+
+/* 🔹 Botões */
+.btn {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 1rem; /* Adiciona espaçamento entre os botões */
+}
+
+.btn-menu {
+  flex-direction: row;
+}
+
+/* 📱 Responsividade para Smartphones */
+@media (max-width: 768px) {
+  .container {
+    width: 90vw; /* O container agora ocupa quase toda a largura da tela */
+    padding: 1rem;
+    border-radius: 0.7rem;
+  }
+
+  .employee-card h2 {
+    font-size: 1.3rem; /* Reduz o tamanho do título */
+  }
+
+  .employee-card h3 {
+    font-size: 0.9rem;
+  }
+
+  .employee-card p {
+    font-size: 0.9rem;
+  }
+
+  .btn {
+    flex-direction: column; /* Empilha os botões verticalmente */
+    align-items: center;
+  }
+
+  .btn-menu {
+    flex-direction: column; /* Empilha os botões de menu em telas pequenas */
+  }
+}
+
+/* 📱 Responsividade para Smartphones Pequenos (até 480px) */
+@media (max-width: 480px) {
+  .container {
+    width: 85vw;
+    border-radius: 0.6rem;
+    padding: 0;
+    margin: 0;
+
+  }
+
+  .employee-card h2 {
+    font-size: 1.2rem;
+    margin: 0;
+  }
+
+  .employee-card h3 {
+    font-size: 0.85rem;
+  }
+
+  .employee-card p {
+    font-size: 0.85rem;
+  }
+
+  .btn {
+    flex-direction: column;
+    gap: 0rem; /* Espaçamento entre os botões */
+  }
 }
