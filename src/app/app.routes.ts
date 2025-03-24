@@ -1,4 +1,4 @@
-import { Routes } from '@angular/router';
+import {Routes} from '@angular/router';
 import {ResetPasswordComponent} from './components/login/reset-password/reset-password.component';
 import {LoginComponent} from './components/login/signin/login.component';
 import {HomePageComponent} from './components/home-page/home/home-page.component';
@@ -14,7 +14,6 @@ import {FindEmployeeComponent} from './components/manager/find-employee/find-all
 import {
   FindEmployeeByIdComponent
 } from './components/manager/find-employee/find-employee-by-id/find-employee-by-id.component';
-import {DetailsEmployeeComponent} from './components/manager/find-employee/details-employee/details-employee.component';
 import {TimeRecordsByAdmComponent} from './components/manager/time-records/time-records-by-adm.component';
 import {AuthGuard} from './guards/auth.guard';
 import {RoleGuard} from './guards/role.guard';
@@ -33,7 +32,6 @@ export const routes: Routes = [
   { path: 'historico-horas', component: TimeRecordsByAdmComponent, canActivate: [AuthGuard, RoleGuard], data: { roles: ['ADMIN', 'CTO', 'MANAGER'] } },
   { path: 'buscar-colaborador', component: FindEmployeeComponent , canActivate: [AuthGuard, RoleGuard], data: { roles: ['ADMIN', 'CTO', 'MANAGER'] }},
   { path: 'registrar-colaborador', component: CreateEmployeeComponent, canActivate: [AuthGuard, RoleGuard], data: { roles: ['ADMIN', 'CTO', 'MANAGER'] } },
-  { path: 'detalhes-colaborador', component: DetailsEmployeeComponent, canActivate: [AuthGuard, RoleGuard], data: { roles: ['ADMIN', 'CTO', 'MANAGER'] } },
   { path: 'dados-colaborador', component: FindEmployeeByIdComponent , canActivate: [AuthGuard, RoleGuard], data: { roles: ['ADMIN', 'CTO', 'MANAGER'] }},
 
   { path: '**', redirectTo: '/login' } // Redireciona qualquer rota desconhecida para login

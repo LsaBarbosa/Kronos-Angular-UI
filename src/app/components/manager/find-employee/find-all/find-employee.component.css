@@ -85,7 +85,7 @@ th, td {
 
 .clickable-id {
   cursor: pointer;
-  font-weight: bold;
+  font-style: italic;
 }
 
 .copy-btn {

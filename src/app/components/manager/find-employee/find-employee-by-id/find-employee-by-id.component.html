@@ -1,17 +1,16 @@
 <div class="employee-adm-container">
   <h2>Detalhes do Colaborador</h2>
 
-  <!-- Formulário para informar o ID -->
   <div class="form-group">
     <label for="employeeId">ID do Funcionário:</label>
-    <input
-      type="text"
-      id="employeeId"
-      [(ngModel)]="id"
-      placeholder="Informe o ID"
-    />
+    <div class="id-input-wrapper">
+      <input type="text" id="employeeId" [(ngModel)]="id" placeholder="Informe o ID"/>
+      <span class="paste-btn" (click)="pasteId()" title="Colar ID">📋</span>
+    </div>
     <button class="btn-search" (click)="searchEmployee()">Buscar</button>
   </div>
+
+
 
   <!-- Exibe a mensagem de carregamento enquanto a requisição estiver em andamento -->
   <ng-container *ngIf="loading">
@@ -101,9 +100,10 @@
 
 
   <div class="btn">
-    <app-button label="home" [url]="'/home'"></app-button>
-    <app-button label="Voltar" [url]="'/detalhes-colaborador'"></app-button>
-    <app-button label="Sair" [isLogoutButton]="true"></app-button>
+    <app-button label="Home" [url]="'/home'"></app-button>
+    <app-button label="Administração" [url]="'/administracao'"></app-button>
+    <app-button label="Lisa Colaboradores" [url]="'/buscar-colaborador'"></app-button>
   </div>
+    <app-button label="Sair" [isLogoutButton]="true"></app-button>
 </div>
 

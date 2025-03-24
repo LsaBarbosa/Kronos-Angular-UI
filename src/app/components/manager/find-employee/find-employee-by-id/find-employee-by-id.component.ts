@@ -92,6 +92,16 @@ export class FindEmployeeByIdComponent implements OnInit {
     this.editedEmployee = null;
   }
 
+  pasteId(): void {
+    navigator.clipboard.readText()
+      .then(text => {
+        this.id = text;
+      })
+      .catch(error => {
+        console.error('Erro ao colar ID:', error);
+      });
+  }
+
   updateEmployee(): void {
     if (!this.editedEmployee) return;
 

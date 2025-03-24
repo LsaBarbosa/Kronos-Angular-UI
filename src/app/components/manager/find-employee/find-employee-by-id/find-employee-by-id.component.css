@@ -1,118 +1,8 @@
-/* employee-adm.component.css */
-.employee-adm-container {
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 20px;
-  font-family: Arial, sans-serif;
-}
-
-.employee-adm-container h2 {
-  text-align: center;
-  color: var(--white);
-  font-size: 1.5rem;
-  padding-bottom: 1rem;
-}
-
-.form-group {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 20px;
-}
-
-.form-group label {
-  font-weight: bold;
-  color: var(--white);
-  padding-bottom: 0.5rem;
-  padding-left: 1rem;
-}
-
-.form-group input {
-  padding: 8px;
-  font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 40px;
-  margin-bottom: 0.5rem;
-  text-align: center;
-}
-input#editSalary {
-  text-align: center !important;
-}
-.form-group button {
-  width: 40%;
-  border-radius: 2.5rem;
-  padding: 0.125rem; /* 2px convertido para 0.125rem */
-  background-color: var(--dark-blue);
-  border: none;
-  color: var(--white);
-  font-size: 1rem; /* 16px convertido para 1rem */
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-
-}
-
-.btn-search{
-  text-align: center;
-  align-self: center;
-  align-items: center;
-  color: var(--white-green);
-}
-
-.form-group .btn-update{
-  align-self: center;
-  align-items: center;
-  align-content: center;
-  margin-top: 1rem;
-}
-.form-group button:hover {
-  background-color: #6f46ea;
-}
-
-.btn-edit{
-  display: flex;
-  justify-content: space-around;
-
-}
-.success-text,
-.loading-text {
-  color: var(--green);
-  font-size: 1.1rem;
-  text-align: center;
-  font-style: italic;
-  margin: 1rem 0;
-}
-
-.error-text {
-  color: #dc3545;
-  font-size: 1.1rem;
-  text-align: center;
-  margin: 20px 0;
-}
-
-.employee-adm-container p {
-  font-size: 1rem;
-  margin-bottom: 8px;
-  color: var(--white-green);
-  line-height: 1.5rem;
-  text-align: center;
-}
-
-.btn{
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-}
-
-strong{
-  font-weight: bold;
-
-  color: var(--white);
-}
-
 /* 🔹 Container Principal */
 .employee-adm-container {
   max-width: 600px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 1rem;
   font-family: Arial, sans-serif;
 }
 
@@ -147,7 +37,7 @@ strong{
   border-radius: 40px;
   margin-bottom: 0.5rem;
   text-align: center;
-  width: 100%; /* 🔹 Garante que o input ocupe a largura disponível */
+  width: 90%; /* 🔹 Garante que o input ocupe a largura disponível */
 }
 
 /* 🔹 Alinhamento do Salário */
@@ -232,6 +122,40 @@ strong {
   color: var(--white);
 }
 
+.id-input-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* 🔹 Centraliza o input dentro do container */
+  position: relative;
+  width: 90%;
+
+  margin: 0 auto; /* 🔹 Centraliza horizontalmente */
+}
+
+/* 🔹 Estiliza o input */
+.id-input-wrapper input {
+  width: 100%; /* 🔹 Ocupa toda a largura disponível */
+  text-align: center; /* 🔹 Garante que o texto fique centralizado */
+  border-radius: 40px;
+  border: 1px solid var(--white-green);
+  font-size: 1rem;
+  box-shadow: 0 0 4px rgba(255, 255, 255, 0.2);
+}
+
+/* 🔹 Botão de Colar dentro do Input */
+.paste-btn {
+  position: absolute;
+  right: 0.8rem; /* 🔹 Mantém o botão alinhado à direita */
+  bottom: 0.9rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.3rem;
+  color: var(--white-green);
+  transition: color 0.3s ease;
+}
+
+
 /* 📱 Responsividade para Tablets e Smartphones */
 @media (max-width: 768px) {
   .employee-adm-container {
@@ -263,7 +187,6 @@ strong {
   }
 }
 
-/* 📱 Responsividade para Smartphones Pequenos (até 480px) */
 @media (max-width: 480px) {
   .employee-adm-container {
     padding: 10px;
@@ -273,24 +196,24 @@ strong {
     font-size: 1.2rem;
   }
 
-  .form-group {
-    align-items: center;
+  .id-input-wrapper {
+    max-width: 100%;
   }
 
-  .form-group input {
-    width: 100%;
+  .id-input-wrapper input {
     font-size: 0.85rem;
+    padding: 0.6rem 2.5rem 0.6rem 1rem;
+  }
+
+  .paste-btn {
+    font-size: 1rem;
+    right: 8px;
   }
 
   .form-group button {
-    width: 70%;
+    max-width: 150px;
     font-size: 0.85rem;
   }
 
-  .btn-edit {
-    width: 70%;
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
-  }
+
 }
