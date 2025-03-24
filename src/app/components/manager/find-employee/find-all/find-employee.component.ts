@@ -4,6 +4,7 @@ import {ApiService} from '../../../../services/api.service';
 import {HttpHeaders} from '@angular/common/http';
 import {NgForOf, NgIf} from '@angular/common';
 import {FormsModule} from '@angular/forms';
+import {ErrorMessageComponent} from '../../../common/error-message/error-message.component';
 
 
 interface Employee {
@@ -31,7 +32,8 @@ interface EmployeeResponse {
     ButtonComponent,
     NgIf,
     NgForOf,
-    FormsModule
+    FormsModule,
+    ErrorMessageComponent
   ],
   templateUrl: './find-employee.component.html',
   styleUrl: './find-employee.component.css'
@@ -43,6 +45,7 @@ export class FindEmployeeComponent implements OnInit {
   displayedEmployees: Employee[] = [];
   errorMessage: string = '';
   loading: boolean = true;
+  copyMessage: string = ''; // Armazena a mensagem temporária
 
   filterName: string = '';
   filterPosition: string = '';
@@ -101,13 +104,18 @@ export class FindEmployeeComponent implements OnInit {
   copyId(id: string): void {
     navigator.clipboard.writeText(id)
       .then(() => {
-        console.log("ID copiado:", id);
-        // Aqui você pode adicionar uma notificação visual para o usuário, se desejar.
+        this.copyMessage = `ID copiado com sucesso!`;
+        setTimeout(() => this.copyMessage = '', 3000); // Limpa a mensagem após 3s
       })
       .catch(error => {
         console.error("Erro ao copiar ID:", error);
       });
   }
+
+  showCopiedMessage(id: string): void {
+    alert(`ID ${id} copiado com sucesso!`);
+  }
+
 
   filterEmployees(): void {
     // Reseta para a primeira página sempre que o filtro for aplicado

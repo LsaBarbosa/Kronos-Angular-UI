@@ -14,4 +14,5 @@ export class ErrorMessageComponent {
   @Input() message: string= '';
   @Input() type: "success"| 'error' = 'success';
 
+
 }

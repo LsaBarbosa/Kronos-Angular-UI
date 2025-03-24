@@ -1,3 +1,5 @@
+
+<app-error-message [message]="copyMessage" type="success"></app-error-message>
 <div class="container">
   <!-- Exibe a mensagem de carregamento -->
   <ng-container *ngIf="loading">
@@ -43,8 +45,13 @@
       </thead>
       <tbody>
       <tr *ngFor="let employee of displayedEmployees">
-        <td (click)="copyId(employee.id)" class="clickable-id" title="copiar">
-          {{ employee.id }}
+        <td class="id-container">
+      <span class="clickable-id" (click)="copyId(employee.id)" title="Copiar ID">
+        {{ employee.id }}
+      </span>
+          <button class="copy-btn" (click)="copyId(employee.id)">
+            📋
+          </button>
         </td>
         <td>{{ employee.name }} {{ employee.surname }}</td>
         <td>{{ employee.position }}</td>

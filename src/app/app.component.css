@@ -1,6 +1,6 @@
 .app-container {
   position: relative; /* Necessário para posicionar o pseudo-elemento */
-  width: 25.30rem;
+  width: 40%;
   height: auto;
   margin: 1.5rem auto 0;
   padding: 0.3rem 0;
@@ -44,24 +44,24 @@ div {
   margin: 0.7rem;
 }
 
-@media (max-width: 768px) {
-  .app-container {
-    width: 95vw; /* Ajuste para ocupar quase toda a tela */
-    margin: 3rem auto;
-    padding: 1rem 0; /* Reduz o padding para economizar espaço */
-    border-radius: 1.2rem; /* Bordas um pouco menores */
-  }
+/*@media (max-width: 768px) {*/
+/*  .app-container {*/
+/*    width: 95vw; !* Ajuste para ocupar quase toda a tela *!*/
+/*    margin: 3rem auto;*/
+/*    padding: 1rem 0; !* Reduz o padding para economizar espaço *!*/
+/*    border-radius: 1.2rem; !* Bordas um pouco menores *!*/
+/*  }*/
 
-  .app-container::before {
-    filter: blur(2rem); /* Reduz ainda mais o blur em telas menores */
-  }
+/*  .app-container::before {*/
+/*    filter: blur(2rem); !* Reduz ainda mais o blur em telas menores *!*/
+/*  }*/
 
-  div {
-    padding: 1.5rem; /* Menos espaçamento interno */
-    background-size: contain; /* Mantém a imagem visível */
-    background-position: center;
-  }
-}
+/*  div {*/
+/*    padding: 1.5rem; !* Menos espaçamento interno *!*/
+/*    background-size: contain; !* Mantém a imagem visível *!*/
+/*    background-position: center;*/
+/*  }*/
+/*}*/
 
 /* 📱 Responsividade para Smartphones Pequenos (até 480px) */
 @media (max-width: 480px) {

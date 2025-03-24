@@ -1,72 +1,6 @@
+/* 🔹 Container Principal */
 .container {
-  width: 25.30rem; /* Largura em rem */
-  height: 21rem;
-}
-
-/* Título principal */
-.employee-card h2 {
-  margin-top: 0; /* Remove margem superior padrão */
-  padding-top: 1rem;
-  margin-bottom: 1rem;
-  font-size: 1.5rem;
-  text-align: center; /* Centraliza apenas o título, se preferir */
-  color: var(--white-green);
-}
-
-.employee-card h3 {
-  margin-top: 0; /* Remove margem superior padrão */
-  margin-bottom: 2rem;
-  font-size: 1rem;
-  text-align: center; /* Centraliza apenas o título, se preferir */
-  color: var(--white-green);
-}
-
-/* Espaçamento entre linhas */
-.employee-card p {
-  text-align: center;
-  margin: 0.5rem 0;
-  line-height: 1.4;
-  color: var(--white-green);
-}
-
-/* Destaque para rótulos, se desejar */
-.employee-card p strong {
-  color: var(--white-green);
-}
-
-.loading,
-.erro {
-  display: flex;
-  justify-content: center;
-
-}
-
-.loading-text {
-  padding-top: 5rem;
-  text-align: center;
-  color: var(--green);
-}
-
-.erro-text {
-  color: #ec2929;
-  padding-top: 5rem;
-  text-align: center;
-}
-
-.btn {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-}
-
-.btn-menu {
-  flex-direction: row;
-}
-
-  /* 🔹 Container Principal */
-.container {
-  background-color: rgba(10, 17, 20, 0.62);
-  width: 25.30rem; /* Largura fixa em telas maiores */
+  width: 90%; /* Largura fixa em telas maiores */
   max-width: 90vw; /* Evita que o container fique muito grande em telas pequenas */
   height: auto; /* Ajusta automaticamente conforme o conteúdo */
   padding: 1.5rem;
@@ -137,35 +71,35 @@
   flex-direction: row;
 }
 
-/* 📱 Responsividade para Smartphones */
-@media (max-width: 768px) {
-  .container {
-    width: 90vw; /* O container agora ocupa quase toda a largura da tela */
-    padding: 1rem;
-    border-radius: 0.7rem;
-  }
+/*!* 📱 Responsividade para Smartphones *!*/
+/*@media (max-width: 768px) {*/
+/*  .container {*/
+/*    width: 100%; !* O container agora ocupa quase toda a largura da tela *!*/
+/*    padding: 1rem;*/
+/*    border-radius: 0.7rem;*/
+/*  }*/
 
-  .employee-card h2 {
-    font-size: 1.3rem; /* Reduz o tamanho do título */
-  }
+/*  .employee-card h2 {*/
+/*    font-size: 1.3rem; !* Reduz o tamanho do título *!*/
+/*  }*/
 
-  .employee-card h3 {
-    font-size: 0.9rem;
-  }
+/*  .employee-card h3 {*/
+/*    font-size: 0.9rem;*/
+/*  }*/
 
-  .employee-card p {
-    font-size: 0.9rem;
-  }
+/*  .employee-card p {*/
+/*    font-size: 0.9rem;*/
+/*  }*/
 
-  .btn {
-    flex-direction: column; /* Empilha os botões verticalmente */
-    align-items: center;
-  }
+/*  .btn {*/
+/*    flex-direction: column; !* Empilha os botões verticalmente *!*/
+/*    align-items: center;*/
+/*  }*/
 
-  .btn-menu {
-    flex-direction: column; /* Empilha os botões de menu em telas pequenas */
-  }
-}
+/*  .btn-menu {*/
+/*    flex-direction: column; !* Empilha os botões de menu em telas pequenas *!*/
+/*  }*/
+/*}*/
 
 /* 📱 Responsividade para Smartphones Pequenos (até 480px) */
 @media (max-width: 480px) {

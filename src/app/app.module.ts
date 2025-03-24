@@ -9,6 +9,8 @@ import {AuthInterceptor} from './auth.interceptor';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
+import {AuthGuard} from './guards/auth.guard';
+import {RoleGuard} from './guards/role.guard';
 
 
 @NgModule({
@@ -24,6 +26,8 @@ import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
   ],
 
   providers: [
+    AuthGuard,
+    RoleGuard,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ],
   bootstrap: []

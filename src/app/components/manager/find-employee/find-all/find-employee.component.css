@@ -75,10 +75,32 @@ th, td {
   color: var(--white-green);
   line-height: 1.2rem;
 }
+
+.id-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px; /* Espaço entre o ID e o botão */
+}
+
 .clickable-id {
   cursor: pointer;
-
+  font-weight: bold;
 }
+
+.copy-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  color: var(--white-green);
+  transition: color 0.3s ease;
+}
+
+.copy-btn:hover {
+  color: var(--green);
+}
+
 
 .box-bnt{
   display: flex;
