@@ -22,7 +22,6 @@
         </ul>
     </div>
 
-
     <!-- Campo para Reference Minutes no formato HH:mm -->
     <div class="balance">
         <label class="balance-time" for="referenceTime">Jornada diária:</label>
@@ -56,15 +55,27 @@
                 <th>Início</th>
                 <th>Término</th>
                 <th>Tempo Trabalhado</th>
+                <th>Status</th>
             </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let item of paginatedData">
-                <td> {{ item.startWorkTime }}<br>{{ item.startWorkDate | date:'dd / MM / yy' }}</td>
-                <td>{{ item.endWorkTime }}<br> {{ item.endWorkDate | date:'dd / MM / yy' }}</td>
+            <tr *ngFor="let item of paginatedData"
+                (click)="openEditModal(item)"
+                [ngClass]="{'edited-record': editedRecords.has(item.id)}">
+                <td>{{ item.startWorkTime }}<br>{{ item.startWorkDate | date:'dd/MM/yyyy' }}</td>
+                <td>{{ item.endWorkTime }}<br>{{ item.endWorkDate | date:'dd/MM/yyyy' }}</td>
                 <td>{{ item.timeWorked }}</td>
+                <td>
+            <span *ngIf="editedRecords.has(item.id)">
+                📝 <strong>Editado</strong>
+            </span>
+                    <span *ngIf="!editedRecords.has(item.id)">
+                ✅ <strong>Original</strong>
+            </span>
+                </td>
             </tr>
             </tbody>
+
         </table>
 
         <div class="pagination">
@@ -73,6 +84,27 @@
             <button class="btn-pagination-next" (click)="nextPage()"
                     [disabled]="(currentPage + 1) * pageSize >= reportData?.content?.length!">Próximo
             </button>
+        </div>
+    </div>
+
+    <!-- Modal de Edição -->
+    <div class="modal" *ngIf="isEditing">
+        <div class="modal-content">
+            <h3>Editar Registro de Horas</h3>
+            <label>Início:</label>
+            <div class="modal-content-time">
+                <input type="date" [(ngModel)]="editStartWorkDate">
+                <input type="time" [(ngModel)]="editStartWorkTime">
+            </div>
+            <label>Término:</label>
+            <div class="modal-content-time">
+                <input type="date" [(ngModel)]="editEndWorkDate">
+                <input type="time" [(ngModel)]="editEndWorkTime">
+            </div>
+            <div class="modal-buttons">
+                <button mat-button (click)="updateTimeRecord()">Salvar</button>
+                <button mat-button (click)="closeEditModal()">Cancelar</button>
+            </div>
         </div>
     </div>
 </div>

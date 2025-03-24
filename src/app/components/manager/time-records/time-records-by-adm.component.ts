@@ -66,6 +66,17 @@ export class TimeRecordsByAdmComponent implements OnInit {
     currentPage: number = 0;
     pageSize: number = 5;
 
+    // Variáveis para edição
+    isEditing: boolean = false;
+    editTimeRecord: ReportContent | null = null;
+    editStartWorkTime: string = '';
+    editEndWorkTime: string = '';
+    editStartWorkDate: string = '';
+    editEndWorkDate: string = '';
+    editedRecords: Set<number> = new Set(); // IDs dos registros editados
+
+
+
     constructor(private apiService: ApiService) {
     }
 
@@ -145,6 +156,53 @@ export class TimeRecordsByAdmComponent implements OnInit {
 
         const [hours, minutes] = time.split(':').map(num => parseInt(num, 10));
         return (hours * 60) + minutes;
+    }
+
+    searchReport(): void {
+        if (this.selectedDates.length === 0) {
+            this.errorMessage = 'Selecione pelo menos uma data.';
+            return;
+        }
+
+        if (!this.employeeIdTarget.trim() || !this.passwords.trim()) {
+            this.errorMessage = 'Informe o ID do funcionário e a senha.';
+            return;
+        }
+
+        const sortedDates = this.selectedDates.slice().sort((a, b) => a.getTime() - b.getTime());
+        const startDate = sortedDates[0];
+        const endDate = sortedDates[sortedDates.length - 1];
+
+        const formatDate = (date: Date): string => {
+            const day = ('0' + date.getDate()).slice(-2);
+            const month = ('0' + (date.getMonth() + 1)).slice(-2);
+            const year = date.getFullYear();
+            return `${day}-${month}-${year}`;
+        };
+
+        const startDateStr = formatDate(startDate);
+        const endDateStr = formatDate(endDate);
+
+        this.loading = true;
+        this.errorMessage = '';
+        this.reportData = null;
+
+        // Construindo a URL com query parameters
+        const endpoint = `/time/search/adm/report?employeeIdTarget=${this.employeeIdTarget}&passwords=${this.passwords}&startDate=${startDateStr}&endDate=${endDateStr}`;
+
+        this.apiService.getData(endpoint).subscribe({
+            next: (data: ReportResponse) => {
+                this.reportData = data;
+                this.currentPage = 0;
+                this.updatePaginatedData();
+                this.loading = false;
+            },
+            error: (err) => {
+                console.error(err);
+                this.errorMessage = 'Erro ao carregar os dados.';
+                this.loading = false;
+            }
+        });
     }
 
     fetchEmployeeData(callback: () => void): void {
@@ -272,6 +330,69 @@ export class TimeRecordsByAdmComponent implements OnInit {
 
         doc.save(`relatorio_${this.employeeName}_${this.employeeSurname}.pdf`);
     }
+
+    openEditModal(record: ReportContent): void {
+        this.isEditing = true;
+        this.editTimeRecord = { ...record }; // Clona os dados para edição
+        this.editStartWorkTime = record.startWorkTime;
+        this.editEndWorkTime = record.endWorkTime;
+        this.editStartWorkDate = record.startWorkDate;
+        this.editEndWorkDate = record.endWorkDate;
+    }
+
+    /**
+     * Fecha o modal de edição
+     */
+    closeEditModal(): void {
+        this.isEditing = false;
+        this.editTimeRecord = null;
+    }
+
+    /**
+     * Salva a edição e faz a requisição para atualizar o registro no backend
+     */
+    updateTimeRecord(): void {
+        if (!this.editTimeRecord) return;
+
+        const formatDate = (date: string): string => {
+            const [year, month, day] = date.split('-');
+            return `${day}-${month}-${year}`;
+        };
+
+        const payload = {
+            timeRecordId: this.editTimeRecord.id,
+            employeeIdTarget: this.employeeIdTarget,
+            passwords: this.passwords,
+            updateTimeRecordDto: {
+                id: this.editTimeRecord.id,
+                startWorkDate: formatDate(this.editStartWorkDate),
+                startWorkTime: this.editStartWorkTime,
+                endWorkDate: formatDate(this.editEndWorkDate),
+                endWorkTime: this.editEndWorkTime
+            }
+        };
+
+        this.apiService.updateData('/time/adm/update', payload).subscribe({
+            next: (updatedRecord) => {
+                this.closeEditModal();
+
+                // 🔹 Atualiza apenas o registro modificado dentro da lista paginada
+                const index = this.paginatedData.findIndex(item => item.id === updatedRecord.id);
+                if (index !== -1) {
+                    this.paginatedData[index] = updatedRecord; // Atualiza o item na tabela
+                }
+
+                // 🔹 Marca o registro como editado para alterar o ícone
+                this.editedRecords.add(updatedRecord.id);
+
+            },
+            error: (err) => {
+                console.error(err);
+                this.errorMessage = 'Erro ao atualizar o registro.';
+            }
+        });
+    }
+
 
     /**
      * Retorna o total de páginas
