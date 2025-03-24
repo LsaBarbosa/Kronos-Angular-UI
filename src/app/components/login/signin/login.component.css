@@ -12,7 +12,7 @@ label {
 input[type="text"],
 input[type="password"] {
   width: 100%;
-  height: 2rem;
+  height: 1.5em;
   max-width: 400px;
   padding: 0.5rem;
   border: 1px solid var(--white);
@@ -39,8 +39,7 @@ input[type="password"] {
 }
 
 .senha-container input {
-  width: 100%;
-  max-width: 350px; /* Ajuste para não ficar muito largo */
+  width: 90%;
   padding-right: 2.5rem; /* Espaço para o botão de alternar senha */
   text-align: center; /* Centraliza o texto dentro do campo */
 }
@@ -53,14 +52,61 @@ small {
   font-size: 0.7rem;
 }
 
-/* Botão de recuperação de senha */
-.link {
-  font-size: 0.7rem;
-  color: var(--gray);
-  cursor: pointer;
+.btn{
+  text-align: left;
 }
 
+/* Estiliza o link "Recuperar senha" */
+.link {
+  font-size: 0.7rem; /* Tamanho da fonte do link */
+  color: var(--gray); /* Cor do texto (ajuste conforme o fundo) */
+  text-decoration: none; /* Remove sublinhado padrão */
+  border-radius: 0.25rem; /* Bordas levemente arredondadas */
+  background-color: transparent; /* Por padrão, transparente */
+  transition: all 0.3s ease; /* Transição suave para hover */
+  cursor: pointer;
+
+}
+
+/* Efeito hover no link */
 .link:hover {
-  color: var(--green);
-  text-decoration: underline;
+  color: var(--green); /* Muda a cor do texto ao passar o mouse */
+  text-decoration: underline; /* Sublinha o texto ou escolha outro efeito */
+}
+
+@media (max-width: 480px) {
+  label {
+    font-size: 0.9rem; /* Reduz o tamanho do label */
+  }
+
+  input[type="text"],
+  input[type="password"] {
+    font-size: 0.9rem;
+    height: 1.2rem;
+    padding: 0.5rem;
+  }
+
+  .senha-container input {
+    width: 88%; /* Faz o input ocupar a largura total no mobile */
+    height: 1.2rem;
+  }
+
+  .toggle-btn {
+    font-size: 1.3rem; /* Diminui o botão de alternar senha */
+    right: 5px; /* Aproxima da borda */
+  }
+
+  .btn{
+    text-align: center;
+  }
+
+  .link {
+    font-size: 0.8rem;
+    color: var(--green);
+  }
+
+  button {
+    font-size: 0.9rem;
+
+  }
 }
