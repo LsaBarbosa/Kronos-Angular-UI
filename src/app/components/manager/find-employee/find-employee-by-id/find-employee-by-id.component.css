@@ -107,3 +107,190 @@ strong{
 
   color: var(--white);
 }
+
+/* 🔹 Container Principal */
+.employee-adm-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+/* 🔹 Título */
+.employee-adm-container h2 {
+  text-align: center;
+  color: var(--white);
+  font-size: 1.5rem;
+  padding-bottom: 1rem;
+}
+
+/* 🔹 Grupo do Formulário */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+/* 🔹 Rótulos */
+.form-group label {
+  font-weight: bold;
+  color: var(--white);
+  padding-bottom: 0.5rem;
+  padding-left: 1rem;
+}
+
+/* 🔹 Inputs */
+.form-group input {
+  padding: 8px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 40px;
+  margin-bottom: 0.5rem;
+  text-align: center;
+  width: 100%; /* 🔹 Garante que o input ocupe a largura disponível */
+}
+
+/* 🔹 Alinhamento do Salário */
+input#editSalary {
+  text-align: center !important;
+}
+
+/* 🔹 Botões */
+.form-group button {
+  width: 40%;
+  border-radius: 2.5rem;
+  padding: 0.125rem;
+  background-color: var(--dark-blue);
+  border: none;
+  color: var(--white);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-search {
+  text-align: center;
+  align-self: center;
+  align-items: center;
+  color: var(--white-green);
+}
+
+.form-group .btn-update {
+  align-self: center;
+  align-items: center;
+  align-content: center;
+  margin-top: 1rem;
+}
+
+/* 🔹 Efeito Hover nos Botões */
+.form-group button:hover {
+  background-color: #6f46ea;
+}
+
+/* 🔹 Botões de Edição */
+.btn-edit {
+  display: flex;
+  justify-content: space-around;
+}
+
+/* 🔹 Mensagens de Sucesso & Erro */
+.success-text,
+.loading-text {
+  color: var(--green);
+  font-size: 1.1rem;
+  text-align: center;
+  font-style: italic;
+  margin: 1rem 0;
+}
+
+.error-text {
+  color: #dc3545;
+  font-size: 1.1rem;
+  text-align: center;
+  margin: 20px 0;
+}
+
+/* 🔹 Texto Geral */
+.employee-adm-container p {
+  font-size: 1rem;
+  margin-bottom: 8px;
+  color: var(--white-green);
+  line-height: 1.5rem;
+  text-align: center;
+}
+
+/* 🔹 Botões Gerais */
+.btn {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+/* 🔹 Texto em Negrito */
+strong {
+  font-weight: bold;
+  color: var(--white);
+}
+
+/* 📱 Responsividade para Tablets e Smartphones */
+@media (max-width: 768px) {
+  .employee-adm-container {
+    padding: 15px;
+    max-width: 90%;
+  }
+
+  .employee-adm-container h2 {
+    font-size: 1.3rem;
+  }
+
+  .form-group {
+    align-items: center;
+  }
+
+  .form-group input {
+    width: 90%;
+    font-size: 0.9rem;
+  }
+
+  .form-group button {
+    width: 60%;
+    font-size: 0.9rem;
+  }
+
+  .btn-edit {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+/* 📱 Responsividade para Smartphones Pequenos (até 480px) */
+@media (max-width: 480px) {
+  .employee-adm-container {
+    padding: 10px;
+  }
+
+  .employee-adm-container h2 {
+    font-size: 1.2rem;
+  }
+
+  .form-group {
+    align-items: center;
+  }
+
+  .form-group input {
+    width: 100%;
+    font-size: 0.85rem;
+  }
+
+  .form-group button {
+    width: 70%;
+    font-size: 0.85rem;
+  }
+
+  .btn-edit {
+    width: 70%;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+}

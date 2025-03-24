@@ -124,3 +124,87 @@ th, td {
   flex-direction: row;
   justify-content: center;
 }
+
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+
+  h2 {
+    font-size: 1.3rem;
+  }
+
+  .filters {
+    flex-direction: column; /* 🔹 Empilha os filtros em telas menores */
+    align-items: center;
+  }
+
+  .filters input {
+    width: 100%;
+    max-width: 200px;
+  }
+
+  table, th, td {
+    font-size: 0.85rem;
+  }
+
+  .btn {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .box-bnt {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .pagination-text {
+    font-size: 0.85rem;
+  }
+
+  .btn-pagination-next,
+  .btn-pagination-prev {
+    font-size: 0.75rem;
+    padding: 0.4rem;
+  }
+}
+
+/* 📱 Responsividade para Smartphones Pequenos (até 480px) */
+@media (max-width: 480px) {
+  .container {
+    padding: 0.5rem;
+  }
+
+  h2 {
+    font-size: 1.2rem;
+  }
+
+  .filters {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .filters input {
+    width: 90%;
+    text-align: center;
+  }
+
+  table, th, td {
+    font-size: 0.75rem;
+  }
+
+  .pagination {
+    padding-top: 0.5rem;
+  }
+
+  .btn {
+    flex-direction: row;
+  }
+
+  .btn-pagination-next,
+  .btn-pagination-prev {
+    font-size: 0.7rem;
+    padding: 0.3rem;
+  }
+}

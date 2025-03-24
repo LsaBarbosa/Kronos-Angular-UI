@@ -189,3 +189,69 @@ button{
   color: red;
   font-weight: bold;
 }
+
+@media (max-width: 768px) {
+  .time-report-container {
+    width: 95%;
+    padding: 1rem;
+  }
+
+  .time-report-container h2 {
+    font-size: 1rem;
+  }
+
+  .selected-dates ul {
+    grid-template-columns: repeat(3, 1fr); /* Reduz o número de colunas */
+    gap: 5px;
+  }
+
+  .form-group input {
+    width: 100%;
+    text-align: center;
+  }
+
+  .balance {
+    flex-direction: column; /* Ajusta para coluna em telas pequenas */
+    align-items: center;
+  }
+
+  .balance input {
+    width: 70%;
+  }
+
+  table, th, td {
+    font-size: 0.8rem; /* Reduz tamanho da fonte na tabela */
+  }
+
+  .btn {
+    flex-direction: column; /* Empilha os botões */
+    align-items: center;
+  }
+}
+
+/* 📱 Responsividade para Smartphones Pequenos (até 480px) */
+@media (max-width: 480px) {
+  .time-report-container {
+    width: 95%;
+    padding: 0.8rem;
+  }
+
+  .time-report-container h2 {
+    font-size: 0.9rem;
+  }
+
+  .selected-dates ul {
+    grid-template-columns: repeat(2, 1fr); /* Apenas 2 colunas */
+    gap: 3px;
+    text-align: center;
+  }
+
+  table, th, td {
+    font-size: 0.75rem; /* Fonte menor */
+  }
+
+  .btn {
+    flex-direction: row;
+    align-items: center;
+  }
+}

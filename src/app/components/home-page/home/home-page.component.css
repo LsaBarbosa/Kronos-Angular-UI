@@ -170,7 +170,7 @@
 /* 📱 Responsividade para Smartphones Pequenos (até 480px) */
 @media (max-width: 480px) {
   .container {
-    width: 90vw;
+    width: 100%;
     border-radius: 0.6rem;
     padding: 0;
     margin: 0;
