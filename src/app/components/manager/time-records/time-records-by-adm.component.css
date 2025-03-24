@@ -2,162 +2,291 @@
 
 /* Container principal */
 .time-report-container {
-  max-width: 22rem;
-  margin: 0 auto;
-  padding: 20px;
-  font-family: Arial, sans-serif;
+    max-width: 22rem;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
 }
 
 /* Títulos */
 .time-report-container h2,
 .time-report-container h3,
 .time-report-container p {
-  text-align: center;
+    text-align: center;
 }
 
 .time-report-container h2 {
-  font-size: 1.4rem;
-  color: var(--white-green);
-  font-weight: bold;
+    font-size: 1.4rem;
+    color: var(--white-green);
+    font-weight: bold;
+}
+
+h3 {
+    font-size: 1.1rem;
+    font-style: italic;
+    color: var(--white-green);
+    padding-top: 0.5rem;
+}
+
+.balance-time {
+    font-size: 1.2rem;
+    padding-top: 0.5rem;
+    color: var(--white-green);
+}
+
+.positive-balance {
+    color: #10d010;
+    font-weight: bold;
+    padding-top: 0.5rem;
+    padding-bottom: 0.9rem;
+}
+
+.negative-balance {
+    color: red;
+    font-weight: bold;
+    padding-top: 0.5rem;
+    padding-bottom: 0.9rem;
 }
 
 /* Datas selecionadas */
 .selected-dates {
-  margin: 1rem 0;
+    margin: 1rem 0;
 
 }
 
 .selected-dates ul {
-  list-style: none;
-  padding: 0;
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 10px;
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
 }
 
 .selected-dates li {
-  background-color: #05b4cb;
-  padding: 5px 10px;
-  border-radius: 4px;
+    background-color: #05b4cb;
+    padding: 5px 10px;
+    border-radius: 4px;
 }
 
 /* Formulário e input */
-.form-group {
-  margin: 0;
-  padding-top: 1rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.form-group,
+.balance {
+    margin: 0;
+    padding-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-.form-group label {
-  font-weight: bold;
-  padding-top: 0.2rem;
-  padding-bottom: 0.8rem;
-  color: var(--white-green);
+.form-group label,
+.balance {
+    font-weight: bold;
+    padding-top: 0.2rem;
+    padding-bottom: 0.8rem;
+    color: var(--white-green);
 }
 
 .form-group input {
-  border-radius: 40px;
-  padding: 0.1rem;
-  font-size: 0.9rem;
-  width: 90%;
-  text-align: center;
+    border-radius: 40px;
+    font-size: 0.9rem;
+    width: 90%;
+    text-align: center;
 }
 
+.balance {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 0.7rem;
+}
 
-.time{
-  border-radius: 50px;
-  background-color: var(--white);
-  box-shadow: none;
-  text-align: center;
+.balance input {
+    border-radius: 40px;
+    font-size: 1rem;
+    width: 25%;
+
+}
+
+.balance-time {
+    font-size: 1.2rem;
+    padding-bottom: 0.7rem;
+}
+
+.time {
+    border-radius: 50px;
+    background-color: var(--white);
+    box-shadow: none;
+    text-align: center;
 }
 
 
 .button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding-top: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+button {
+    font-size: 1.1rem;
 }
 
 /* Mensagens de carregamento e erro */
 .loading-text {
-  text-align: center;
-  font-size: 18px;
-  color: #007bff;
-  margin: 20px 0;
+    text-align: center;
+    font-size: 18px;
+    color: #007bff;
+    margin: 20px 0;
 }
 
 .error-text {
-  text-align: center;
-  font-size: 18px;
-  color: #dc3545;
-  margin: 20px 0;
+    text-align: center;
+    font-size: 18px;
+    color: #dc3545;
+    margin: 20px 0;
 }
 
 /* Tabela de resultados */
 table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 0.5rem;
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 0.5rem;
 }
 
 table, th, td {
-  border: 1px solid #ccc;
+    border: 1px solid #ccc;
 }
 
 th, td {
-  padding: 0.5rem;
-  text-align: center;
+    padding: 0.5rem;
+    text-align: center;
 }
 
 th {
-  background-color: var(--gray);
+    background-color: var(--gray);
 }
 
-tr{
-  background-color: var(--black);
-  line-height: 1.5rem;
-  color: var(--white-green);
+tr {
+    background-color: var(--black);
+    line-height: 1.5rem;
+    color: var(--white-green);
 }
 
 .pagination {
-  text-align: center;
-  color: var(--white);
-  padding-top: 1rem;
+    text-align: center;
+    color: var(--white);
+    padding-top: 1rem;
 }
-.pagination-text{
-  font-size: 0.95rem;
+
+.pagination-text {
+    font-size: 0.95rem;
 }
 
 .btn-pagination-next,
 .btn-pagination-prev {
-  text-align: center;
-  font-size: 1rem;
-  border-radius: 10rem;
-  background-color: var(--black);
-  color: var(--green);
-  font-weight: bold;
-  cursor: pointer;
+    text-align: center;
+    font-size: 1rem;
+    border-radius: 10rem;
+    background-color: var(--black);
+    color: var(--green);
+    font-weight: bold;
+    cursor: pointer;
 }
 
 .btn-pagination-prev {
-  margin-right: 0.5rem;
+    margin-right: 0.5rem;
 }
 
 .btn-pagination-next {
-  margin-left: 0.5rem;
+    margin-left: 0.5rem;
 }
 
 .btn-pagination-prev:disabled {
-  background-color: var(--gray);
-  font-style: oblique;
-  cursor: not-allowed;
+    background-color: var(--gray);
+    font-style: oblique;
+    cursor: not-allowed;
 }
 
 .btn {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
 }
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.84);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Garantia de que o modal fica na frente de tudo */
+}
+
+.modal-content {
+    flex-direction: column;
+    background-color: var(--gray);
+    padding: 1rem;
+    border-radius: 40px;
+    text-align: center;
+    margin-top: 29rem;
+    align-items: center;
+    align-content: center;
+}
+
+.modal-content h3, label {
+    padding-bottom: 1rem;
+    color: #c9e8ee;
+
+    font-weight: 400;
+}
+.modal-content label {
+    color: var(--white-green);
+
+}
+
+.modal-content-time {
+    display: flex;
+    flex-direction: column;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    align-items: center;
+    align-content: center;
+    gap: 0.5rem;
+}
+
+input[type="date"],
+input[type="time"] {
+    display: flex;
+    width: 60%;
+    justify-content: center;
+    align-itemsS: center;
+    border-radius: 40px;
+    font-size: 0.7rem;
+    text-align: center;
+    background-color: #e2f8f6;
+    align-items: center;
+    align-content: center;
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 10px;
+}
+
+.modal-buttons button {
+    font-size: 0.9rem;
+}
+
+body.modal-open .button-group button {
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+
+
+

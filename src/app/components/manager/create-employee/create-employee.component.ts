@@ -32,7 +32,7 @@ export class CreateEmployeeComponent extends BaseAuthFormComponent implements On
   alertMessage: string = '';
   alertType: 'success' | 'error' = 'success';
 
-  showPassword: boolean = false;
+  showPasswordsManager: boolean = false;
   showPasswords: boolean = false;
 
   constructor(private formBuilder: FormBuilder,
@@ -51,11 +51,11 @@ export class CreateEmployeeComponent extends BaseAuthFormComponent implements On
         Validators.required,
         Validators.pattern('^[0-9]{11}$')
       ]],
-      password: ['', [
+      passwords: ['', [
         Validators.required,
         Validators.minLength(8),
       ]],
-      passwords: ['', [
+      passwordsManager: ['', [
         Validators.required,
         Validators.minLength(8),
       ]],
@@ -76,7 +76,7 @@ export class CreateEmployeeComponent extends BaseAuthFormComponent implements On
   }
 
   toggleShowPassword(): void {
-    this.showPassword = !this.showPassword;
+    this.showPasswordsManager = !this.showPasswordsManager;
   }
 
   toggleShowPasswords(): void {
@@ -85,35 +85,45 @@ export class CreateEmployeeComponent extends BaseAuthFormComponent implements On
 
   onSubmit() {
     if (this.createForm.valid) {
-      const payload = this.createForm.value;
-      this.service.postData('/employee/create', payload)
-        .subscribe({
-          next: (response: HttpResponse<any>) => {
-            const status = response.status;
-            if (status === 200 || status === 201) {
-              this.alertMessage = 'Colaborador criado com sucesso!';
-              this.alertType = 'success';
-            } else {
-              this.alertMessage = `Operação realizada com status ${status}.`;
-              this.alertType = 'success';
-            }
-            // Limpa a mensagem após 4 segundos
-            setTimeout(() => {
-              this.alertMessage = '';
-            }, 4000);
-          },
-          error: (error) => {
-            const errorMsg = error.error && error.error.error
-              ? error.error.error
-              : `Erro ${error.status}: Ocorreu um problema.`;
-            this.alertMessage = errorMsg;
-            this.alertType = 'error';
-            // Limpa a mensagem após 4 segundos
-            setTimeout(() => {
-              this.alertMessage = '';
-            }, 4000);
-          }
-        });
+      const formValues = this.createForm.value;
+
+      const payload = {
+        passwordsManager: formValues.passwordsManager,
+        employeeDto: {
+          name: formValues.name,
+          surname: formValues.surname,
+          salary: formValues.salary,
+          position: formValues.position,
+          email: formValues.email,
+          cpf: formValues.cpf,
+          passwords: formValues.passwords,
+          role: formValues.role
+        }
+      };
+
+      this.service.postData('/employee/adm/register', payload).subscribe({
+        next: (response: HttpResponse<any>) => {
+          this.alertMessage = 'Colaborador criado com sucesso!';
+          this.alertType = 'success';
+
+          // Reseta o formulário após sucesso
+          this.createForm.reset();
+
+          setTimeout(() => {
+            this.alertMessage = '';
+            this.router.navigate(['/administracao']);
+          }, 4000);
+        },
+        error: (error) => {
+          this.alertMessage = error.error?.error || `Erro ${error.status}: Ocorreu um problema.`;
+          this.alertType = 'error';
+
+          setTimeout(() => {
+            this.alertMessage = '';
+          }, 4000);
+        }
+      });
     }
   }
+
 }

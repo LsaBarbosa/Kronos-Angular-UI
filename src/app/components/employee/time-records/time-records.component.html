@@ -12,13 +12,25 @@
     </ul>
   </div>
 
-  <div class="form-group">
-    <label for="referenceMinutes">Minutos de Referência:</label>
-    <input class="time" type="time" id="referenceMinutes" [(ngModel)]="referenceMinutes" />
+  <!-- Campo para Reference Minutes no formato HH:mm -->
+  <div class="balance">
+<div>
+    <label class="balance-time" for="referenceTime">Saldo de Horas:</label>
+</div>
+    <input class="time" type="time" id="referenceTime" [(ngModel)]="referenceTime" />
+
   </div>
 
   <div class="button">
-    <button mat-button (click)="searchReport()">Buscar Relatório</button>
+    <button mat-button (click)="generateCompleteReport()">Gerar Relatório</button>
+  </div>
+
+  <!-- Exibição do saldo -->
+  <div *ngIf="balance !== null" class="balance-result">
+
+    <p [ngClass]="{'positive-balance': isPositiveBalance(), 'negative-balance': !isPositiveBalance()}">
+      Horas acumuladas: <strong>{{ balance }}</strong>
+    </p>
   </div>
 
   <ng-container *ngIf="loading">
@@ -29,7 +41,6 @@
   </div>
 
   <div *ngIf="paginatedData.length > 0">
-    <h3>Resultados do Relatório</h3>
     <table>
       <thead>
       <tr>

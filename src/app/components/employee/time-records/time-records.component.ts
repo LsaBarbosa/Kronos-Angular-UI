@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../../services/api.service';
-import { DatePipe, NgForOf, NgIf } from '@angular/common';
+import {DatePipe, NgClass, NgForOf, NgIf} from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatCalendar } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatButton } from '@angular/material/button';
 import {ButtonComponent} from '../../common/button/button-menu/button.component';
+
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
 interface ReportContent {
   id: number;
@@ -38,18 +41,24 @@ interface ReportResponse {
     MatNativeDateModule,
     MatCalendar,
     MatButton,
-    ButtonComponent
+    ButtonComponent,
+    NgClass
   ],
   templateUrl: './time-records.component.html',
   styleUrls: ['./time-records.component.css']
 })
 export class TimeRecordsComponent implements OnInit {
   selectedDates: Date[] = [];
-  referenceMinutes: string = '08:00';
   errorMessage: string = '';
   loading: boolean = false;
   reportData: ReportResponse | null = null;
   paginatedData: ReportContent[] = [];
+  referenceTime: string = '07:30'; // Formato HH:mm
+  balance: string | null = null; // Para armazenar o saldo retornado
+
+  employeeName: string = '';
+  employeeSurname: string = '';
+  employeeCpf: string = '';
 
   // Configuração da paginação
   currentPage: number = 0;
@@ -117,9 +126,46 @@ export class TimeRecordsComponent implements OnInit {
   /**
    * Chama o endpoint /time/search/report e atualiza os dados paginados
    */
-  searchReport(): void {
+
+  /**
+   * Converte o tempo no formato HH:mm para minutos
+   */
+  convertTimeToMinutes(time: string): number {
+    if (!time) return 0; // Se não houver valor, retorna 0
+
+    const [hours, minutes] = time.split(':').map(num => parseInt(num, 10));
+    return (hours * 60) + minutes;
+  }
+
+  /**
+   * Busca os dados do colaborador pelo token
+   */
+  fetchEmployeeData(callback: () => void): void {
+    this.apiService.getData('/employee/search/id').subscribe({
+      next: (employeeData) => {
+        this.employeeName = employeeData.name;
+        this.employeeSurname = employeeData.surname;
+        this.employeeCpf = employeeData.cpf;
+        callback(); // Chama a função de geração de PDF após buscar os dados
+      },
+      error: (err) => {
+        console.error(err);
+        this.errorMessage = 'Erro ao carregar os dados do colaborador.';
+      }
+    });
+  }
+
+  /**
+   * Gera um PDF com o relatório de horas e saldo juntos
+   */
+  generateCompleteReport(): void {
     if (this.selectedDates.length === 0) {
       this.errorMessage = 'Selecione pelo menos uma data.';
+      return;
+    }
+
+    if (!this.referenceTime.trim()) {
+      this.errorMessage = 'Informe os minutos de referência.';
       return;
     }
 
@@ -137,25 +183,96 @@ export class TimeRecordsComponent implements OnInit {
     const startDateStr = formatDate(startDate);
     const endDateStr = formatDate(endDate);
 
+    // Converte o time HH:mm para minutos
+    const referenceMinutes = this.convertTimeToMinutes(this.referenceTime);
+
     this.loading = true;
     this.errorMessage = '';
-    this.reportData = null;
 
-    const endpoint = `/time/search/report?startDate=${startDateStr}&endDate=${endDateStr}&referenceMinutes=${this.referenceMinutes}`;
+    // 🔹 Passo 1: Buscar os dados do colaborador antes de gerar o PDF
+    this.fetchEmployeeData(() => {
+      // 🔹 Passo 2: Buscar o relatório de horas
+      const reportEndpoint = `/time/search/report?startDate=${startDateStr}&endDate=${endDateStr}&referenceMinutes=${referenceMinutes}`;
 
-    this.apiService.getData(endpoint).subscribe({
-      next: (data: ReportResponse) => {
-        this.reportData = data;
-        this.currentPage = 0; // Reinicia a paginação ao buscar novos dados
-        this.updatePaginatedData(); // Atualiza os dados da primeira página
-        this.loading = false;
-      },
-      error: (err) => {
-        console.error(err);
-        this.errorMessage = 'Erro ao carregar os dados.';
-        this.loading = false;
-      }
+      this.apiService.getData(reportEndpoint).subscribe({
+        next: (reportData) => {
+          this.reportData = reportData;
+          this.currentPage = 0;
+          this.updatePaginatedData();
+
+          // 🔹 Passo 3: Buscar o saldo de horas
+          const balanceEndpoint = `/time/search/balance?startDate=${startDateStr}&endDate=${endDateStr}&referenceMinutes=${referenceMinutes}`;
+
+          this.apiService.getData(balanceEndpoint).subscribe({
+            next: (balanceData) => {
+              this.balance = balanceData.balance;
+              this.loading = false;
+
+              // 🔹 Passo 4: Gerar o PDF com todas as informações
+              this.generatePdfDocument();
+            },
+            error: (err) => {
+              console.error(err);
+              this.errorMessage = 'Erro ao carregar o saldo.';
+              this.loading = false;
+            }
+          });
+
+        },
+        error: (err) => {
+          console.error(err);
+          this.errorMessage = 'Erro ao carregar o relatório de horas.';
+          this.loading = false;
+        }
+      });
     });
+  }
+
+  /**
+   * Cria o documento PDF com todas as informações
+   */
+  generatePdfDocument(): void {
+    const doc = new jsPDF();
+
+    // 🔹 Cabeçalho com os dados do colaborador
+    doc.text(`Colaborador: ${this.employeeName} ${this.employeeSurname}`, 10, 10);
+    doc.text(`CPF: ${this.employeeCpf}`, 10, 20);
+
+    // 🔹 Relatório de Horas
+    if (this.reportData) {
+      doc.text(`Relatório de Horas`, 10, 30);
+      autoTable(doc, {
+        head: [['Início', 'Término', 'Jornada']],
+        body: this.reportData.content.map(item => [
+          `${item.startWorkDate} ${item.startWorkTime}`,
+          `${item.endWorkDate} ${item.endWorkTime}`,
+          item.timeWorked
+        ]),
+        startY: 40
+      });
+    }
+
+    // 🔹 Saldo de Horas
+    if (this.balance !== null) {
+      doc.text(`Saldo de Horas`, 10, doc.internal.pageSize.height - 40);
+      doc.text(`Horas Totais: ${this.balance}`, 10, doc.internal.pageSize.height - 30);
+    }
+
+    doc.save(`relatorio_${this.employeeName}_${this.employeeSurname}.pdf`);
+  }
+  /**
+   * Define se o saldo é positivo ou negativo para colorir corretamente
+   */
+  isPositiveBalance(): boolean {
+    if (!this.balance) return false;
+
+    // Extrai as horas e minutos do saldo retornado (ex: "157:43")
+    const [hours, minutes] = this.balance.split(':').map(num => parseInt(num, 10));
+
+    // Converte para minutos totais
+    const totalMinutes = (hours * 60) + minutes;
+
+    return totalMinutes >= 0; // Se for positivo, retorna true
   }
 
   /**
