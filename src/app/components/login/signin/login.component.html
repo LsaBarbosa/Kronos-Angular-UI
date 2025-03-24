@@ -14,11 +14,7 @@
       <div class="senha-container">
         <input id="password" [type]="showPassword ? 'text' : 'password'" formControlName="password"
                placeholder="Digite sua senha">
-        <button type="button" class="toggle-btn" (click)="toggleShowPassword()" aria-label="Mostrar ou ocultar senha">
-    <span class="material-icons toggle-icon">
-         {{ showPassword ? 'visibility' : 'visibility_off' }}
-    </span>
-        </button>
+        <app-toggle-password [showPassword]="showPassword" (toggle)="showPassword = $event"></app-toggle-password>
       </div>
 
       <small *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid">

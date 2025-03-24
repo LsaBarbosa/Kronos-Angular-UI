@@ -44,26 +44,6 @@ input[type="password"] {
   padding-right: 2.5rem; /* Espaço para o botão de alternar senha */
   text-align: center; /* Centraliza o texto dentro do campo */
 }
-.toggle-btn {
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 1.5rem;
-  transition: transform 0.3s ease-in-out;
-}
-
-.toggle-icon {
-  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
-}
-
-.toggle-icon:hover {
-  transform: scale(1.1); /* Aumenta um pouco ao passar o mouse */
-}
-
 /* Mensagens de erro */
 small {
   display: block;

@@ -8,6 +8,7 @@ import {AuthFormComponent} from '../../common/auth-form/auth-form.component';
 import {ErrorMessageComponent} from '../../common/error-message/error-message.component';
 import {FieldLabelPipe} from '../../../pipe/field-label.pipe';
 import {ButtonSubmitComponent} from "../../common/button/button-submit/button-submit.component";
+import {TogglePasswordComponent} from '../../common/toggle-password/toggle-password.component';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +18,9 @@ import {ButtonSubmitComponent} from "../../common/button/button-submit/button-su
     AuthFormComponent, // Componente de formulário customizado
     ErrorMessageComponent, // Componente para exibir mensagens de erro
     FieldLabelPipe, // Pipe para formatar rótulos de erro
-    ButtonSubmitComponent // Componente para o botão de envio
+    ButtonSubmitComponent,
+    TogglePasswordComponent,
+    // Componente para o botão de envio
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
@@ -48,13 +51,6 @@ export class LoginComponent extends BaseAuthFormComponent implements OnInit {
     });
 
     this.formGroup = this.loginForm; // Atribui o formulário à propriedade da classe base
-  }
-
-  /**
-   * Alterna a visibilidade da senha no input.
-   */
-  toggleShowPassword(): void {
-    this.showPassword = !this.showPassword;
   }
 
   /**
