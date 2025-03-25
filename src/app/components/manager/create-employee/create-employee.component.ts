@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {ButtonComponent} from '../../common/button/button-menu/button.component';
 import {AuthFormComponent} from '../../common/auth-form/auth-form.component';
 import {NgIf} from '@angular/common';
@@ -10,6 +10,7 @@ import {FieldLabelPipe} from '../../../pipe/field-label.pipe';
 import {NgxCurrencyDirective} from 'ngx-currency';
 import {ErrorMessageComponent} from '../../common/error-message/error-message.component';
 import {HttpResponse} from '@angular/common/http';
+import {TogglePasswordComponent} from '../../common/toggle-password/toggle-password.component';
 
 @Component({
   selector: 'app-create-employee',
@@ -20,7 +21,8 @@ import {HttpResponse} from '@angular/common/http';
     ReactiveFormsModule,
     FieldLabelPipe,
     NgxCurrencyDirective,
-    ErrorMessageComponent
+    ErrorMessageComponent,
+    TogglePasswordComponent
   ],
   templateUrl: './create-employee.component.html',
   styleUrl: './create-employee.component.css'
@@ -37,7 +39,9 @@ export class CreateEmployeeComponent extends BaseAuthFormComponent implements On
 
   constructor(private formBuilder: FormBuilder,
               private service: ApiService,
-              private router: Router) {
+              private router: Router,
+              private cdr: ChangeDetectorRef // 🔹 Injeta ChangeDetectorRef para forçar atualização da view
+  ) {
     super();
   }
 
@@ -75,14 +79,6 @@ export class CreateEmployeeComponent extends BaseAuthFormComponent implements On
     this.formGroup = this.createForm;
   }
 
-  toggleShowPassword(): void {
-    this.showPasswordsManager = !this.showPasswordsManager;
-  }
-
-  toggleShowPasswords(): void {
-    this.showPasswords = !this.showPasswords;
-  }
-
   onSubmit() {
     if (this.createForm.valid) {
       const formValues = this.createForm.value;
@@ -105,21 +101,25 @@ export class CreateEmployeeComponent extends BaseAuthFormComponent implements On
         next: (response: HttpResponse<any>) => {
           this.alertMessage = 'Colaborador criado com sucesso!';
           this.alertType = 'success';
+          this.cdr.detectChanges(); // 🔹 Garante que a UI seja atualizada
 
           // Reseta o formulário após sucesso
           this.createForm.reset();
 
           setTimeout(() => {
             this.alertMessage = '';
+            this.cdr.detectChanges(); // 🔹 Garante atualização da UI após remover a mensagem
             this.router.navigate(['/administracao']);
           }, 4000);
         },
         error: (error) => {
           this.alertMessage = error.error?.error || `Erro ${error.status}: Ocorreu um problema.`;
           this.alertType = 'error';
+          this.cdr.detectChanges(); // 🔹 Garante que a mensagem apareça
 
           setTimeout(() => {
             this.alertMessage = '';
+            this.cdr.detectChanges(); // 🔹 Atualiza a UI após esconder a mensagem
           }, 4000);
         }
       });

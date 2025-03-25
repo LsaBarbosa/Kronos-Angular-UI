@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {NgClass, NgIf} from '@angular/common';
 
 @Component({
@@ -8,7 +8,9 @@ import {NgClass, NgIf} from '@angular/common';
     NgIf
   ],
   templateUrl: './error-message.component.html',
-  styleUrl: './error-message.component.css'
+  styleUrl: './error-message.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush // 🔹 Melhora performance e força atualização
+
 })
 export class ErrorMessageComponent {
   @Input() message: string= '';

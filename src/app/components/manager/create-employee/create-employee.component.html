@@ -84,10 +84,9 @@
       <label for="passwords">Senha Provisória :</label>
       <div class="senha-container">
         <input id="passwords" type="password" [type]="showPasswords ? 'text' : 'password'" formControlName="passwords"
-               placeholder="Senha do Adminsitrador">
-        <button type="button" class="toggle-btn" (click)="toggleShowPasswords()">
-          {{ showPasswords ? 'Ocultar' : 'Mostrar' }}
-        </button>
+               placeholder="Digite sua senha">
+        <app-toggle-password [showPassword]="showPasswords" (toggle)="showPasswords = $event"></app-toggle-password>
+
       </div>
       <small *ngIf="createForm.get('passwords')?.touched && createForm.get('passwords')?.invalid">
         {{ getErrorMessage('passwords') | fieldLabel }}
@@ -97,10 +96,9 @@
       <label for="passwordsManager">Senha do Administrador:</label>
       <div class="senha-container">
         <input id="passwordsManager" type="password" [type]="showPasswordsManager ? 'text' : 'password'" formControlName="passwordsManager"
-               placeholder="Digite sua senha">
-        <button type="button" class="toggle-btn" (click)="toggleShowPassword()">
-          {{ showPasswordsManager ? 'Ocultar' : 'Mostrar' }}
-        </button>
+               placeholder="Senha do Adminsitrador">
+        <app-toggle-password [showPassword]="showPasswordsManager" (toggle)="showPasswordsManager = $event"></app-toggle-password>
+
       </div>
       <small *ngIf="createForm.get('passwordsManager')?.touched && createForm.get('passwordsManager')?.invalid">
         {{ getErrorMessage('passwordsManager') | fieldLabel }} </small>

@@ -1,21 +1,12 @@
 <app-auth-form [title]="'Alterar E-mail'" [formGroup]="updateEmail" (submitEvent)="onSubmit()">
   <div form-fields>
     <div>
-      <label for="email">E-mail:</label>
+      <label for="newEmail">E-mail:</label>
       <div class="email-container">
-        <input id="email" type="email" formControlName="email" placeholder="Digite seu email">
+        <input id="newEmail" type="email" formControlName="newEmail" placeholder="Digite seu email">
       </div>
-      <small *ngIf="updateEmail.get('email')?.touched && updateEmail.get('email')?.invalid">
-        {{ getErrorMessage('email') }}
-      </small>
-    </div>
-    <div>
-      <label for="confirmEmail">Confirmação do E-mail:</label>
-      <div class="email-container">
-        <input id="confirmEmail" type="email" formControlName="confirmEmail" placeholder="confirme seu email">
-      </div>
-      <small *ngIf="updateEmail.get('confirmEmail')?.touched && updateEmail.get('confirmEmail')?.invalid">
-        {{ getErrorMessage('confirmEmail')| fieldLabel}}
+      <small *ngIf="updateEmail.get('newEmail')?.touched && updateEmail.get('newEmail')?.invalid">
+        {{ getErrorMessage('newEmail')|fieldLabel }}
       </small>
     </div>
   </div>

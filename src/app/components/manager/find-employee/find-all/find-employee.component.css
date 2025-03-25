@@ -205,8 +205,11 @@ th, td {
   .filters {
     flex-direction: column;
     gap: 8px;
+    padding-bottom: 0.5rem;
   }
-
+label{
+  padding-bottom: 0.3rem;
+}
   .filters input {
     width: 90%;
     text-align: center;
@@ -229,4 +232,28 @@ th, td {
     font-size: 0.7rem;
     padding: 0.3rem;
   }
+  /* Ajusta o layout para colocar o botão abaixo do ID */
+  .id-container {
+    display: flex;
+    flex-direction: column; /* 🔹 Organiza o ID e o botão em coluna */
+    align-items: center; /* 🔹 Centraliza os elementos */
+    gap: 5px; /* 🔹 Espaço entre o ID e o botão */
+  }
+
+  /* Ajuste para o botão de copiar */
+  .copy-btn {
+    position: static; /* 🔹 Remove o posicionamento absoluto */
+    margin-top: 5px; /* 🔹 Dá um pequeno espaçamento abaixo do ID */
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    color: var(--white-green);
+    transition: color 0.3s ease;
+  }
+
+  .copy-btn:hover {
+    color: var(--green);
+  }
+
 }
