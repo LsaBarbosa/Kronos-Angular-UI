@@ -24,7 +24,6 @@
 
   <!-- Exibe os dados do funcionário quando a busca foi bem-sucedida e não está no modo de edição -->
   <div *ngIf="employee && !loading && !errorMessage && !isEditing">
-    <h3>Dados do Funcionário</h3>
     <p><strong>ID:</strong> {{ employee.id }}</p>
     <p><strong>Nome:</strong> {{ employee.name }}</p>
     <p><strong>Sobrenome:</strong> {{ employee.surname }}</p>
