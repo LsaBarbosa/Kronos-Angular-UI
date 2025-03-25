@@ -1,0 +1,13 @@
+<div class="input-container">
+  <label [for]="fieldName">{{ label }}</label>
+  <input
+    [id]="fieldName"
+    [type]="type"
+    [placeholder]="placeholder"
+    [formControlName]="fieldName"
+    class="input-field"
+  />
+  <small *ngIf="formGroup.get(fieldName)?.touched && formGroup.get(fieldName)?.invalid">
+    {{ getErrorMessage(fieldName) }}
+  </small>
+</div>

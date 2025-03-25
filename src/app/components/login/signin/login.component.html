@@ -14,20 +14,21 @@
       <div class="senha-container">
         <input id="password" [type]="showPassword ? 'text' : 'password'" formControlName="password"
                placeholder="Digite sua senha">
-        <button type="button" class="toggle-btn" (click)="toggleShowPassword()">
-          {{ showPassword ? 'Ocultar' : 'Mostrar' }}
-        </button>
+        <app-toggle-password [showPassword]="showPassword" (toggle)="showPassword = $event"></app-toggle-password>
       </div>
+
       <small *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid">
-        {{ getErrorMessage('password') | fieldLabel }} </small>
+        {{ getErrorMessage('password') | fieldLabel }}
+      </small>
     </div>
   </div>
   <div form-buttons>
-      <app-button-submit label="Entrar" type="submit" [disabled]="formGroup.invalid"></app-button-submit>
+    <app-button-submit label="Entrar" type="submit" [disabled]="formGroup.invalid"></app-button-submit>
     <div class="btn">
       <a class="link" (click)="goToResetPassword()">Recuperar senha</a>
     </div>
   </div>
 </app-auth-form>
-<!-- O componente de alerta é renderizado sobre os elementos -->
+
+<!-- Mensagem de erro -->
 <app-error-message [message]="alertMessage" [type]="alertType"></app-error-message>

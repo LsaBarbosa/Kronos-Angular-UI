@@ -8,99 +8,85 @@ import {AuthFormComponent} from '../../common/auth-form/auth-form.component';
 import {ErrorMessageComponent} from '../../common/error-message/error-message.component';
 import {FieldLabelPipe} from '../../../pipe/field-label.pipe';
 import {ButtonSubmitComponent} from "../../common/button/button-submit/button-submit.component";
+import {TogglePasswordComponent} from '../../common/toggle-password/toggle-password.component';
 
 @Component({
   selector: 'app-login',
   imports: [
-    ReactiveFormsModule,
-    NgIf,
-    AuthFormComponent,
-    ErrorMessageComponent,
-    FieldLabelPipe,
-    ButtonSubmitComponent
-
+    ReactiveFormsModule, // Permite o uso de formulários reativos
+    NgIf, // Diretiva para condicionar exibição de elementos no HTML
+    AuthFormComponent, // Componente de formulário customizado
+    ErrorMessageComponent, // Componente para exibir mensagens de erro
+    FieldLabelPipe, // Pipe para formatar rótulos de erro
+    ButtonSubmitComponent,
+    TogglePasswordComponent,
+    // Componente para o botão de envio
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
 export class LoginComponent extends BaseAuthFormComponent implements OnInit {
-  // Utilizamos a propriedade 'formGroup' da classe base para o formulário de login
+  loginForm!: FormGroup; // Declaração do formulário
+  showPassword: boolean = false; // Define se a senha será exibida em texto ou ocultada
 
-  loginForm!: FormGroup;
-  showPassword: boolean = false;
-
-  alertMessage: string = '';
-  alertType: 'success' | 'error' = 'success';
+  alertMessage: string = ''; // Mensagem de alerta exibida ao usuário
+  alertType: 'success' | 'error' = 'success'; // Tipo do alerta: sucesso ou erro
 
   constructor(private formBuilder: FormBuilder,
               private service: ApiService,
               private router: Router) {
-    super();
+    super(); // Chama o construtor da classe base BaseAuthFormComponent
   }
 
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
       cpf: ['', [
-        Validators.required,
-        Validators.pattern('^[0-9]{11}$')
+        Validators.required, // CPF é obrigatório
+        Validators.pattern('^[0-9]{11}$') // Aceita apenas números e exatamente 11 dígitos
       ]],
       password: ['', [
-        Validators.required,
-        Validators.minLength(8),
-      ]],
+        Validators.required, // Senha é obrigatória
+        Validators.minLength(8) // Mínimo de 8 caracteres
+      ]]
     });
-    // Atribui o formulário criado à propriedade da classe base para reutilizar getErrorMessage
-    this.formGroup = this.loginForm;
+
+    this.formGroup = this.loginForm; // Atribui o formulário à propriedade da classe base
   }
 
-  toggleShowPassword(): void {
-    this.showPassword = !this.showPassword;
-  }
-
+  /**
+   * Método chamado quando o formulário é enviado.
+   */
   onSubmit() {
-    // Verifica se o formulário é válido
     if (this.loginForm.valid) {
-      // Obtém os dados do formulário para envio na requisição
-      const payload = this.loginForm.value;
+      const payload = this.loginForm.value; // Captura os valores do formulário
 
-      // Realiza a chamada de login passando o payload e observando a resposta completa
       this.service.login('/authentication/login', payload, {observe: 'response'})
         .subscribe({
-          // Em caso de sucesso
           next: (response: any) => {
-            const token = response.body && response.body.token;
+            const token = response.body?.token;
             if (token) {
-              // Supondo que a resposta contenha a propriedade "token"
-              // Armazena o token no localStorage para uso posterior
-              localStorage.setItem('token', response.body.token);
-              // Redireciona o usuário para o componente "/home"
-              this.router.navigate(['/home']);
-            }else {
+              localStorage.setItem('token', token); // Armazena o token no localStorage
+              this.router.navigate(['/home']); // Redireciona para a home
+            } else {
               this.alertMessage = 'Token não encontrado na resposta.';
               this.alertType = 'error';
               setTimeout(() => { this.alertMessage = ''; }, 4000);
             }
           },
-          // Em caso de erro, utiliza a estrutura solicitada
           error: (error) => {
-            // Verifica se o payload de erro possui uma mensagem e a utiliza; senão, utiliza uma mensagem padrão
-            // Atualiza a mensagem de alerta para exibição e define o tipo como 'error'
-            this.alertMessage = error.error && error.error.error
-              ? error.error.error
-              : `Erro ${error.status}: Ocorreu um problema.`;
+            this.alertMessage = error.error?.error || `Erro ${error.status}: Ocorreu um problema.`;
             this.alertType = 'error';
-            // Limpa a mensagem após 4 segundos para que o alerta desapareça
-            setTimeout(() => {
-              this.alertMessage = '';
-            }, 4000);
+            setTimeout(() => { this.alertMessage = ''; }, 4000);
           }
         });
     } else {
-      // Se o formulário não estiver válido, marca todos os campos como tocados para disparar as mensagens de erro de validação
-      this.loginForm.markAllAsTouched();
+      this.loginForm.markAllAsTouched(); // Marca todos os campos como tocados para exibir mensagens de erro
     }
   }
 
+  /**
+   * Redireciona o usuário para a tela de recuperação de senha.
+   */
   goToResetPassword() {
     this.router.navigate(['/resetar-senha']);
   }
