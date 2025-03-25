@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {ButtonComponent} from '../../../common/button/button-menu/button.component';
 import {AuthFormComponent} from '../../../common/auth-form/auth-form.component';
 import {ErrorMessageComponent} from '../../../common/error-message/error-message.component';
@@ -12,7 +12,7 @@ import {ButtonSubmitComponent} from "../../../common/button/button-submit/button
 import {FieldLabelPipe} from '../../../../pipe/field-label.pipe';
 
 @Component({
-    selector: 'app-update-email',
+  selector: 'app-update-email',
   imports: [
     ButtonComponent,
     AuthFormComponent,
@@ -22,72 +22,73 @@ import {FieldLabelPipe} from '../../../../pipe/field-label.pipe';
     ButtonSubmitComponent,
     FieldLabelPipe
   ],
-    templateUrl: './update-email.component.html',
-    styleUrl: './update-email.component.css'
+  templateUrl: './update-email.component.html',
+  styleUrl: './update-email.component.css',
+
 })
 export class UpdateEmailComponent extends BaseAuthFormComponent implements OnInit {
-    updateEmail!: FormGroup;
+  updateEmail!: FormGroup;
 
-    alertMessage: string = '';
-    alertType: 'success' | 'error' = 'success';
+  alertMessage: string = '';
+  alertType: 'success' | 'error' = 'success';
 
-    constructor(
-        private formBuilder: FormBuilder,
-        private router: Router,
-        private service: ApiService
-    ) {
-        super()
-    }
+  constructor(
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private service: ApiService,
+    private cdr: ChangeDetectorRef // 🔹 Injeta o ChangeDetectorRef para forçar atualização da view
 
-    ngOnInit() {
-        this.updateEmail = this.formBuilder.group({
-            email: ['', [Validators.required, Validators.email]],
-            confirmEmail: ['', [Validators.required, Validators.email]],
-        }, { validators: this.emailMatchValidator });
-        this.formGroup = this.updateEmail;
-    }
+  ) {
+    super()
+  }
 
-  emailMatchValidator(form: FormGroup) {
-    const email = form.get('email')?.value;
-    const confirmEmail = form.get('confirmEmail')?.value;
-    return email === confirmEmail ? null : { emailMismatch: true };
+  ngOnInit() {
+    this.updateEmail = this.formBuilder.group({
+      newEmail: ['', [Validators.required, Validators.email]],
+    });
+    this.formGroup = this.updateEmail;
   }
 
 
   onSubmit() {
-        if (this.updateEmail.valid) {
-            const payload = this.updateEmail.value;
-            this.service.postData('/employee/email/update', payload)
-                .subscribe({
-                    next: (response: HttpResponse<any>) => {
-                        const status = response.status;
-                        // Mapeamento de status de sucesso
-                        if (status === 200 || status === 201) {
-                            this.alertMessage = 'E-mail alterado com sucesso!';
-                            this.alertType = 'success';
-                        } else {
-                            this.alertMessage = `Operação realizada com status ${status}.`;
-                            this.alertType = 'success';
-                        }
-                      setTimeout(() => { this.alertMessage = ''; }, 4000);
-                      this.router.navigate(['/home']);
-                    },
-                    error: (error) => {
-                        // Mapeamento de status de erro
-                        switch (error.status) {
-                            case 400:
-                                this.alertMessage = 'E-mail e Confirmação de E-mail não são iguais';
-                                break;
-                            case 500:
-                                this.alertMessage = 'Erro 500: Erro interno no servidor.';
-                                break;
-                            default:
-                                this.alertMessage = `Erro ${error.status}: Ocorreu um problema.`;
-                        }
-                      setTimeout(() => { this.alertMessage = ''; }, 4000);
-                      this.alertType = 'error';
-                    }
-                });
-        }
+    if (this.updateEmail.valid) {
+      const payload = this.updateEmail.value;
+      this.service.updateData('/employee/email/update', payload)
+        .subscribe({
+          next: (response: HttpResponse<any>) => {
+            this.alertMessage = 'E-mail alterado com sucesso!';
+            this.alertType = 'success';
+
+            this.cdr.detectChanges(); // 🔹 Força o Angular a atualizar a view
+
+            setTimeout(() => {
+              this.alertMessage = '';
+              this.cdr.detectChanges(); // 🔹 Garante que a UI é atualizada ao apagar a mensagem
+              this.router.navigate(['/home']);
+            }, 4000);
+          },
+          error: (error) => {
+            // Mapeamento de status de erro
+            switch (error.status) {
+              case 400:
+                this.alertMessage = 'E-mail e Confirmação de E-mail não são iguais';
+                break;
+              case 500:
+                this.alertMessage = 'Erro 500: Erro interno no servidor.';
+                break;
+              default:
+                this.alertMessage = `Erro ${error.status}: Ocorreu um problema.`;
+            }
+            this.alertType = 'error';
+
+            this.cdr.detectChanges(); // 🔹 Garante que a mensagem apareça
+
+            setTimeout(() => {
+              this.alertMessage = '';
+              this.cdr.detectChanges(); // 🔹 Garante que a UI é atualizada ao apagar a mensagem
+            }, 4000);
+          }
+        });
     }
+  }
 }

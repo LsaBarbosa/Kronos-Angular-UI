@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {ButtonComponent} from '../../../common/button/button-menu/button.component';
 import {AuthFormComponent} from "../../../common/auth-form/auth-form.component";
 import {ButtonSubmitComponent} from "../../../common/button/button-submit/button-submit.component";
@@ -10,6 +10,7 @@ import {ApiService} from '../../../../services/api.service';
 import {HttpResponse} from '@angular/common/http';
 import {BaseAuthFormComponent} from '../../../common/BaseAuthFormComponent';
 import {FieldLabelPipe} from '../../../../pipe/field-label.pipe';
+import {TogglePasswordComponent} from '../../../common/toggle-password/toggle-password.component';
 
 @Component({
   selector: 'app-update-password',
@@ -20,7 +21,8 @@ import {FieldLabelPipe} from '../../../../pipe/field-label.pipe';
     ErrorMessageComponent,
     NgIf,
     ReactiveFormsModule,
-    FieldLabelPipe
+    FieldLabelPipe,
+    TogglePasswordComponent
   ],
   templateUrl: './update-password.component.html',
   styleUrl: './update-password.component.css'
@@ -32,27 +34,18 @@ export class UpdatePasswordComponent extends BaseAuthFormComponent implements On
   showNewPassword: boolean = false;
   showConfirmPassword: boolean = false;
 
+
   alertMessage: string = '';
   alertType: 'success' | 'error' = 'success';
 
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
-    private service: ApiService
-  ) {
+    private service: ApiService,
+  private cdr: ChangeDetectorRef // 🔹 Força a detecção de mudanças
+
+) {
     super()
-  }
-
-  toggleShowOldPassword(): void {
-    this.showOldPassword = !this.showOldPassword;
-  }
-
-  toggleShowNewPassword(): void {
-    this.showNewPassword = !this.showNewPassword;
-  }
-
-  toggleShowConfirmPassword(): void {
-    this.showConfirmPassword = !this.showConfirmPassword;
   }
 
   ngOnInit() {
@@ -70,27 +63,22 @@ export class UpdatePasswordComponent extends BaseAuthFormComponent implements On
       this.service.updateData('/employee/password/update', payload)
         .subscribe({
           next: (response: HttpResponse<any>) => {
-            const status = response.status;
-            // Mapeamento de status de sucesso
-            if (status === 200 || status === 201) {
-              this.alertMessage = 'Password alterado com sucesso!';
-              this.alertType = 'success';
-            } else {
-              this.alertMessage = `Operação realizada com status ${status}.`;
-              this.alertType = 'success';
-            }
+            this.alertMessage = 'Senha alterada com sucesso!';
+            this.alertType = 'success';
+
+            this.cdr.detectChanges(); // 🔹 Força o Angular a atualizar a view
+
             setTimeout(() => {
               this.alertMessage = '';
+              this.router.navigate(['/home']); // 🔹 Agora só navega APÓS a mensagem ser exibida
             }, 4000);
-            this.router.navigate(['/home']);
           },
           error: (error) => {
-            const errorMsg = error.error && error.error.error
-              ? error.error.error
-              : `Erro ${error.status}: Ocorreu um problema.`;
-            this.alertMessage = errorMsg;
+            this.alertMessage = error.error?.error || `Erro ${error.status}: Ocorreu um problema.`;
             this.alertType = 'error';
-            // Limpa a mensagem após 4 segundos
+
+            this.cdr.detectChanges(); // 🔹 Garante que a UI atualize a mensagem
+
             setTimeout(() => {
               this.alertMessage = '';
             }, 4000);

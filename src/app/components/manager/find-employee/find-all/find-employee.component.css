@@ -75,10 +75,32 @@ th, td {
   color: var(--white-green);
   line-height: 1.2rem;
 }
+
+.id-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px; /* Espaço entre o ID e o botão */
+}
+
 .clickable-id {
   cursor: pointer;
-
+  font-style: italic;
 }
+
+.copy-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  color: var(--white-green);
+  transition: color 0.3s ease;
+}
+
+.copy-btn:hover {
+  color: var(--green);
+}
+
 
 .box-bnt{
   display: flex;
@@ -123,4 +145,115 @@ th, td {
   display: flex;
   flex-direction: row;
   justify-content: center;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+
+  h2 {
+    font-size: 1.3rem;
+  }
+
+  .filters {
+    flex-direction: column; /* 🔹 Empilha os filtros em telas menores */
+    align-items: center;
+  }
+
+  .filters input {
+    width: 100%;
+    max-width: 200px;
+  }
+
+  table, th, td {
+    font-size: 0.85rem;
+  }
+
+  .btn {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .box-bnt {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .pagination-text {
+    font-size: 0.85rem;
+  }
+
+  .btn-pagination-next,
+  .btn-pagination-prev {
+    font-size: 0.75rem;
+    padding: 0.4rem;
+  }
+}
+
+/* 📱 Responsividade para Smartphones Pequenos (até 480px) */
+@media (max-width: 480px) {
+  .container {
+    padding: 0.5rem;
+  }
+
+  h2 {
+    font-size: 1.2rem;
+  }
+
+  .filters {
+    flex-direction: column;
+    gap: 8px;
+    padding-bottom: 0.5rem;
+  }
+label{
+  padding-bottom: 0.3rem;
+}
+  .filters input {
+    width: 90%;
+    text-align: center;
+  }
+
+  table, th, td {
+    font-size: 0.75rem;
+  }
+
+  .pagination {
+    padding-top: 0.5rem;
+  }
+
+  .btn {
+    flex-direction: row;
+  }
+
+  .btn-pagination-next,
+  .btn-pagination-prev {
+    font-size: 0.7rem;
+    padding: 0.3rem;
+  }
+  /* Ajusta o layout para colocar o botão abaixo do ID */
+  .id-container {
+    display: flex;
+    flex-direction: column; /* 🔹 Organiza o ID e o botão em coluna */
+    align-items: center; /* 🔹 Centraliza os elementos */
+    gap: 5px; /* 🔹 Espaço entre o ID e o botão */
+  }
+
+  /* Ajuste para o botão de copiar */
+  .copy-btn {
+    position: static; /* 🔹 Remove o posicionamento absoluto */
+    margin-top: 5px; /* 🔹 Dá um pequeno espaçamento abaixo do ID */
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    color: var(--white-green);
+    transition: color 0.3s ease;
+  }
+
+  .copy-btn:hover {
+    color: var(--green);
+  }
+
 }

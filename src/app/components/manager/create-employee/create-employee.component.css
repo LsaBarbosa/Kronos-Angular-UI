@@ -64,28 +64,49 @@ input#salary {
   text-align: center !important;
 }
 
-
-/* Ajuste o input na senha-container para acomodar o botão toggle */
-.senha-container input {
+.senha-container {
+  position: relative;
+  display: flex;
+  align-items: center;
   width: 100%;
+  max-width: 400px; /* 🔹 Evita que o campo fique muito grande */
+  margin: 0 auto;
 }
 
-/* Botão de toggle (exibir/ocultar senha) */
+/* Ajuste no input para garantir espaçamento suficiente para o botão */
+.senha-container input {
+  width: 100%;
+  padding: 0.75rem;
+  padding-right: 2.5rem; /* 🔹 Garante espaço para o ícone dentro do input */
+  border: 0.0625rem solid var(--white);
+  border-radius: 2.5rem;
+  font-size: 0.9rem;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+/* Ícone de exibir/ocultar senha dentro do input */
 .toggle-btn {
-  font-size: 0.6rem;
   position: absolute;
-  right: 2.7rem; /* 5px convertido para 0.3125rem */
+  right: 0.75rem; /* 🔹 Ajusta a posição do ícone dentro do input */
   top: 50%;
   transform: translateY(-50%);
   background: none;
   border: none;
   cursor: pointer;
   padding: 0;
+  font-size: 1.2rem; /* 🔹 Ajuste o tamanho do ícone */
+  color: var(--white-green);
 }
 
-/* Caso use ícones no botão */
-.toggle-btn svg {
-  display: block;
+/* Efeito ao passar o mouse no ícone */
+.toggle-btn:hover {
+  color: var(--green);
+}
+
+/* Caso os ícones usem fontes como Material Icons */
+.toggle-btn .material-icons {
+  font-size: 1.2rem;
 }
 
 /* Mensagens de erro: agora vão aparecer abaixo do input,

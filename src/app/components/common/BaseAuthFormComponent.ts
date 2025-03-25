@@ -13,7 +13,7 @@ export abstract class BaseAuthFormComponent {
     password: 'Senha',
     cpf: 'CPF',
     email: 'E-mail',
-    confirmEmail: 'Confirmação de E-mail',
+    newEmail: 'E-mail',
     confirmPassword: 'Confirmação de Senha',
     oldPassword: 'Senha antiga',
     newPassword: 'Nova Senha',

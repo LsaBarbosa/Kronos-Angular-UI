@@ -1,3 +1,6 @@
+body{
+  margin: 0;
+}
 .btn{
   display: flex;
   flex-direction: row;

@@ -1,116 +1,117 @@
 <div class="time-report-container">
-    <h2>Relatório de Horas</h2>
+  <h2>Relatório de Horas</h2>
 
-    <!-- Campos para ID do Funcionário e Senha -->
-    <div class="form-group">
-        <label for="employeeIdTarget">ID do Funcionário:</label>
-        <input type="text" id="employeeIdTarget" [(ngModel)]="employeeIdTarget"/>
-    </div>
+  <!-- Campos para ID do Funcionário e Senha -->
+  <div class="form-group">
+    <label for="employeeIdTarget">ID do Funcionário:</label>
+    <input type="text" id="employeeIdTarget" [(ngModel)]="employeeIdTarget"/>
+  </div>
 
-    <div class="form-group">
-        <label for="passwords">Senha:</label>
-        <input type="password" id="passwords" [(ngModel)]="passwords"/>
-    </div>
+  <div class="form-group">
+    <label for="passwords">Senha:</label>
+    <input type="password" id="passwords" [(ngModel)]="passwords"/>
+  </div>
 
-    <mat-calendar [dateClass]="dateClass" (selectedChange)="dateSelected($event)"></mat-calendar>
+  <mat-calendar [dateClass]="dateClass" (selectedChange)="dateSelected($event)"></mat-calendar>
 
-    <div class="selected-dates" *ngIf="selectedDates.length">
-        <ul>
-            <li *ngFor="let date of selectedDates">
-                {{ date | date:'dd-MM' }}
-            </li>
-        </ul>
-    </div>
+  <div class="selected-dates" *ngIf="selectedDates.length">
+    <ul>
+      <li *ngFor="let date of selectedDates">
+        {{ date | date:'dd-MM' }}
+      </li>
+    </ul>
+  </div>
 
-    <!-- Campo para Reference Minutes no formato HH:mm -->
-    <div class="balance">
-        <label class="balance-time" for="referenceTime">Jornada diária:</label>
-        <input class="time" type="time" id="referenceTime" [(ngModel)]="referenceTime"/>
-    </div>
+  <!-- Campo para Reference Minutes no formato HH:mm -->
+  <div class="balance">
+    <label class="balance-time" for="referenceTime">Jornada diária:</label>
+    <input class="time" type="time" id="referenceTime" [(ngModel)]="referenceTime"/>
+  </div>
 
-    <div class="button">
-        <button mat-button (click)="generateCompleteReport()">Gerar Relatório</button>
-    </div>
+  <div class="button">
+    <button mat-button (click)="generateCompleteReport()">Gerar Relatório</button>
+  </div>
 
-    <!-- Exibição do saldo -->
-    <div *ngIf="balance !== null" class="balance-result">
-        <h3> {{ employeeName }} {{ employeeSurname }}</h3>
-        <p [ngClass]="{'positive-balance': isPositiveBalance(), 'negative-balance': !isPositiveBalance()}">
-            Saldo de Horas: <strong>{{ balance }}</strong>
-        </p>
-    </div>
+  <!-- Exibição do saldo -->
+  <div *ngIf="balance !== null" class="balance-result">
+    <h3> {{ employeeName }} {{ employeeSurname }}</h3>
+    <p [ngClass]="{'positive-balance': isPositiveBalance(), 'negative-balance': !isPositiveBalance()}">
+      Saldo de Horas: <strong>{{ balance }}</strong>
+    </p>
+  </div>
 
-    <ng-container *ngIf="loading">
-        <p class="loading-text">Carregando relatório...</p>
-    </ng-container>
-    <div *ngIf="errorMessage" class="error-text">
-        {{ errorMessage }}
-    </div>
+  <ng-container *ngIf="loading">
+    <p class="loading-text">Carregando relatório...</p>
+  </ng-container>
+  <div *ngIf="errorMessage" class="error-text">
+    {{ errorMessage }}
+  </div>
 
 
-    <div *ngIf="paginatedData.length > 0">
-        <table>
-            <thead>
-            <tr>
-                <th>Início</th>
-                <th>Término</th>
-                <th>Tempo Trabalhado</th>
-                <th>Status</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr *ngFor="let item of paginatedData"
-                (click)="openEditModal(item)"
-                [ngClass]="{'edited-record': editedRecords.has(item.id)}">
-                <td>{{ item.startWorkTime }}<br>{{ item.startWorkDate | date:'dd/MM/yyyy' }}</td>
-                <td>{{ item.endWorkTime }}<br>{{ item.endWorkDate | date:'dd/MM/yyyy' }}</td>
-                <td>{{ item.timeWorked }}</td>
-                <td>
+  <div *ngIf="paginatedData.length > 0">
+    <table>
+      <thead>
+      <tr>
+        <th>Início</th>
+        <th>Término</th>
+        <th>Tempo Trabalhado</th>
+        <th>Status</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let item of paginatedData"
+          (click)="openEditModal(item)"
+          [ngClass]="{'edited-record': editedRecords.has(item.id)}">
+        <td>{{ item.startWorkTime }}<br>{{ item.startWorkDate | date:'dd/MM/yyyy' }}</td>
+        <td>{{ item.endWorkTime }}<br>{{ item.endWorkDate | date:'dd/MM/yyyy' }}</td>
+        <td>{{ item.timeWorked }}</td>
+        <td>
             <span *ngIf="editedRecords.has(item.id)">
                 📝 <strong>Editado</strong>
             </span>
-                    <span *ngIf="!editedRecords.has(item.id)">
+          <span *ngIf="!editedRecords.has(item.id)">
                 ✅ <strong>Original</strong>
             </span>
-                </td>
-            </tr>
-            </tbody>
+        </td>
+      </tr>
+      </tbody>
 
-        </table>
+    </table>
 
-        <div class="pagination">
-            <button class="btn-pagination-prev" (click)="prevPage()" [disabled]="currentPage === 0">Anterior</button>
-            <span class="pagination-text"> {{ currentPage + 1 }} / {{ totalPages }}</span>
-            <button class="btn-pagination-next" (click)="nextPage()"
-                    [disabled]="(currentPage + 1) * pageSize >= reportData?.content?.length!">Próximo
-            </button>
-        </div>
+    <div class="pagination">
+      <button class="btn-pagination-prev" (click)="prevPage()" [disabled]="currentPage === 0">Anterior</button>
+      <span class="pagination-text"> {{ currentPage + 1 }} / {{ totalPages }}</span>
+      <button class="btn-pagination-next" (click)="nextPage()"
+              [disabled]="(currentPage + 1) * pageSize >= reportData?.content?.length!">Próximo
+      </button>
     </div>
+  </div>
 
-    <!-- Modal de Edição -->
-    <div class="modal" *ngIf="isEditing">
-        <div class="modal-content">
-            <h3>Editar Registro de Horas</h3>
-            <label>Início:</label>
-            <div class="modal-content-time">
-                <input type="date" [(ngModel)]="editStartWorkDate">
-                <input type="time" [(ngModel)]="editStartWorkTime">
-            </div>
-            <label>Término:</label>
-            <div class="modal-content-time">
-                <input type="date" [(ngModel)]="editEndWorkDate">
-                <input type="time" [(ngModel)]="editEndWorkTime">
-            </div>
-            <div class="modal-buttons">
-                <button mat-button (click)="updateTimeRecord()">Salvar</button>
-                <button mat-button (click)="closeEditModal()">Cancelar</button>
-            </div>
-        </div>
+  <!-- Modal de Edição -->
+  <div class="modal" *ngIf="isEditing">
+    <div class="modal-content">
+      <h3>Editar Registro de Horas</h3>
+      <label>Início:</label>
+      <div class="modal-content-time">
+        <input type="date" [(ngModel)]="editStartWorkDate">
+        <input type="time" [(ngModel)]="editStartWorkTime">
+      </div>
+      <label>Término:</label>
+      <div class="modal-content-time">
+        <input type="date" [(ngModel)]="editEndWorkDate">
+        <input type="time" [(ngModel)]="editEndWorkTime">
+      </div>
+      <div class="modal-buttons">
+        <button mat-button (click)="updateTimeRecord()">Salvar</button>
+        <button mat-button (click)="closeEditModal()">Cancelar</button>
+      </div>
     </div>
+  </div>
 </div>
 
 <div class="btn">
-    <app-button label="Home" [url]="'/home'"></app-button>
-    <app-button label="Voltar" [url]="'/detalhes-colaborador'"></app-button>
-    <app-button label="Sair" [isLogoutButton]="true"></app-button>
+  <app-button label="Home" [url]="'/home'"></app-button>
+  <app-button label="Administração" [url]="'/administracao'"></app-button>
+  <app-button label="Lisa Colaboradores" [url]="'/buscar-colaborador'"></app-button>
 </div>
+  <app-button label="Sair" [isLogoutButton]="true"></app-button>
