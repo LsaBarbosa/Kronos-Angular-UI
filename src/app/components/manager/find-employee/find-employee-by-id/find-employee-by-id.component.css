@@ -207,12 +207,13 @@ strong {
 
   .paste-btn {
     font-size: 1rem;
-    right: 8px;
+    bottom: 1.2rem;
   }
-
-  .form-group button {
-    max-width: 150px;
-    font-size: 0.85rem;
+  .btn-edit {
+    display: flex;
+    flex-direction: row;
+    width: 70%;
+    font-size: 0.9rem;
   }
 
 
