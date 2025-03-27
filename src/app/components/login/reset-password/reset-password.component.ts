@@ -49,22 +49,23 @@ export class ResetPasswordComponent extends BaseAuthFormComponent implements OnI
   onSubmit(){
     if (this.resetPassword.valid) {
       const payload =  this.resetPassword.value;
-      this.service.postData('/employee/password/reset',payload)
+      this.service.postPublicData('/employee/password/reset', payload, { responseType: 'text' })
         .subscribe({
-          next: (response: HttpResponse<any>) => {
-            const status = response.status;
-            // Mapeamento de status de sucesso
-            if (status === 200 || status === 201) {
+          next: (response: HttpResponse<any> | any) => {
+            // Caso o endpoint não retorne status, consideramos sucesso (status 200)
+            const status = response.status ? response.status : 200;
+            if ([200, 201, 204].includes(status)) {
               this.alertMessage = 'Password enviado para E-mail com sucesso!';
               this.alertType = 'success';
             } else {
               this.alertMessage = `Operação realizada com status ${status}.`;
               this.alertType = 'success';
             }
-            this.router.navigate(['/login']);
-              setTimeout(() => {
-                this.alertMessage = '';
-              }, 3000);
+            // Exibe a mensagem de sucesso por 3 segundos antes de redirecionar para a página de login.
+            setTimeout(() => {
+              this.router.navigate(['/login']);
+              this.alertMessage = '';
+            }, 3000);
           },
           error: (error) => {
             const errorMsg = error.error && error.error.error

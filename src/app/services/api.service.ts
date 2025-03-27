@@ -11,8 +11,12 @@ export class ApiService {
   // Método privado para criar os headers com o token salvo no localStorage.
   private getHeaders(): { headers: HttpHeaders } {
     const token = localStorage.getItem('token');
-    return {headers: new HttpHeaders({'Authorization': `Bearer ${token}`})}
-  };
+    let headers = new HttpHeaders();
+    if (token) {
+      headers = headers.set('Authorization', `Bearer ${token}`);
+    }
+    return { headers };
+  }
 
   // Injeta o HttpClient no construtor para que possamos usá-lo nos métodos do serviço
   constructor(private http: HttpClient) {
@@ -32,6 +36,10 @@ export class ApiService {
 
   deleteData(url: string, options: any = {}): Observable<any> {
     return this.http.delete<any>(this.baseUrl + url, { ...this.getHeaders(), ...options });
+  }
+
+  postPublicData(url: string, payload: any, options: any = {}): Observable<any> {
+    return this.http.post<any>(this.baseUrl + url, payload, { ...options });
   }
 
   /**
