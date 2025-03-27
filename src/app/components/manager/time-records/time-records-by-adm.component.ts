@@ -48,15 +48,12 @@ interface ReportResponse {
 export class TimeRecordsByAdmComponent implements OnInit {
 
     selectedDates: Date[] = [];
-    employeeIdTarget: string = '';
-    passwords: string = '';
-    balance: string | null = null; // Para armazenar o saldo retornado
     errorMessage: string = '';
     loading: boolean = false;
     reportData: ReportResponse | null = null;
     paginatedData: ReportContent[] = [];
     referenceTime: string = '07:30'; // Formato HH:mm
-
+    balance: string | null = null; // Para armazenar o saldo retornado
 
     employeeName: string = '';
     employeeSurname: string = '';
@@ -65,6 +62,9 @@ export class TimeRecordsByAdmComponent implements OnInit {
     // Configuração da paginação
     currentPage: number = 0;
     pageSize: number = 5;
+
+    passwords: string = '';
+    employeeIdTarget: string = '';
 
     // Variáveis para edição
     isEditing: boolean = false;
@@ -393,6 +393,15 @@ export class TimeRecordsByAdmComponent implements OnInit {
         });
     }
 
+  pasteId(): void {
+    navigator.clipboard.readText()
+      .then(text => {
+        this.employeeIdTarget = text;
+      })
+      .catch(error => {
+        console.error('Erro ao colar ID:', error);
+      });
+  }
 
     /**
      * Retorna o total de páginas

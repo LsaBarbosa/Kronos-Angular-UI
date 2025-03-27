@@ -25,13 +25,16 @@
   <!-- Exibe os dados do funcionário quando a busca foi bem-sucedida e não está no modo de edição -->
   <div *ngIf="employee && !loading && !errorMessage && !isEditing">
     <p><strong>ID:</strong> {{ employee.id }}</p>
-    <p><strong>Nome:</strong> {{ employee.name }}</p>
-    <p><strong>Sobrenome:</strong> {{ employee.surname }}</p>
+    <div class="fields">
+    <p><strong>Nome:</strong> {{ employee.name }} {{ employee.surname }}</p>
+    </div>
     <p>
       <strong>Salário:</strong>
       {{ employee.salary | currency:'BRL':'symbol' }}
     </p>
-    <p><strong>Posição:</strong> {{ employee.position }}</p>
+    <p>
+      <strong>Posição:</strong> {{ employee.position }}
+    </p>
     <p><strong>CPF:</strong> {{ employee.cpf }}</p>
     <p><strong>Role:</strong> {{ employee.role }}</p>
     <p><strong>Email:</strong> {{ employee.email }}</p>

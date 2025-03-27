@@ -1,48 +1,43 @@
 <app-auth-form [title]="'Registar novo Colaborador'" [formGroup]="createForm" (submitEvent)="onSubmit()">
   <div form-fields>
-    <div>
-      <label for="name">Nome:</label>
-      <div class="name-container">
-        <input id="name" type="text" formControlName="name" placeholder="Digite seu Nome">
-        <small *ngIf="createForm.get('name')?.touched && createForm.get('name')?.invalid">
-          {{ getErrorMessage('name') | fieldLabel }}
-        </small>
+    <div class="field-container">
+      <div class="fields">
+        <div>
+          <label for="name">Nome</label>
+          <div class="name-container">
+            <input id="name" type="text" formControlName="name" placeholder="Digite seu Nome">
+            <small *ngIf="createForm.get('name')?.touched && createForm.get('name')?.invalid">
+              {{ getErrorMessage('name') | fieldLabel }}
+            </small>
+          </div>
+        </div>
+        <div>
+          <label for="surname">Sobrenome</label>
+          <div class="surname-container">
+            <input id="surname" type="text" formControlName="surname" placeholder="Digite seu Sobrenome">
+            <small *ngIf="createForm.get('surname')?.touched && createForm.get('surname')?.invalid">
+              {{ getErrorMessage('surname') | fieldLabel }}
+            </small>
+          </div>
+        </div>
       </div>
-    </div>
-    <div>
-      <label for="surname">Sobrenome:</label>
-      <div class="surname-container">
-        <input id="surname" type="text" formControlName="surname" placeholder="Digite seu Sobrenome">
-        <small *ngIf="createForm.get('surname')?.touched && createForm.get('surname')?.invalid">
-          {{ getErrorMessage('surname') | fieldLabel }}
-        </small>
-      </div>
-    </div>
-    <div>
-      <label for="position">Cargo:</label>
-      <div class="position-container">
-        <input id="position" type="text" formControlName="position" placeholder="Digite seu Cargo">
-        <small *ngIf="createForm.get('position')?.touched && createForm.get('position')?.invalid">
-          {{ getErrorMessage('position') | fieldLabel }}
-        </small>
-      </div>
-    </div>
-    <div>
-      <label for="email">E-mail:</label>
-      <div class="email-container">
-        <input id="email" type="email" formControlName="email" placeholder="Digite seu email">
-      </div>
-      <small *ngIf="createForm.get('email')?.touched && createForm.get('email')?.invalid">
-        {{ getErrorMessage('email')| fieldLabel }}
-      </small>
-    </div>
-    <div>
-      <label for="salary">Salário:</label>
-      <div class="salary-container">
-        <input
-          id="salary"
-          type="text"
-          currencyMask [options]="{
+      <div class="fields">
+        <div>
+          <label for="position">Cargo:</label>
+          <div class="position-container">
+            <input id="position" type="text" formControlName="position" placeholder="Digite seu Cargo">
+            <small *ngIf="createForm.get('position')?.touched && createForm.get('position')?.invalid">
+              {{ getErrorMessage('position') | fieldLabel }}
+            </small>
+          </div>
+        </div>
+        <div>
+          <label for="salary">Salário:</label>
+          <div class="salary-container">
+            <input
+              id="salary"
+              type="text"
+              currencyMask [options]="{
         prefix: 'R$ ',
         thousands: '.',
         decimal: ',',
@@ -50,58 +45,78 @@
         precision: 2,
         align: 'right'
       }"
-          formControlName="salary"
-          placeholder="Digite seu Salário">
-        <small *ngIf="createForm.get('salary')?.touched && createForm.get('salary')?.invalid">
-          {{ getErrorMessage('salary')| fieldLabel }}
-        </small>
+              formControlName="salary"
+              placeholder="Digite seu Salário">
+            <small *ngIf="createForm.get('salary')?.touched && createForm.get('salary')?.invalid">
+              {{ getErrorMessage('salary')| fieldLabel }}
+            </small>
+          </div>
+        </div>
       </div>
-    </div>
-    <div>
-      <label for="role">Privilégio:</label>
-      <div class="role-container">
-        <select id="role" formControlName="role">
-          <option value="">Selecione um Privilégio</option>
-          <option value="ADMIN">ADMIN</option>
-          <option value="MANAGER">MANAGER</option>
-          <option value="USER">USER</option>
-        </select>
-        <small *ngIf="createForm.get('role')?.touched && createForm.get('role')?.invalid">
-          {{ getErrorMessage('role') | fieldLabel }}
-        </small>
+      <div class="fields">
+        <div>
+          <label for="role">Privilégio:</label>
+          <div class="role-container">
+            <select id="role" formControlName="role">
+              <option value="">Selecione um Privilégio</option>
+              <option value="ADMIN">ADMIN</option>
+              <option value="MANAGER">MANAGER</option>
+              <option value="USER">USER</option>
+            </select>
+            <small *ngIf="createForm.get('role')?.touched && createForm.get('role')?.invalid">
+              {{ getErrorMessage('role') | fieldLabel }}
+            </small>
+          </div>
+        </div>
+        <div>
+          <label for="email">E-mail:</label>
+          <div class="email-container">
+            <input id="email" type="email" formControlName="email" placeholder="Digite seu email">
+          </div>
+          <small *ngIf="createForm.get('email')?.touched && createForm.get('email')?.invalid">
+            {{ getErrorMessage('email')| fieldLabel }}
+          </small>
+        </div>
       </div>
-    </div>
-    <div>
-      <label for="cpf">CPF:</label>
-      <div class="cpf-container">
-        <input id="cpf" type="text" formControlName="cpf" placeholder="Digite seu CPF">
-        <small *ngIf="createForm.get('cpf')?.touched && createForm.get('cpf')?.invalid">
-          {{ getErrorMessage('cpf') | fieldLabel }}
-        </small>
-      </div>
-    </div>
-    <div>
-      <label for="passwords">Senha Provisória :</label>
-      <div class="senha-container">
-        <input id="passwords" type="password" [type]="showPasswords ? 'text' : 'password'" formControlName="passwords"
-               placeholder="Digite sua senha">
-        <app-toggle-password [showPassword]="showPasswords" (toggle)="showPasswords = $event"></app-toggle-password>
+      <div class="fields">
+        <div>
+          <label for="cpf">CPF:</label>
+          <div class="cpf-container">
+            <input id="cpf" type="text" formControlName="cpf" placeholder="Digite seu CPF">
+            <small *ngIf="createForm.get('cpf')?.touched && createForm.get('cpf')?.invalid">
+              {{ getErrorMessage('cpf') | fieldLabel }}
+            </small>
+          </div>
+        </div>
+        <div>
+          <label for="passwords">Senha Provisória</label>
+          <div class="senha-container">
+            <input id="passwords" type="password" [type]="showPasswords ? 'text' : 'password'"
+                   formControlName="passwords"
+                   placeholder="Digite sua senha">
+            <app-toggle-password [showPassword]="showPasswords" (toggle)="showPasswords = $event"></app-toggle-password>
 
+          </div>
+          <small *ngIf="createForm.get('passwords')?.touched && createForm.get('passwords')?.invalid">
+            {{ getErrorMessage('passwords') | fieldLabel }}
+          </small>
+        </div>
       </div>
-      <small *ngIf="createForm.get('passwords')?.touched && createForm.get('passwords')?.invalid">
-        {{ getErrorMessage('passwords') | fieldLabel }}
-      </small>
-    </div>
-    <div>
-      <label for="passwordsManager">Senha do Administrador:</label>
-      <div class="senha-container">
-        <input id="passwordsManager" type="password" [type]="showPasswordsManager ? 'text' : 'password'" formControlName="passwordsManager"
-               placeholder="Senha do Adminsitrador">
-        <app-toggle-password [showPassword]="showPasswordsManager" (toggle)="showPasswordsManager = $event"></app-toggle-password>
+      <div class="fields">
+        <div>
+          <label for="passwordsManager">Senha do Administrador:</label>
+          <div class="senha-container">
+            <input id="passwordsManager" type="password" [type]="showPasswordsManager ? 'text' : 'password'"
+                   formControlName="passwordsManager"
+                   placeholder="Senha do Adminsitrador">
+            <app-toggle-password [showPassword]="showPasswordsManager"
+                                 (toggle)="showPasswordsManager = $event"></app-toggle-password>
 
+          </div>
+          <small *ngIf="createForm.get('passwordsManager')?.touched && createForm.get('passwordsManager')?.invalid">
+            {{ getErrorMessage('passwordsManager') | fieldLabel }} </small>
+        </div>
       </div>
-      <small *ngIf="createForm.get('passwordsManager')?.touched && createForm.get('passwordsManager')?.invalid">
-        {{ getErrorMessage('passwordsManager') | fieldLabel }} </small>
     </div>
   </div>
   <div form-buttons>

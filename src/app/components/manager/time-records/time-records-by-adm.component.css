@@ -70,6 +70,7 @@ h3 {
 
 /* Formulário e input */
 .form-group,
+.form-group-password,
 .balance {
   margin: 0;
   padding-top: 1rem;
@@ -79,6 +80,7 @@ h3 {
 }
 
 .form-group label,
+.form-group-password label,
 .balance {
   font-weight: bold;
   padding-top: 0.2rem;
@@ -86,12 +88,14 @@ h3 {
   color: var(--white-green);
 }
 
+.form-group-password input,
 .form-group input {
   border-radius: 40px;
   font-size: 0.9rem;
   width: 90%;
   text-align: center;
 }
+
 
 .balance {
   display: flex;
@@ -170,6 +174,10 @@ tr {
   background-color: var(--black);
   line-height: 1.5rem;
   color: var(--white-green);
+}
+
+.status{
+  cursor: pointer;
 }
 
 .pagination {
@@ -393,10 +401,47 @@ body.modal-open .button-group button {
   }
 }
 
+.id-input-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* 🔹 Centraliza o input dentro do container */
+  position: relative;
+  width: 90%;
+
+  margin: 0 auto; /* 🔹 Centraliza horizontalmente */
+}
+
+/* 🔹 Estiliza o input */
+.id-input-wrapper input {
+  width: 100%; /* 🔹 Ocupa toda a largura disponível */
+  text-align: center; /* 🔹 Garante que o texto fique centralizado */
+  border-radius: 40px;
+  border: 1px solid var(--white-green);
+  font-size: 1rem;
+  box-shadow: 0 0 4px rgba(255, 255, 255, 0.2);
+}
+
+/* 🔹 Botão de Colar dentro do Input */
+.paste-btn {
+  position: absolute;
+  right: 0.4rem; /* 🔹 Mantém o botão alinhado à direita */
+  bottom: 0.25rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: var(--white-green);
+  transition: color 0.3s ease;
+}
+
 /* Ajustes adicionais para telas muito pequenas (até 480px) */
 @media (max-width: 480px) {
   .time-report-container {
     padding: 10px;
+  }
+
+  .form-group input{
+    width: 100%;
   }
 
   h2 {
@@ -459,6 +504,8 @@ body.modal-open .button-group button {
     width: 90%;
     font-size: 0.7rem;
   }
+
+
 }
 
 
