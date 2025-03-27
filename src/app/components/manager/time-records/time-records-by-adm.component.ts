@@ -302,96 +302,119 @@ export class TimeRecordsByAdmComponent implements OnInit {
      * Cria o documento PDF com todas as informações
      */
     generatePdfDocument(): void {
-        const doc = new jsPDF();
+      const doc = new jsPDF();
 
-        // 🔹 Cabeçalho com os dados do colaborador
-        doc.text(`Colaborador: ${this.employeeName} ${this.employeeSurname}`, 10, 10);
-        doc.text(`CPF: ${this.employeeCpf}`, 10, 20);
+      // Cabeçalho com os dados do colaborador
+      doc.text(`Colaborador: ${this.employeeName} ${this.employeeSurname}`, 10, 10);
+      doc.text(`CPF: ${this.employeeCpf}`, 10, 20);
 
-        // 🔹 Relatório de Horas
-        if (this.reportData) {
-            doc.text(`Relatório de Horas`, 10, 30);
-            autoTable(doc, {
-                head: [['Início', 'Término', 'Jornada']],
-                body: this.reportData.content.map(item => [
-                    `${item.startWorkDate} ${item.startWorkTime}`,
-                    `${item.endWorkDate} ${item.endWorkTime}`,
-                    item.timeWorked
-                ]),
-                startY: 40
-            });
-        }
-
-        // 🔹 Saldo de Horas
-        if (this.balance !== null) {
-            doc.text(`Saldo de Horas`, 10, doc.internal.pageSize.height - 40);
-            doc.text(`Horas Totais: ${this.balance}`, 10, doc.internal.pageSize.height - 30);
-        }
-
-        doc.save(`relatorio_${this.employeeName}_${this.employeeSurname}.pdf`);
-    }
-
-    openEditModal(record: ReportContent): void {
-        this.isEditing = true;
-        this.editTimeRecord = { ...record }; // Clona os dados para edição
-        this.editStartWorkTime = record.startWorkTime;
-        this.editEndWorkTime = record.endWorkTime;
-        this.editStartWorkDate = record.startWorkDate;
-        this.editEndWorkDate = record.endWorkDate;
-    }
-
-    /**
-     * Fecha o modal de edição
-     */
-    closeEditModal(): void {
-        this.isEditing = false;
-        this.editTimeRecord = null;
-    }
-
-    /**
-     * Salva a edição e faz a requisição para atualizar o registro no backend
-     */
-    updateTimeRecord(): void {
-        if (!this.editTimeRecord) return;
-
-        const formatDate = (date: string): string => {
-            const [year, month, day] = date.split('-');
-            return `${day}-${month}-${year}`;
-        };
-
-        const payload = {
-            timeRecordId: this.editTimeRecord.id,
-            employeeIdTarget: this.employeeIdTarget,
-            passwords: this.passwords,
-            updateTimeRecordDto: {
-                id: this.editTimeRecord.id,
-                startWorkDate: formatDate(this.editStartWorkDate),
-                startWorkTime: this.editStartWorkTime,
-                endWorkDate: formatDate(this.editEndWorkDate),
-                endWorkTime: this.editEndWorkTime
-            }
-        };
-
-        this.apiService.updateData('/time/adm/update', payload).subscribe({
-            next: (updatedRecord) => {
-                this.closeEditModal();
-
-                // 🔹 Atualiza apenas o registro modificado dentro da lista paginada
-                const index = this.paginatedData.findIndex(item => item.id === updatedRecord.id);
-                if (index !== -1) {
-                    this.paginatedData[index] = updatedRecord; // Atualiza o item na tabela
-                }
-
-                // 🔹 Marca o registro como editado para alterar o ícone
-                this.editedRecords.add(updatedRecord.id);
-
-            },
-            error: (err) => {
-                console.error(err);
-                this.errorMessage = 'Erro ao atualizar o registro.';
-            }
+      // Relatório de Horas: cria uma tabela com as informações de cada registro, incluindo o status
+      if (this.reportData) {
+        doc.text(`Relatório de Horas`, 10, 30);
+        autoTable(doc, {
+          head: [['Início', 'Término', 'Jornada', 'Status']],
+          body: this.reportData.content.map(item => [
+            `${item.startWorkDate} ${item.startWorkTime}`,
+            `${item.endWorkDate} ${item.endWorkTime}`,
+            item.timeWorked,
+            this.editedRecords.has(item.id) ? 'Editado' : 'Original'
+          ]),
+          startY: 40
         });
+      }
+
+      // Exibe o saldo de horas na parte inferior do PDF
+      if (this.balance !== null) {
+        doc.text(`Saldo de Horas`, 10, doc.internal.pageSize.height - 40);
+        doc.text(`Horas Totais: ${this.balance}`, 10, doc.internal.pageSize.height - 30);
+      }
+
+      // Salva o PDF com um nome baseado no nome do colaborador
+      doc.save(`relatorio_${this.employeeName}_${this.employeeSurname}.pdf`);
     }
+
+  openEditModal(record: ReportContent): void {
+    this.isEditing = true;
+    this.editTimeRecord = { ...record };
+    this.editStartWorkTime = record.startWorkTime;
+    this.editEndWorkTime = record.endWorkTime;
+    this.editStartWorkDate = record.startWorkDate;
+    this.editEndWorkDate = record.endWorkDate;
+  }
+
+  closeEditModal(): void {
+    this.isEditing = false;
+    this.editTimeRecord = null;
+  }
+
+  /**
+   * Atualiza o registro editado enviando os novos dados para o backend.
+   */
+  updateTimeRecord(): void {
+    if (!this.editTimeRecord) return;
+    const formatDate = (date: string): string => {
+      const [year, month, day] = date.split('-');
+      return `${day}-${month}-${year}`;
+    };
+    const payload = {
+      timeRecordId: this.editTimeRecord.id,
+      employeeIdTarget: this.employeeIdTarget,
+      passwords: this.passwords,
+      updateTimeRecordDto: {
+        id: this.editTimeRecord.id,
+        startWorkDate: formatDate(this.editStartWorkDate),
+        startWorkTime: this.editStartWorkTime,
+        endWorkDate: formatDate(this.editEndWorkDate),
+        endWorkTime: this.editEndWorkTime
+      }
+    };
+    this.apiService.updateData('/time/adm/update', payload).subscribe({
+      next: (updatedRecord) => {
+        this.closeEditModal();
+        const index = this.paginatedData.findIndex(item => item.id === updatedRecord.id);
+        if (index !== -1) {
+          this.paginatedData[index] = updatedRecord;
+        }
+        this.editedRecords.add(updatedRecord.id);
+      },
+      error: (err) => {
+        console.error(err);
+        this.errorMessage = 'Erro ao atualizar o registro.';
+      }
+    });
+  }
+
+  /**
+   * Novo método para deletar um registro.
+   * Utiliza o endpoint /time/adm/delete e envia o payload conforme o backend espera.
+   */
+  deleteTimeRecord(): void {
+    if (!this.editTimeRecord) return;
+    const payload = {
+      timeRecordId: this.editTimeRecord.id,
+      employeeIdTarget: this.employeeIdTarget,
+      passwords: this.passwords
+    };
+    // Para deleção, usamos o método deleteData com o corpo da requisição
+    this.apiService.deleteData('/time/adm/delete', { body: payload }).subscribe({
+      next: (response) => {
+        // Remove o registro da lista de registros paginados e do relatório geral
+        const index = this.paginatedData.findIndex(item => item.id === this.editTimeRecord!.id);
+        if (index !== -1) {
+          this.paginatedData.splice(index, 1);
+        }
+        if (this.reportData) {
+          this.reportData.content = this.reportData.content.filter(item => item.id !== this.editTimeRecord!.id);
+        }
+        this.closeEditModal();
+      },
+      error: (err) => {
+        console.error(err);
+        this.errorMessage = 'Erro ao deletar o registro.';
+      }
+    });
+  }
+
 
   pasteId(): void {
     navigator.clipboard.readText()
