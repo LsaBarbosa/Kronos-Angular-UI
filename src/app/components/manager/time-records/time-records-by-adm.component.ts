@@ -317,7 +317,7 @@ export class TimeRecordsByAdmComponent implements OnInit {
             `${item.startWorkDate} ${item.startWorkTime}`,
             `${item.endWorkDate} ${item.endWorkTime}`,
             item.timeWorked,
-            this.editedRecords.has(item.id) ? 'Editado' : 'Original'
+            this.editedRecords.has(item.id) ? 'Editado por Adm' : 'Original'
           ]),
           startY: 40
         });
@@ -335,6 +335,7 @@ export class TimeRecordsByAdmComponent implements OnInit {
 
   openEditModal(record: ReportContent): void {
     this.isEditing = true;
+    // Clona os dados para evitar alteração direta do registro exibido
     this.editTimeRecord = { ...record };
     this.editStartWorkTime = record.startWorkTime;
     this.editEndWorkTime = record.endWorkTime;
@@ -352,14 +353,19 @@ export class TimeRecordsByAdmComponent implements OnInit {
    */
   updateTimeRecord(): void {
     if (!this.editTimeRecord) return;
+
+    // Função para converter data de "yyyy-MM-dd" para "dd-MM-yyyy"
     const formatDate = (date: string): string => {
-      const [year, month, day] = date.split('-');
+      const parts = date.split('-');
+      if (parts.length !== 3) return date;
+      const [year, month, day] = parts;
       return `${day}-${month}-${year}`;
     };
+
     const payload = {
-      timeRecordId: this.editTimeRecord.id,
       employeeIdTarget: this.employeeIdTarget,
       passwords: this.passwords,
+      timeRecordId: this.editTimeRecord.id,
       updateTimeRecordDto: {
         id: this.editTimeRecord.id,
         startWorkDate: formatDate(this.editStartWorkDate),
@@ -368,17 +374,22 @@ export class TimeRecordsByAdmComponent implements OnInit {
         endWorkTime: this.editEndWorkTime
       }
     };
+
+    console.log('Payload para update:', payload);
     this.apiService.updateData('/time/adm/update', payload).subscribe({
       next: (updatedRecord) => {
+        console.log('Resposta do update:', updatedRecord);
         this.closeEditModal();
+        // Atualiza o registro na lista da página atual
         const index = this.paginatedData.findIndex(item => item.id === updatedRecord.id);
         if (index !== -1) {
           this.paginatedData[index] = updatedRecord;
         }
+        // Marca o registro como editado (para exibir o status "Editado")
         this.editedRecords.add(updatedRecord.id);
       },
       error: (err) => {
-        console.error(err);
+        console.error('Erro ao atualizar:', err);
         this.errorMessage = 'Erro ao atualizar o registro.';
       }
     });
@@ -390,15 +401,19 @@ export class TimeRecordsByAdmComponent implements OnInit {
    */
   deleteTimeRecord(): void {
     if (!this.editTimeRecord) return;
+
     const payload = {
-      timeRecordId: this.editTimeRecord.id,
       employeeIdTarget: this.employeeIdTarget,
-      passwords: this.passwords
+      passwords: this.passwords,
+      timeRecordId: this.editTimeRecord.id
     };
-    // Para deleção, usamos o método deleteData com o corpo da requisição
+
+    console.log('Payload para delete:', payload);
+    // Nota: Para enviar um corpo na requisição DELETE, usamos a opção { body: payload }
     this.apiService.deleteData('/time/adm/delete', { body: payload }).subscribe({
       next: (response) => {
-        // Remove o registro da lista de registros paginados e do relatório geral
+        console.log('Resposta do delete:', response);
+        // Remove o registro da lista de dados paginados e do relatório geral
         const index = this.paginatedData.findIndex(item => item.id === this.editTimeRecord!.id);
         if (index !== -1) {
           this.paginatedData.splice(index, 1);
@@ -409,7 +424,7 @@ export class TimeRecordsByAdmComponent implements OnInit {
         this.closeEditModal();
       },
       error: (err) => {
-        console.error(err);
+        console.error('Erro ao deletar:', err);
         this.errorMessage = 'Erro ao deletar o registro.';
       }
     });
