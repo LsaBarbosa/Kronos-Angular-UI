@@ -302,36 +302,39 @@ export class TimeRecordsByAdmComponent implements OnInit {
      * Cria o documento PDF com todas as informações
      */
     generatePdfDocument(): void {
-        const doc = new jsPDF();
+      const doc = new jsPDF();
 
-        // 🔹 Cabeçalho com os dados do colaborador
-        doc.text(`Colaborador: ${this.employeeName} ${this.employeeSurname}`, 10, 10);
-        doc.text(`CPF: ${this.employeeCpf}`, 10, 20);
+      // Cabeçalho com os dados do colaborador
+      doc.text(`Colaborador: ${this.employeeName} ${this.employeeSurname}`, 10, 10);
+      doc.text(`CPF: ${this.employeeCpf}`, 10, 20);
 
-        // 🔹 Relatório de Horas
-        if (this.reportData) {
-            doc.text(`Relatório de Horas`, 10, 30);
-            autoTable(doc, {
-                head: [['Início', 'Término', 'Jornada']],
-                body: this.reportData.content.map(item => [
-                    `${item.startWorkDate} ${item.startWorkTime}`,
-                    `${item.endWorkDate} ${item.endWorkTime}`,
-                    item.timeWorked
-                ]),
-                startY: 40
-            });
-        }
+      // Relatório de Horas: cria uma tabela com as informações de cada registro, incluindo o status
+      if (this.reportData) {
+        doc.text(`Relatório de Horas`, 10, 30);
+        autoTable(doc, {
+          head: [['Início', 'Término', 'Jornada', 'Status']],
+          body: this.reportData.content.map(item => [
+            `${item.startWorkDate} ${item.startWorkTime}`,
+            `${item.endWorkDate} ${item.endWorkTime}`,
+            item.timeWorked,
+            this.editedRecords.has(item.id) ? 'Editado' : 'Original'
+          ]),
+          startY: 40
+        });
+      }
 
-        // 🔹 Saldo de Horas
-        if (this.balance !== null) {
-            doc.text(`Saldo de Horas`, 10, doc.internal.pageSize.height - 40);
-            doc.text(`Horas Totais: ${this.balance}`, 10, doc.internal.pageSize.height - 30);
-        }
+      // Exibe o saldo de horas na parte inferior do PDF
+      if (this.balance !== null) {
+        doc.text(`Saldo de Horas`, 10, doc.internal.pageSize.height - 40);
+        doc.text(`Horas Totais: ${this.balance}`, 10, doc.internal.pageSize.height - 30);
+      }
 
-        doc.save(`relatorio_${this.employeeName}_${this.employeeSurname}.pdf`);
+      // Salva o PDF com um nome baseado no nome do colaborador
+      doc.save(`relatorio_${this.employeeName}_${this.employeeSurname}.pdf`);
     }
 
-    openEditModal(record: ReportContent): void {
+
+  openEditModal(record: ReportContent): void {
         this.isEditing = true;
         this.editTimeRecord = { ...record }; // Clona os dados para edição
         this.editStartWorkTime = record.startWorkTime;

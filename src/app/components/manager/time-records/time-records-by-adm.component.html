@@ -57,7 +57,7 @@
       <tr>
         <th>Início</th>
         <th>Término</th>
-        <th>Tempo Trabalhado</th>
+        <th>Jornada</th>
         <th>Status</th>
       </tr>
       </thead>
@@ -65,15 +65,15 @@
       <tr *ngFor="let item of paginatedData"
           (click)="openEditModal(item)"
           [ngClass]="{'edited-record': editedRecords.has(item.id)}">
-        <td>{{ item.startWorkTime }}<br>{{ item.startWorkDate | date:'dd/MM/yyyy' }}</td>
-        <td>{{ item.endWorkTime }}<br>{{ item.endWorkDate | date:'dd/MM/yyyy' }}</td>
+        <td>{{ item.startWorkTime }}<br>{{ item.startWorkDate | date:'dd/MM/yy' }}</td>
+        <td>{{ item.endWorkTime }}<br>{{ item.endWorkDate | date:'dd/MM/yy' }}</td>
         <td>{{ item.timeWorked }}</td>
         <td class="status">
             <span *ngIf="editedRecords.has(item.id)">
-                📝 <strong>Editado</strong>
+                📝 <strong>Adm</strong>
             </span>
           <span *ngIf="!editedRecords.has(item.id)">
-                ✅ <strong>Original</strong>
+                ✅ <strong>Usuário</strong>
             </span>
         </td>
       </tr>

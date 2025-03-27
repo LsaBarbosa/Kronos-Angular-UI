@@ -437,13 +437,16 @@ body.modal-open .button-group button {
 /* Ajustes adicionais para telas muito pequenas (até 480px) */
 @media (max-width: 480px) {
   .time-report-container {
+    width: 100%;
     padding: 10px;
   }
 
   .form-group input{
     width: 100%;
   }
-
+  table {
+   margin: 0;
+  }
   h2 {
     font-size: 1.1rem;
   }
