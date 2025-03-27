@@ -172,6 +172,10 @@ tr {
   color: var(--white-green);
 }
 
+.status{
+  cursor: pointer;
+}
+
 .pagination {
   text-align: center;
   color: var(--white);

@@ -65,7 +65,7 @@
         <td>{{ item.startWorkTime }}<br>{{ item.startWorkDate | date:'dd/MM/yyyy' }}</td>
         <td>{{ item.endWorkTime }}<br>{{ item.endWorkDate | date:'dd/MM/yyyy' }}</td>
         <td>{{ item.timeWorked }}</td>
-        <td>
+        <td class="status">
             <span *ngIf="editedRecords.has(item.id)">
                 📝 <strong>Editado</strong>
             </span>
