@@ -393,6 +393,15 @@ export class TimeRecordsByAdmComponent implements OnInit {
         });
     }
 
+  pasteId(): void {
+    navigator.clipboard.readText()
+      .then(text => {
+        this.employeeIdTarget = text;
+      })
+      .catch(error => {
+        console.error('Erro ao colar ID:', error);
+      });
+  }
 
     /**
      * Retorna o total de páginas

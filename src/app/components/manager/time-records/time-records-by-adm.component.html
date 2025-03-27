@@ -4,10 +4,13 @@
   <!-- Campos para ID do Funcionário e Senha -->
   <div class="form-group">
     <label for="employeeIdTarget">ID do Funcionário:</label>
+    <div class="id-input-wrapper">
     <input type="text" id="employeeIdTarget" [(ngModel)]="employeeIdTarget"/>
+    <span class="paste-btn" (click)="pasteId()" title="Colar ID">📋</span>
+    </div>
   </div>
 
-  <div class="form-group">
+  <div class="form-group-password">
     <label for="passwords">Senha:</label>
     <input type="password" id="passwords" [(ngModel)]="passwords"/>
   </div>

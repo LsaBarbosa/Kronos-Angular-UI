@@ -154,7 +154,16 @@ strong {
   color: var(--white-green);
   transition: color 0.3s ease;
 }
-
+.field-container {
+  display: flex;
+  flex-direction: column;
+}
+.fields {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 0.5rem;
+}
 
 /* 📱 Responsividade para Tablets e Smartphones */
 @media (max-width: 768px) {
