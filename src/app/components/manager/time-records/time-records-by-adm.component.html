@@ -90,10 +90,11 @@
     </div>
   </div>
 
-  <!-- Modal de Edição -->
+  <!-- Exemplo de modal (HTML) -->
   <div class="modal" *ngIf="isEditing">
     <div class="modal-content">
-      <h3>Editar Registro de Horas</h3>
+      <h3>Editar / Deletar Registro de Horas</h3>
+      <!-- Campos para edição -->
       <label>Início:</label>
       <div class="modal-content-time">
         <input type="date" [(ngModel)]="editStartWorkDate">
@@ -105,12 +106,16 @@
         <input type="time" [(ngModel)]="editEndWorkTime">
       </div>
       <div class="modal-buttons">
-        <button mat-button (click)="updateTimeRecord()">Salvar</button>
+        <!-- Botão para editar -->
+        <button mat-button (click)="updateTimeRecord()">Editar</button>
+        <!-- Botão para deletar -->
+        <button mat-button (click)="deleteTimeRecord()">Deletar</button>
+        <!-- Botão para cancelar -->
         <button mat-button (click)="closeEditModal()">Cancelar</button>
       </div>
     </div>
   </div>
-</div>
+
 
 <div class="btn">
   <app-button label="Home" [url]="'/home'"></app-button>
