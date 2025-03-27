@@ -8,14 +8,23 @@ label {
   font-weight: bold;
   color: var(--white);
 }
-
+.field-container {
+  display: flex;
+  flex-direction: column;
+}
+.fields {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 0.5rem;
+}
 /* Inputs (texto e senha) */
 input[type="text"],
 input[type="password"],
 input[type="email"],
 input[type="number"],
 select {
-  width: 100%;
+  width: 14rem;
   max-width: 400px;
   height: 2rem;
   padding: 0.5rem; /* 8px convertido para 0.5rem */
@@ -167,10 +176,21 @@ button[type="submit"]:disabled {
   color: var(--green); /* Muda a cor do texto ao passar o mouse */
   text-decoration: underline; /* Sublinha o texto ou escolha outro efeito */
 }
-
 .btn{
   display: flex;
   flex-direction: row;
   justify-content: center;
 }
+@media (max-width: 480px) {
+  .field-container {
+    display: flex;
+    flex-direction: column;
+  }
 
+  .fields {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+}
