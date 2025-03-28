@@ -265,7 +265,7 @@ export class TimeRecordsByAdmComponent implements OnInit {
     if (this.reportData) {
       doc.text(`Relatório de Horas`, 10, 30);
       autoTable(doc, {
-        head: [['Início', 'Término', 'Jornada', 'Status']],
+        head: [['Início', 'Término', 'Jornada', 'Registro']],
         body: this.reportData.content.map(item => [
           `${item.startWorkDate} ${item.startWorkTime}`,
           `${item.endWorkDate} ${item.endWorkTime}`,
