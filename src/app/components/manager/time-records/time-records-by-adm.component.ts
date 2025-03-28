@@ -158,53 +158,6 @@ export class TimeRecordsByAdmComponent implements OnInit {
     return (hours * 60) + minutes;
   }
 
-  searchReport(): void {
-    if (this.selectedDates.length === 0) {
-      this.errorMessage = 'Selecione pelo menos uma data.';
-      return;
-    }
-
-    if (!this.employeeIdTarget.trim() || !this.passwords.trim()) {
-      this.errorMessage = 'Informe o ID do funcionário e a senha.';
-      return;
-    }
-
-    const sortedDates = this.selectedDates.slice().sort((a, b) => a.getTime() - b.getTime());
-    const startDate = sortedDates[0];
-    const endDate = sortedDates[sortedDates.length - 1];
-
-    const formatDate = (date: Date): string => {
-      const day = ('0' + date.getDate()).slice(-2);
-      const month = ('0' + (date.getMonth() + 1)).slice(-2);
-      const year = date.getFullYear();
-      return `${day}-${month}-${year}`;
-    };
-
-    const startDateStr = formatDate(startDate);
-    const endDateStr = formatDate(endDate);
-
-    this.loading = true;
-    this.errorMessage = '';
-    this.reportData = null;
-
-    // Construindo a URL com query parameters
-    const endpoint = `/time/search/adm/report?employeeIdTarget=${this.employeeIdTarget}&passwords=${this.passwords}&startDate=${startDateStr}&endDate=${endDateStr}`;
-
-    this.apiService.getData(endpoint).subscribe({
-      next: (data: ReportResponse) => {
-        this.reportData = data;
-        this.currentPage = 0;
-        this.updatePaginatedData();
-        this.loading = false;
-      },
-      error: (err) => {
-        console.error(err);
-        this.errorMessage = 'Erro ao carregar os dados.';
-        this.loading = false;
-      }
-    });
-  }
-
   fetchEmployeeData(callback: () => void): void {
     this.apiService.getData(`/employee/search/adm/${this.employeeIdTarget}`).subscribe({
       next: (employeeData) => {
@@ -388,6 +341,7 @@ export class TimeRecordsByAdmComponent implements OnInit {
         }
         // Marca o registro como editado (para exibir o status "Editado")
         this.editedRecords.add(updatedRecord.id);
+        this.generateCompleteReport()
       },
       error: (err) => {
         console.error('Erro ao atualizar:', err);
@@ -423,6 +377,7 @@ export class TimeRecordsByAdmComponent implements OnInit {
           this.reportData.content = this.reportData.content.filter(item => item.id !== this.editTimeRecord!.id);
         }
         this.closeEditModal();
+        this.generateCompleteReport()
       },
       error: (err) => {
         console.error('Erro ao deletar:', err);
