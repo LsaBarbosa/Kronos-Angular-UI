@@ -17,6 +17,7 @@ interface ReportContent {
   startWorkDate: string;
   endWorkDate: string;
   timeWorked: string;
+  edited: boolean;
 }
 
 interface ReportPage {
@@ -163,52 +164,40 @@ export class TimeRecordsComponent implements OnInit {
       this.errorMessage = 'Selecione pelo menos uma data.';
       return;
     }
-
     if (!this.referenceTime.trim()) {
       this.errorMessage = 'Informe os minutos de referência.';
       return;
     }
-
     const sortedDates = this.selectedDates.slice().sort((a, b) => a.getTime() - b.getTime());
     const startDate = sortedDates[0];
     const endDate = sortedDates[sortedDates.length - 1];
-
     const formatDate = (date: Date): string => {
       const day = ('0' + date.getDate()).slice(-2);
       const month = ('0' + (date.getMonth() + 1)).slice(-2);
       const year = date.getFullYear();
       return `${day}-${month}-${year}`;
     };
-
     const startDateStr = formatDate(startDate);
     const endDateStr = formatDate(endDate);
-
-    // Converte o time HH:mm para minutos
     const referenceMinutes = this.convertTimeToMinutes(this.referenceTime);
-
     this.loading = true;
     this.errorMessage = '';
-
-    // 🔹 Passo 1: Buscar os dados do colaborador antes de gerar o PDF
+    // Passo 1: Buscar os dados do colaborador
     this.fetchEmployeeData(() => {
-      // 🔹 Passo 2: Buscar o relatório de horas
+      // Passo 2: Buscar o relatório de horas
       const reportEndpoint = `/time/search/report?startDate=${startDateStr}&endDate=${endDateStr}&referenceMinutes=${referenceMinutes}`;
-
       this.apiService.getData(reportEndpoint).subscribe({
         next: (reportData) => {
           this.reportData = reportData;
           this.currentPage = 0;
           this.updatePaginatedData();
-
-          // 🔹 Passo 3: Buscar o saldo de horas
+          // Passo 3: Buscar o saldo de horas
           const balanceEndpoint = `/time/search/balance?startDate=${startDateStr}&endDate=${endDateStr}&referenceMinutes=${referenceMinutes}`;
-
           this.apiService.getData(balanceEndpoint).subscribe({
             next: (balanceData) => {
               this.balance = balanceData.balance;
               this.loading = false;
-
-              // 🔹 Passo 4: Gerar o PDF com todas as informações
+              // Passo 4: Gerar o PDF com todas as informações
               this.generatePdfDocument();
             },
             error: (err) => {
@@ -217,7 +206,6 @@ export class TimeRecordsComponent implements OnInit {
               this.loading = false;
             }
           });
-
         },
         error: (err) => {
           console.error(err);
@@ -233,33 +221,28 @@ export class TimeRecordsComponent implements OnInit {
    */
   generatePdfDocument(): void {
     const doc = new jsPDF();
-
-    // 🔹 Cabeçalho com os dados do colaborador
     doc.text(`Colaborador: ${this.employeeName} ${this.employeeSurname}`, 10, 10);
     doc.text(`CPF: ${this.employeeCpf}`, 10, 20);
-
-    // 🔹 Relatório de Horas
     if (this.reportData) {
       doc.text(`Relatório de Horas`, 10, 30);
       autoTable(doc, {
-        head: [['Início', 'Término', 'Jornada']],
+        head: [['Início', 'Término', 'Jornada', 'Registro']],
         body: this.reportData.content.map(item => [
           `${item.startWorkDate} ${item.startWorkTime}`,
           `${item.endWorkDate} ${item.endWorkTime}`,
-          item.timeWorked
+          item.timeWorked,
+          item.edited ? 'Editado por Adm' : 'Original'
         ]),
         startY: 40
       });
     }
-
-    // 🔹 Saldo de Horas
     if (this.balance !== null) {
       doc.text(`Saldo de Horas`, 10, doc.internal.pageSize.height - 40);
       doc.text(`Horas Totais: ${this.balance}`, 10, doc.internal.pageSize.height - 30);
     }
-
     doc.save(`relatorio_${this.employeeName}_${this.employeeSurname}.pdf`);
   }
+
   /**
    * Define se o saldo é positivo ou negativo para colorir corretamente
    */

@@ -58,7 +58,7 @@
         <th>Início</th>
         <th>Término</th>
         <th>Jornada</th>
-        <th>Status</th>
+        <th>Registro</th>
       </tr>
       </thead>
       <tbody>
@@ -69,12 +69,10 @@
         <td>{{ item.endWorkTime }}<br>{{ item.endWorkDate | date:'dd/MM/yy' }}</td>
         <td>{{ item.timeWorked }}</td>
         <td class="status">
-            <span *ngIf="editedRecords.has(item.id)">
-                📝 <strong>Adm</strong>
-            </span>
-          <span *ngIf="!editedRecords.has(item.id)">
-                ✅ <strong>Usuário</strong>
-            </span>
+          <span *ngIf="item.edited; else originalStatus">📝 Adm</span>
+          <ng-template #originalStatus>
+            <span>✅ Usuário</span>
+          </ng-template>
         </td>
       </tr>
       </tbody>
