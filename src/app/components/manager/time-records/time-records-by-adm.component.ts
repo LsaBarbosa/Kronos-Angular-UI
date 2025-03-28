@@ -8,7 +8,7 @@ import {ApiService} from '../../../services/api.service';
 import {ButtonComponent} from '../../common/button/button-menu/button.component';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
-import {ReportContent, ReportResponse} from '../../../interfaces/report.interfaces';
+import {ReportContent} from '../../../interfaces/report.interfaces';
 import {BaseReportComponent} from '../../common/BaseReportComponent';
 
 @Component({

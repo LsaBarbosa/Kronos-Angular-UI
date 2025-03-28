@@ -1,15 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import { ApiService } from '../../../services/api.service';
+import {Component, OnInit} from '@angular/core';
+import {ApiService} from '../../../services/api.service';
 import {DatePipe, NgClass, NgForOf, NgIf} from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { MatCalendar } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
-import { MatButton } from '@angular/material/button';
+import {FormsModule} from '@angular/forms';
+import {MatCalendar} from '@angular/material/datepicker';
+import {MatNativeDateModule} from '@angular/material/core';
+import {MatButton} from '@angular/material/button';
 import {ButtonComponent} from '../../common/button/button-menu/button.component';
 
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
-import {ReportContent, ReportResponse} from '../../../interfaces/report.interfaces';
 import {BaseReportComponent} from '../../common/BaseReportComponent';
 
 @Component({
