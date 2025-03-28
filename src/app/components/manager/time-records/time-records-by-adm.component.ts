@@ -8,28 +8,8 @@ import {ApiService} from '../../../services/api.service';
 import {ButtonComponent} from '../../common/button/button-menu/button.component';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
-
-interface ReportContent {
-  id: number;
-  startWorkTime: string;
-  endWorkTime: string;
-  startWorkDate: string;
-  endWorkDate: string;
-  timeWorked: string;
-  edited: boolean;
-}
-
-interface ReportPage {
-  size: number;
-  number: number;
-  totalElements: number;
-  totalPages: number;
-}
-
-interface ReportResponse {
-  content: ReportContent[];
-  page: ReportPage;
-}
+import {ReportContent} from '../../../interfaces/report.interfaces';
+import {BaseReportComponent} from '../../common/BaseReportComponent';
 
 @Component({
   selector: 'app-time-records',
@@ -46,24 +26,7 @@ interface ReportResponse {
   ], templateUrl: './time-records-by-adm.component.html',
   styleUrl: './time-records-by-adm.component.css'
 })
-export class TimeRecordsByAdmComponent implements OnInit {
-
-  selectedDates: Date[] = [];
-  errorMessage: string = '';
-  loading: boolean = false;
-  reportData: ReportResponse | null = null;
-  paginatedData: ReportContent[] = [];
-  referenceTime: string = '07:30'; // Formato HH:mm
-  balance: string | null = null; // Para armazenar o saldo retornado
-
-  employeeName: string = '';
-  employeeSurname: string = '';
-  employeeCpf: string = '';
-
-  // Configuração da paginação
-  currentPage: number = 0;
-  pageSize: number = 5;
-
+export class TimeRecordsByAdmComponent extends BaseReportComponent implements OnInit {
   passwords: string = '';
   employeeIdTarget: string = '';
 
@@ -78,6 +41,7 @@ export class TimeRecordsByAdmComponent implements OnInit {
 
 
   constructor(private apiService: ApiService) {
+    super();
   }
 
   ngOnInit(): void {
