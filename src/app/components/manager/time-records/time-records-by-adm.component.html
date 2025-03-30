@@ -67,7 +67,7 @@
           (click)="openEditModal(item)"
           [ngClass]="{'edited-record': editedRecords.has(item.id)}">
         <td>{{ getDayOfWeek(item.startWorkDate) }}</td>
-        <td>{{ item.startWorkDate | date:'dd/MM/yy' }}<br>{{ item.startWorkTime }}<br><br>{{ item.endWorkDate | date:'dd/MM/yy' }}<br> {{ item.endWorkTime }}</td>
+        <td>{{ item.startWorkDate | date:'dd/MM' }}<br>{{ item.startWorkTime }}<br><br>{{ item.endWorkDate | date:'dd/MM' }}<br> {{ item.endWorkTime }}</td>
         <td>{{ item.timeWorked }}</td>
         <td>
           <!-- Cálculo do saldo diário: diferença entre o tempo trabalhado e a jornada de referência -->
@@ -80,7 +80,7 @@
         <td class="status">
           <span *ngIf="item.edited; else originalStatus">📝<br>Adm</span>
           <ng-template #originalStatus>
-            <span>✅ Usuário</span>
+            <span>✅</span>
           </ng-template>
         </td>
       </tr>

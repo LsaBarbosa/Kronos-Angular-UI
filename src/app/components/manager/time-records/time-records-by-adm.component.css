@@ -446,15 +446,13 @@ body.modal-open .button-group button {
     padding: 10px;
   }
  .time-report-container table{
-    width: 18rem;
+    width: 15rem;
   }
 
   .form-group input{
     width: 100%;
   }
-  table {
-   margin: 0;
-  }
+
   h2 {
     font-size: 1.1rem;
   }
