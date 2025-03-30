@@ -99,19 +99,6 @@ export class TimeRecordsByAdmComponent extends BaseReportComponent implements On
     }
   }
 
-
-  isPositiveBalance(): boolean {
-    if (!this.balance) return false;
-
-    // Extrai as horas e minutos do saldo retornado (ex: "157:43")
-    const [hours, minutes] = this.balance.split(':').map(num => parseInt(num, 10));
-
-    // Converte para minutos totais
-    const totalMinutes = (hours * 60) + minutes;
-
-    return totalMinutes >= 0; // Se for positivo, retorna true
-  }
-
   /**
    * Converte o tempo no formato HH:mm para minutos
    */
@@ -250,6 +237,25 @@ export class TimeRecordsByAdmComponent extends BaseReportComponent implements On
     doc.save(`relatorio_${this.employeeName}_${this.employeeSurname}.pdf`);
   }
 
+  isPositiveBalance(): boolean {
+    if (!this.balance) return false;
+
+    // Extrai as horas e minutos do saldo retornado (ex: "157:43")
+    const [hours, minutes] = this.balance.split(':').map(num => parseInt(num, 10));
+
+    // Converte para minutos totais
+    const totalMinutes = (hours * 60) + minutes;
+
+    return totalMinutes >= 0; // Se for positivo, retorna true
+  }
+
+  /**
+   * Retorna o total de páginas
+   */
+  get totalPages(): number {
+    if (!this.reportData?.content) return 1;
+    return Math.ceil(this.reportData.content.length / this.pageSize);
+  }
 
   openEditModal(record: ReportContent): void {
     this.isEditing = true;
@@ -350,7 +356,6 @@ export class TimeRecordsByAdmComponent extends BaseReportComponent implements On
     });
   }
 
-
   pasteId(): void {
     navigator.clipboard.readText()
       .then(text => {
@@ -361,11 +366,5 @@ export class TimeRecordsByAdmComponent extends BaseReportComponent implements On
       });
   }
 
-  /**
-   * Retorna o total de páginas
-   */
-  get totalPages(): number {
-    if (!this.reportData?.content) return 1;
-    return Math.ceil(this.reportData.content.length / this.pageSize);
-  }
+
 }
