@@ -2,10 +2,15 @@
 
 /* Container principal */
 .time-report-container {
-  max-width: 22rem;
+  max-width: 100%;
   margin: 0 auto;
   padding: 20px;
   font-family: Arial, sans-serif;
+}
+.time-report-container table {
+  width: 28rem;
+  margin: 0 auto;
+  table-layout: fixed; /* Se desejar que as colunas se distribuam uniformemente */
 }
 
 /* Títulos */
@@ -154,7 +159,7 @@ button {
 table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 0.5rem;
+  margin: 0 auto 0.5rem auto; /* 0 auto centraliza, 0.5rem para o margin-bottom */
 }
 
 table, th, td {
@@ -439,6 +444,9 @@ body.modal-open .button-group button {
   .time-report-container {
     width: 100%;
     padding: 10px;
+  }
+ .time-report-container table{
+    width: 18rem;
   }
 
   .form-group input{

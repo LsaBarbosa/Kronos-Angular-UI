@@ -12,7 +12,9 @@ export abstract class BaseReportComponent {
   referenceTime: string = '07:30'; // Formato HH:mm
   balance: string | null = null; // Para armazenar o saldo retornado
 
+
   employeeName: string = '';
+  employeeCompany: string = '';
   employeeSurname: string = '';
   employeeCpf: string = '';
 

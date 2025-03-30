@@ -99,7 +99,6 @@ export class TimeRecordsByAdmComponent extends BaseReportComponent implements On
     }
   }
 
-
   isPositiveBalance(): boolean {
     if (!this.balance) return false;
 
@@ -122,12 +121,27 @@ export class TimeRecordsByAdmComponent extends BaseReportComponent implements On
     return (hours * 60) + minutes;
   }
 
+  formatMinutesToTime(totalMinutes: number): string {
+    const sign = totalMinutes < 0 ? '-' : '';
+    totalMinutes = Math.abs(totalMinutes);
+    const hours = Math.floor(totalMinutes / 60);
+    const minutes = totalMinutes % 60;
+    return `${sign}${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}h`;
+  }
+
+  getDayOfWeek(dateString: string): string {
+    const date = new Date(dateString);
+    const days = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
+    return days[date.getDay()];
+  }
+
   fetchEmployeeData(callback: () => void): void {
     this.apiService.getData(`/employee/search/adm/${this.employeeIdTarget}`).subscribe({
       next: (employeeData) => {
         this.employeeName = employeeData.name;
         this.employeeSurname = employeeData.surname;
         this.employeeCpf = employeeData.cpf;
+        this.employeeCompany = employeeData.company?.nameCompany || '';
         callback(); // Chama a função de geração de PDF após buscar os dados
       },
       error: (err) => {
@@ -222,21 +236,39 @@ export class TimeRecordsByAdmComponent extends BaseReportComponent implements On
     const doc = new jsPDF();
 
     // Cabeçalho com os dados do colaborador
-    doc.text(`Colaborador: ${this.employeeName} ${this.employeeSurname}`, 10, 10);
-    doc.text(`CPF: ${this.employeeCpf}`, 10, 20);
+    doc.text(`Relatório detalhado de horas`, 70, 10);
+    doc.text(`Empresa: ${this.employeeCompany}`, 10, 30);
+    doc.text(`Colaborador: ${this.employeeName} ${this.employeeSurname}`, 10, 40);
+    doc.text(`CPF: ${this.employeeCpf}`, 10, 50);
 
-    // Relatório de Horas com a coluna Status
+    const formatDateToShort = (dateStr: string): string => {
+      const parts = dateStr.split('-');
+      if (parts.length === 3) {
+        // Considera que a data vem como "yyyy-mm-dd" e converte para "dd-mm-yy"
+        return `${parts[2]}/${parts[1]}/${parts[0].slice(-2)} `;
+      }
+      return dateStr;
+    };
+
+    // Relatório de Horas com as colunas desejadas
     if (this.reportData) {
-      doc.text(`Relatório de Horas`, 10, 30);
+      doc.text(`Dados detalhados`, 80, 65);
       autoTable(doc, {
-        head: [['Início', 'Término', 'Jornada', 'Registro']],
-        body: this.reportData.content.map(item => [
-          `${item.startWorkDate} ${item.startWorkTime}`,
-          `${item.endWorkDate} ${item.endWorkTime}`,
-          item.timeWorked,
-          item.edited ? 'Editado por ADM' : 'Original'
-        ]),
-        startY: 40
+        head: [['Início', 'Término', 'Dia da Semana', 'Jornada', 'Saldo Diário', 'Registro']],
+        body: this.reportData.content.map(item => {
+          const workedMinutes = this.convertTimeToMinutes(item.timeWorked);
+          const referenceMinutes = this.convertTimeToMinutes(this.referenceTime);
+          const dailyBalance = workedMinutes - referenceMinutes;
+          return [
+            `${formatDateToShort(item.startWorkDate)} ${item.startWorkTime}h`,
+            `${formatDateToShort(item.endWorkDate)} ${item.endWorkTime}h`,
+            this.getDayOfWeek(item.startWorkDate),
+            `${item.timeWorked}h`,
+            this.formatMinutesToTime(dailyBalance),
+            item.edited ? 'Editado por ADM' : 'Original'
+          ];
+        }),
+        startY: 70
       });
     }
 

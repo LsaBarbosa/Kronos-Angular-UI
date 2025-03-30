@@ -52,24 +52,33 @@
 
 
   <div *ngIf="paginatedData.length > 0">
-    <table>
+    <table class="table-container">
       <thead>
       <tr>
-        <th>Início</th>
-        <th>Término</th>
+        <th>Dias</th>
+        <th>Data</th>
         <th>Jornada</th>
-        <th>Registro</th>
+        <th>Saldo</th>
+        <th>Salvo</th>
       </tr>
       </thead>
       <tbody>
       <tr *ngFor="let item of paginatedData"
           (click)="openEditModal(item)"
           [ngClass]="{'edited-record': editedRecords.has(item.id)}">
-        <td>{{ item.startWorkTime }}<br>{{ item.startWorkDate | date:'dd/MM/yy' }}</td>
-        <td>{{ item.endWorkTime }}<br>{{ item.endWorkDate | date:'dd/MM/yy' }}</td>
+        <td>{{ getDayOfWeek(item.startWorkDate) }}</td>
+        <td>{{ item.startWorkDate | date:'dd/MM/yy' }}<br>{{ item.startWorkTime }}<br><br>{{ item.endWorkDate | date:'dd/MM/yy' }}<br> {{ item.endWorkTime }}</td>
         <td>{{ item.timeWorked }}</td>
+        <td>
+          <!-- Cálculo do saldo diário: diferença entre o tempo trabalhado e a jornada de referência -->
+          {{
+            formatMinutesToTime(
+              convertTimeToMinutes(item.timeWorked) - convertTimeToMinutes(referenceTime)
+            )
+          }}
+        </td>
         <td class="status">
-          <span *ngIf="item.edited; else originalStatus">📝 Adm</span>
+          <span *ngIf="item.edited; else originalStatus">📝<br>Adm</span>
           <ng-template #originalStatus>
             <span>✅ Usuário</span>
           </ng-template>
