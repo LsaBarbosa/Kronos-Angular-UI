@@ -10,7 +10,6 @@ import {ButtonComponent} from '../../common/button/button-menu/button.component'
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import {BaseReportComponent} from '../../common/BaseReportComponent';
-
 @Component({
   selector: 'app-time-records',
   imports: [
