@@ -266,7 +266,7 @@ export class TimeRecordsByAdmComponent extends BaseReportComponent implements On
       // Ajusta a posição de início da tabela para evitar sobreposição com o cabeçalho
       doc.text(`Dados detalhados`, 80, 75);
       autoTable(doc, {
-        head: [['Início', 'Término', 'Dia da Semana', 'Jornada', 'Saldo Diário', 'Registro']],
+        head: [['Início', 'Término', ' Dia', 'Jornada', 'Saldo Diário', 'Registro']],
         body: this.reportData.content.map(item => {
           const workedMinutes = this.convertTimeToMinutes(item.timeWorked);
           const referenceMinutes = this.convertTimeToMinutes(this.referenceTime);
@@ -281,7 +281,19 @@ export class TimeRecordsByAdmComponent extends BaseReportComponent implements On
           ];
         }),
         startY: 80,  // Inicia a tabela abaixo do cabeçalho + saldo
-        pageBreak: "auto"
+        pageBreak: "auto",
+        didParseCell: function(data) {
+          // Verifica se a célula pertence à seção 'body' e se é da coluna "Saldo Diário" (índice 4)
+          if (data.section === 'body' && data.column.index === 4) {
+            const cellValue = data.cell.text[0];
+            // Se o valor iniciar com '-' (saldo negativo), define a cor como vermelho; caso contrário, verde
+            if(cellValue.startsWith('-')) {
+              data.cell.styles.textColor = [255, 0, 0]; // vermelho
+            } else {
+              data.cell.styles.textColor = [0, 128, 0]; // verde
+            }
+          }
+        }
       });
     }
 
