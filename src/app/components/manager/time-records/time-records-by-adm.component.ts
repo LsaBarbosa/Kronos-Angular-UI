@@ -130,10 +130,13 @@ export class TimeRecordsByAdmComponent extends BaseReportComponent implements On
   }
 
   getDayOfWeek(dateString: string): string {
-    const date = new Date(dateString);
-    const days = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
+    // Formato esperado: dd-MM-yyyy
+    const [day, month, year] = dateString.split('-').map(num => parseInt(num, 10));
+    const date = new Date(year, month - 1, day); // month - 1 pois os meses em JavaScript vão de 0 a 11
+    const days = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'];
     return days[date.getDay()];
   }
+
 
   fetchEmployeeData(callback: () => void): void {
     this.apiService.getData(`/employee/search/adm/${this.employeeIdTarget}`).subscribe({
@@ -241,18 +244,27 @@ export class TimeRecordsByAdmComponent extends BaseReportComponent implements On
     doc.text(`Colaborador: ${this.employeeName} ${this.employeeSurname}`, 10, 40);
     doc.text(`CPF: ${this.employeeCpf}`, 10, 50);
 
-    const formatDateToShort = (dateStr: string): string => {
+    // Exibe o saldo de horas logo abaixo do CPF
+    if (this.balance !== null) {
+      doc.text(`Saldo de Horas: ${this.balance}`, 10, 60);
+    }
+
+    const formatDateToShort = (dateStr: string | null): string => {
+      if (!dateStr) {
+        return '';
+      }
       const parts = dateStr.split('-');
       if (parts.length === 3) {
-        // Considera que a data vem como "yyyy-mm-dd" e converte para "dd-mm-yy"
-        return `${parts[2]}/${parts[1]}/${parts[0].slice(-2)} `;
+        // Considera que a data vem como "yyyy-mm-dd" e converte para "dd/mm/yy"
+        return `${parts[2]}/${parts[1]}/${parts[0].slice(-2)}`;
       }
       return dateStr;
     };
 
     // Relatório de Horas com as colunas desejadas
     if (this.reportData) {
-      doc.text(`Dados detalhados`, 80, 65);
+      // Ajusta a posição de início da tabela para evitar sobreposição com o cabeçalho
+      doc.text(`Dados detalhados`, 80, 75);
       autoTable(doc, {
         head: [['Início', 'Término', 'Dia da Semana', 'Jornada', 'Saldo Diário', 'Registro']],
         body: this.reportData.content.map(item => {
@@ -268,19 +280,15 @@ export class TimeRecordsByAdmComponent extends BaseReportComponent implements On
             item.edited ? 'Editado por ADM' : 'Original'
           ];
         }),
-        startY: 70
+        startY: 80,  // Inicia a tabela abaixo do cabeçalho + saldo
+        pageBreak: "auto"
       });
-    }
-
-    // Exibe o saldo de horas na parte inferior do PDF
-    if (this.balance !== null) {
-      doc.text(`Saldo de Horas`, 10, doc.internal.pageSize.height - 40);
-      doc.text(`Horas Totais: ${this.balance}`, 10, doc.internal.pageSize.height - 30);
     }
 
     // Salva o PDF com um nome baseado no nome do colaborador
     doc.save(`relatorio_${this.employeeName}_${this.employeeSurname}.pdf`);
   }
+
 
 
   openEditModal(record: ReportContent): void {
