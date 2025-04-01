@@ -275,7 +275,7 @@ export class TimeRecordsByAdmComponent extends BaseReportComponent implements On
             `${formatDateToShort(item.startWorkDate)} ${item.startWorkTime}h`,
             `${formatDateToShort(item.endWorkDate)} ${item.endWorkTime}h`,
             this.getDayOfWeek(item.startWorkDate),
-            `${item.timeWorked}h`,
+            `${item.timeWorked}`,
             this.formatMinutesToTime(dailyBalance),
             item.edited ? 'Editado por ADM' : 'Original'
           ];
