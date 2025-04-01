@@ -272,8 +272,8 @@ export class TimeRecordsByAdmComponent extends BaseReportComponent implements On
           const referenceMinutes = this.convertTimeToMinutes(this.referenceTime);
           const dailyBalance = workedMinutes - referenceMinutes;
           return [
-            `${formatDateToShort(item.startWorkDate)} ${item.startWorkTime}h`,
-            `${formatDateToShort(item.endWorkDate)} ${item.endWorkTime}h`,
+            `${formatDateToShort(item.startWorkDate)} ${item.startWorkTime}`,
+            `${formatDateToShort(item.endWorkDate)} ${item.endWorkTime}`,
             this.getDayOfWeek(item.startWorkDate),
             `${item.timeWorked}`,
             this.formatMinutesToTime(dailyBalance),
