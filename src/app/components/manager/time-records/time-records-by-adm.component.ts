@@ -130,13 +130,12 @@ export class TimeRecordsByAdmComponent extends BaseReportComponent implements On
   }
 
   getDayOfWeek(dateString: string): string {
-    // Formato esperado: dd-MM-yyyy
-    const [day, month, year] = dateString.split('-').map(num => parseInt(num, 10));
-    const date = new Date(year, month - 1, day); // month - 1 pois os meses em JavaScript vão de 0 a 11
+    // Formato esperado: yyyy-MM-dd
+    const [year, month, day] = dateString.split('-').map(num => parseInt(num, 10));
+    const date = new Date(year, month - 1, day); // month - 1 pois os meses começam em 0
     const days = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'];
     return days[date.getDay()];
   }
-
 
   fetchEmployeeData(callback: () => void): void {
     this.apiService.getData(`/employee/search/adm/${this.employeeIdTarget}`).subscribe({
@@ -200,6 +199,7 @@ export class TimeRecordsByAdmComponent extends BaseReportComponent implements On
 
       this.apiService.getData(reportEndpoint).subscribe({
         next: (reportData) => {
+          reportData.content = this.fillMissingDays(reportData.content, startDate, endDate);
           this.reportData = reportData;
           this.currentPage = 0;
           this.updatePaginatedData();
@@ -301,8 +301,6 @@ export class TimeRecordsByAdmComponent extends BaseReportComponent implements On
     doc.save(`relatorio_${this.employeeName}_${this.employeeSurname}.pdf`);
   }
 
-
-
   openEditModal(record: ReportContent): void {
     this.isEditing = true;
     // Clona os dados para evitar alteração direta do registro exibido
@@ -402,7 +400,6 @@ export class TimeRecordsByAdmComponent extends BaseReportComponent implements On
     });
   }
 
-
   pasteId(): void {
     navigator.clipboard.readText()
       .then(text => {
@@ -420,4 +417,54 @@ export class TimeRecordsByAdmComponent extends BaseReportComponent implements On
     if (!this.reportData?.content) return 1;
     return Math.ceil(this.reportData.content.length / this.pageSize);
   }
+
+  private fillMissingDays(records: any[], startDate: Date, endDate: Date): any[] {
+    const filledRecords = [];
+
+    // Função para normalizar a data, zerando horas, minutos e segundos
+    const normalizeDate = (date: Date): number => {
+      return new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime();
+    };
+
+    // Converte os registros para incluir uma data normalizada
+    const recordsWithNormalizedDate = records.map(record => {
+      // O formato da data é "yyyy-MM-dd": partes[0]=ano, partes[1]=mês, partes[2]=dia
+      const parts = record.startWorkDate.split('-');
+      const dateObj = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
+      return {
+        ...record,
+        normalizedDate: normalizeDate(dateObj)
+      };
+    });
+
+    // Percorre o intervalo de datas do startDate ao endDate
+    for (let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
+      const normalizedCurrent = normalizeDate(d);
+      const recordForDay = recordsWithNormalizedDate.find(r => r.normalizedDate === normalizedCurrent);
+      if (recordForDay) {
+        filledRecords.push(recordForDay);
+      } else {
+        // Formata a data como "yyyy-MM-dd"
+        const year = d.getFullYear();
+        const month = ('0' + (d.getMonth() + 1)).slice(-2);
+        const day = ('0' + d.getDate()).slice(-2);
+        const formattedDate = `${year}-${month}-${day}`;
+
+        filledRecords.push({
+          id: formattedDate, // Pode ser ajustado para um identificador único se necessário
+          startWorkDate: formattedDate,
+          startWorkTime: '',    // Sem horário de início
+          endWorkDate: formattedDate,
+          endWorkTime: '',      // Sem horário de término
+          timeWorked: 'Folga',  // Indicador de folga
+          edited: false
+        });
+      }
+    }
+
+    return filledRecords;
+  }
+
+
+
 }
