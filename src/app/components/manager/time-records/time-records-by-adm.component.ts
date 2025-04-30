@@ -1,15 +1,15 @@
-import {Component, OnInit} from '@angular/core';
-import {DatePipe, NgClass, NgForOf, NgIf} from '@angular/common';
-import {FormsModule} from '@angular/forms';
-import {MatNativeDateModule} from '@angular/material/core';
-import {MatCalendar} from '@angular/material/datepicker';
-import {MatButton} from '@angular/material/button';
-import {ApiService} from '../../../services/api.service';
-import {ButtonComponent} from '../../common/button/button-menu/button.component';
+import { Component, OnInit } from '@angular/core';
+import { DatePipe, NgClass, NgForOf, NgIf } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatCalendar } from '@angular/material/datepicker';
+import { MatButton } from '@angular/material/button';
+import { ApiService } from '../../../services/api.service';
+import { ButtonComponent } from '../../common/button/button-menu/button.component';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
-import {ReportContent} from '../../../interfaces/report.interfaces';
-import {BaseReportComponent} from '../../common/BaseReportComponent';
+import { ReportContent } from '../../../interfaces/report.interfaces';
+import { BaseReportComponent } from '../../common/BaseReportComponent';
 
 @Component({
   selector: 'app-time-records',
@@ -237,74 +237,106 @@ export class TimeRecordsByAdmComponent extends BaseReportComponent implements On
    */
   generatePdfDocument(): void {
     const doc = new jsPDF();
-
+  
     // Cabeçalho com os dados do colaborador
     doc.text(`Relatório detalhado de horas`, 70, 10);
     doc.text(`Empresa: ${this.employeeCompany}`, 10, 30);
     doc.text(`Colaborador: ${this.employeeName} ${this.employeeSurname}`, 10, 40);
     doc.text(`CPF: ${this.employeeCpf}`, 10, 50);
-
-    // Exibe o saldo de horas logo abaixo do CPF
+  
     if (this.balance !== null) {
       doc.text(`Saldo de Horas: ${this.balance}`, 10, 60);
     }
-
+  
     const formatDateToShort = (dateStr: string | null): string => {
-      if (!dateStr) {
-        return '';
-      }
+      if (!dateStr) return '';
       const parts = dateStr.split('-');
       if (parts.length === 3) {
-        // Considera que a data vem como "yyyy-mm-dd" e converte para "dd/mm/yy"
         return `${parts[2]}/${parts[1]}/${parts[0].slice(-2)}`;
       }
       return dateStr;
     };
-
-    // Relatório de Horas com as colunas desejadas
+  
     if (this.reportData) {
-      // Ajusta a posição de início da tabela para evitar sobreposição com o cabeçalho
+      // 🔹 Ordena registros por data e hora
+      this.reportData.content.sort((a, b) => {
+        const aDateTime = new Date(`${a.startWorkDate}T${a.startWorkTime || '00:00'}`);
+        const bDateTime = new Date(`${b.startWorkDate}T${b.startWorkTime || '00:00'}`);
+        return aDateTime.getTime() - bDateTime.getTime();
+      });
+  
+      const referenceMinutes = this.convertTimeToMinutes(this.referenceTime);
+  
+      // 🔹 Agrupa por data
+      const groupedByDate = new Map<string, { registros: ReportContent[], totalMinutos: number }>();
+      this.reportData.content.forEach(record => {
+        const date = record.startWorkDate;
+        const minutos = this.convertTimeToMinutes(record.timeWorked || '00:00');
+  
+        if (!groupedByDate.has(date)) {
+          groupedByDate.set(date, { registros: [], totalMinutos: 0 });
+        }
+  
+        const grupo = groupedByDate.get(date)!;
+        grupo.registros.push(record);
+        grupo.totalMinutos += minutos;
+      });
+  
+      const sortedDates = Array.from(groupedByDate.keys()).sort(
+        (a, b) => new Date(a).getTime() - new Date(b).getTime()
+      );
+  
       doc.text(`Dados detalhados`, 80, 75);
+  
       autoTable(doc, {
-        head: [['Início', 'Término', ' Dia', 'Jornada', 'Saldo Diário', 'Registro']],
-        body: this.reportData.content.map(item => {
-          const workedMinutes = this.convertTimeToMinutes(item.timeWorked);
-          const referenceMinutes = this.convertTimeToMinutes(this.referenceTime);
-          const dailyBalance = workedMinutes - referenceMinutes;
+        head: [['Data', 'Dia', 'Jornada', 'Saldo Diário', 'Registros']],
+        body: sortedDates.map(date => {
+          const grupo = groupedByDate.get(date)!;
+          const saldo = grupo.totalMinutos - referenceMinutes;
+        
+          const registrosFormatados = grupo.registros.length > 0
+          ? grupo.registros.map(r => {
+              const statusIcon = r.edited ? '  (Editado ADM)' : '  (Original)';
+              return `${r.startWorkTime || '--:--'} → ${r.endWorkTime || '--:--'} ${statusIcon}`;
+            }).join('\n')
+          : 'Folga';
+        
+        
           return [
-            `${formatDateToShort(item.startWorkDate)} ${item.startWorkTime}`,
-            `${formatDateToShort(item.endWorkDate)} ${item.endWorkTime}`,
-            this.getDayOfWeek(item.startWorkDate),
-            `${item.timeWorked}`,
-            this.formatMinutesToTime(dailyBalance),
-            item.edited ? 'Editado por ADM' : 'Original'
+            formatDateToShort(date),
+            this.getDayOfWeek(date),
+            grupo.totalMinutos > 0 ? this.formatMinutesToTime(grupo.totalMinutos) : 'Folga',
+            grupo.totalMinutos > 0 ? this.formatMinutesToTime(saldo) : 'Folga',
+            registrosFormatados
           ];
-        }),
-        startY: 80,  // Inicia a tabela abaixo do cabeçalho + saldo
-        pageBreak: "auto",
-        didParseCell: function(data) {
-          // Verifica se a célula pertence à seção 'body' e se é da coluna "Saldo Diário" (índice 4)
+        }),        
+        startY: 80,
+        didParseCell: function (data) {
+          if (data.section === 'body' && data.column.index === 3) {
+            const value = data.cell.text[0];
+            data.cell.styles.textColor = value.startsWith('-') ? [255, 0, 0] : [0, 128, 0];
+          }
           if (data.section === 'body' && data.column.index === 4) {
-            const cellValue = data.cell.text[0];
-            // Se o valor iniciar com '-' (saldo negativo), define a cor como vermelho; caso contrário, verde
-            if(cellValue.startsWith('-')) {
-              data.cell.styles.textColor = [255, 0, 0]; // vermelho
-            } else {
-              data.cell.styles.textColor = [0, 128, 0]; // verde
+            const lines = data.cell.text.join('\n');
+            if (lines.includes('EDIT')) {
+              data.cell.styles.textColor = [255, 165, 0]; // Amarelo (laranja claro)
+            } else if (lines.includes('OK')) {
+              data.cell.styles.textColor = [0, 128, 0]; // Verde
             }
           }
         }
       });
     }
-
-    // Salva o PDF com um nome baseado no nome do colaborador
+  
+    // Nome do arquivo
     doc.save(`relatorio_${this.employeeName}_${this.employeeSurname}.pdf`);
   }
+  
 
   openEditModal(record: ReportContent): void {
     this.isEditing = true;
     // Clona os dados para evitar alteração direta do registro exibido
-    this.editTimeRecord = {...record};
+    this.editTimeRecord = { ...record };
     this.editStartWorkTime = record.startWorkTime;
     this.editEndWorkTime = record.endWorkTime;
     this.editStartWorkDate = record.startWorkDate;
@@ -379,7 +411,7 @@ export class TimeRecordsByAdmComponent extends BaseReportComponent implements On
 
     console.log('Payload para delete:', payload);
     // Nota: Para enviar um corpo na requisição DELETE, usamos a opção { body: payload }
-    this.apiService.deleteData('/time/adm/delete', {body: payload}).subscribe({
+    this.apiService.deleteData('/time/adm/delete', { body: payload }).subscribe({
       next: (response) => {
         console.log('Resposta do delete:', response);
         // Remove o registro da lista de dados paginados e do relatório geral
@@ -420,15 +452,14 @@ export class TimeRecordsByAdmComponent extends BaseReportComponent implements On
 
   private fillMissingDays(records: any[], startDate: Date, endDate: Date): any[] {
     const filledRecords = [];
-
+  
     // Função para normalizar a data, zerando horas, minutos e segundos
     const normalizeDate = (date: Date): number => {
       return new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime();
     };
-
+  
     // Converte os registros para incluir uma data normalizada
     const recordsWithNormalizedDate = records.map(record => {
-      // O formato da data é "yyyy-MM-dd": partes[0]=ano, partes[1]=mês, partes[2]=dia
       const parts = record.startWorkDate.split('-');
       const dateObj = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
       return {
@@ -436,35 +467,68 @@ export class TimeRecordsByAdmComponent extends BaseReportComponent implements On
         normalizedDate: normalizeDate(dateObj)
       };
     });
-
-    // Percorre o intervalo de datas do startDate ao endDate
+  
+    // Percorre o intervalo de datas
     for (let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
       const normalizedCurrent = normalizeDate(d);
-      const recordForDay = recordsWithNormalizedDate.find(r => r.normalizedDate === normalizedCurrent);
-      if (recordForDay) {
-        filledRecords.push(recordForDay);
+  
+      // Encontra todos os registros para o dia atual
+      const recordsForDay = recordsWithNormalizedDate.filter(r => r.normalizedDate === normalizedCurrent);
+  
+      if (recordsForDay.length > 0) {
+        recordsForDay.forEach(r => filledRecords.push(r));
       } else {
-        // Formata a data como "yyyy-MM-dd"
         const year = d.getFullYear();
         const month = ('0' + (d.getMonth() + 1)).slice(-2);
         const day = ('0' + d.getDate()).slice(-2);
         const formattedDate = `${year}-${month}-${day}`;
-
+  
         filledRecords.push({
-          id: formattedDate, // Pode ser ajustado para um identificador único se necessário
+          id: formattedDate, // Identificador fictício
           startWorkDate: formattedDate,
-          startWorkTime: '',    // Sem horário de início
+          startWorkTime: '',
           endWorkDate: formattedDate,
-          endWorkTime: '',      // Sem horário de término
-          timeWorked: 'Folga',  // Indicador de folga
+          endWorkTime: '',
+          timeWorked: 'Folga',
           edited: false
         });
       }
     }
-
+  
     return filledRecords;
+  }  
+
+  groupByDate(records: ReportContent[]): any[] {
+    const groupedMap = new Map<string, ReportContent[]>();
+  
+    for (const record of records) {
+      const dateKey = record.startWorkDate;
+      if (!groupedMap.has(dateKey)) {
+        groupedMap.set(dateKey, []);
+      }
+      groupedMap.get(dateKey)!.push(record);
+    }
+  
+    const groupedArray = [];
+  
+    for (const [date, recordsOfDay] of groupedMap.entries()) {
+      const totalMinutes = recordsOfDay.reduce((sum, r) => sum + this.convertTimeToMinutes(r.timeWorked), 0);
+      const formattedWorked = this.formatMinutesToTime(totalMinutes);
+  
+      const saldoMinutos = totalMinutes - this.convertTimeToMinutes(this.referenceTime);
+      const saldoFormatado = this.formatMinutesToTime(saldoMinutos);
+  
+      groupedArray.push({
+        date,
+        day: this.getDayOfWeek(date),
+        totalWorked: formattedWorked,
+        saldo: saldoFormatado,
+        registros: recordsOfDay,
+        edited: recordsOfDay.some(r => r.edited)
+      });
+    }
+  
+    return groupedArray;
   }
-
-
-
+  
 }
